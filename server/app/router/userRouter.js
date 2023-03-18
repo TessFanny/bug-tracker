@@ -1,8 +1,17 @@
-const express = require('express');
-const userRouter =  express.Router();
-const security = require('../services/security')
 
-module.exports = userRouter; 
+import express from 'express'
+const userRouter =  express.Router();
+
+import userController from '../controller/userController.js';
+import security from '../services/security.js'; 
+import permissions from'../services/permission.js'
+
+
+userRouter.get('/users', permissions.canManageUsers, userController.getAllUsers)
+
+export default userRouter; 
+
+
 
 // import express from 'express';
 // import auth from '../service/security.js';

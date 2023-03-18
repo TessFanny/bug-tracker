@@ -1,6 +1,6 @@
 
 BEGIN;
-DROP TABLE IF EXISTS "user", "role", permission, bug, comment, project, role_has_permission, project_has_user;
+DROP TABLE IF EXISTS "user", "role", bug, comment, project,  project_has_user CASCADE;
 
 CREATE TABLE "user" (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -10,10 +10,6 @@ CREATE TABLE "user" (
     password  text NOT NULL 
 );
 
-CREATE TABLE permission (
-    id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    label text NOT NULL      
-);
 
 CREATE TABLE "role"(
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -50,13 +46,6 @@ CREATE TABLE project (
     created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ 
 );
-
-CREATE TABLE role_has_permission (
-    id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    role_id int REFERENCES "role"(id) ,
-    permission_id int REFERENCES permission(id)       
-);
-
 
 CREATE TABLE project_has_user (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

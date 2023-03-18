@@ -1,18 +1,13 @@
 
- require('dotenv').config();
- const cors = require('cors')
-const express = require('express');
-const session = require('express-session')
-const {
-    authRouter,
-    userRouter,
-    bugRouter,
-    commentRouter,
-    projectRouter,
-    roleRouter,
-    permissionRouter
-} = require("./app/router");
-const errorService = require('./app/services/errorHandling')
+import dotenv from 'dotenv';
+dotenv.config();
+import cors from 'cors';
+import express from 'express'
+import session from 'express-session'
+
+import index from "./app/router/index.js";
+
+import errorService  from './app/services/errorHandling.js';
 
 const port = process.env.PORT || `port number`;
 
@@ -22,11 +17,11 @@ const app = express();
 /* Configuration des sessions */
 const sessionConfig = {
 	secret: process.env.SESSION_SECRET,
-	resave: true,
-	saveUninitialized: true,
+	resave: false,
+	saveUninitialized: false,
 	cookie: {
 		secure: false,
-		maxAge: (1000*60*60)
+		//maxAge: (1000*60*60*3600)
 	},
 };
 
@@ -41,7 +36,7 @@ app.use(cors());
 
 
 // SWAGGER
-const expressJSDocSwagger = require("express-jsdoc-swagger");
+import expressJSDocSwagger from "express-jsdoc-swagger";
 
 const options = {
   info: {
@@ -67,7 +62,7 @@ const options = {
       scheme: 'bearer'
     }
   },
-  baseDir: __dirname,
+  baseDir: new URL('.', import.meta.url).pathname,
   // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
   filesPattern: "./**/*.js",
 };
@@ -78,13 +73,13 @@ expressJSDocSwagger(app)(options);
 
 app.use(errorService.manage);  
 
-app.use("/api", userRouter);
-app.use("/api", authRouter);
-app.use("/api", bugRouter);
-app.use("/api", commentRouter);
-app.use("/api", projectRouter);
-app.use("/api", roleRouter);
-app.use("/api", permissionRouter);
+app.use("/api", index.userRouter);
+app.use("/api", index.authRouter);
+app.use("/api", index.bugRouter);
+app.use("/api", index.commentRouter);
+app.use("/api", index.projectRouter);
+app.use("/api", index.roleRouter);
+
 
 
 app.listen(port, () => {

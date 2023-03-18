@@ -1,7 +1,9 @@
-const Core = require("./coreModel");
-const pool = require("../services/dbClient");
-const bcrypt = require('bcrypt')
-const debug = require('debug')
+
+import Core from '../models/coreModel.js';
+import bcrypt from 'bcrypt';
+import debug from 'debug';
+import pool from "../services/dbClient.js";
+
 const log = debug("model:userModel");
 
 
@@ -92,4 +94,4 @@ class User extends Core {
   }
 }
 
-module.exports = User;
+export default User;

@@ -69,4 +69,3 @@ Assignez la tâche de résolution de bug à un membre de l'équipe.
 Suivez l'état du bug à mesure qu'il est corrigé.
 Marquez le bug comme résolu lorsque la correction est terminée.
 Prise en charge
-Si vous rencontrez des problèmes avec l'application de suivi de bugs, n'hésitez pas à nous contacter à l'adresse support@bugtrackerapp.com. Nous sommes là pour vous aider et résoudre tout problème que vous pourriez rencontrer.

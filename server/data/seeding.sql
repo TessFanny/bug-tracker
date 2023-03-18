@@ -1,6 +1,6 @@
 BEGIN;
 
-TRUNCATE "user", permission, bug, project, "role", comment, role_has_permission,project_has_user RESTART IDENTITY;
+TRUNCATE "user",  bug, project, "role", comment, project_has_user RESTART IDENTITY;
 INSERT INTO "user"( firstname, lastname, email, password)
 VALUES 
     ('Jean', 'Dupont', 'Jean.Dupont@bugtracker.com', 'password'),
@@ -13,20 +13,11 @@ INSERT INTO "role"(label, user_id)
 VALUES 
      ('admin', 1),
      ('project manager', 2), 
-     ('developer', 3), 
-     ('submitter', 4)
+     ('developer', 3)
     ;
 
-INSERT INTO permission(label)
-VALUES 
-     ('permission_add_bug'),
-     ('permission_add_project') , 
-     ('permission_add_comment'), 
-     ('permission_add_member_to_project'), 
-     ('permission_manage_role'), 
-     ('permission_update_user_profile');
 
-
+    
 
 INSERT INTO bug (description, status, priority, color, created_by )
 VALUES 
@@ -44,23 +35,6 @@ VALUES
      ('title project#2','description project#2', 2, 2), 
      ('title project#3','description project#3', 2, 2);
 
-INSERT INTO role_has_permission (role_id, permission_id )
-VALUES (1, 1),
-        (1, 2), 
-        (1, 3),
-        (1, 4), 
-        (1, 5), 
-        (1, 6), 
-        (2, 1), 
-        (2, 2), 
-        (2, 3), 
-        (2, 4),
-        (3, 1),
-        (3, 2),
-        (3, 3),
-        (4, 1),
-        (4, 2)   
-        ;
 
 INSERT INTO project_has_user (user_id, project_id)
 VALUES  

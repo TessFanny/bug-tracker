@@ -1,6 +1,5 @@
-const express = require('express');
+import express from 'express'
 const bugRouter =  express.Router();
 
 
-
-module.exports = bugRouter; 
+export default bugRouter; 

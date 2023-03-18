@@ -1,5 +1,6 @@
-const pool = require('../services/dbClient');
-const debug = require('debug')
+
+import pool from '../services/dbClient.js'
+import debug from 'debug'
 const log = debug("models:coreModel");
 
  //define the core model class that will help create other models
@@ -186,4 +187,4 @@ tableName;
    }
 }
 
-module.exports = Core;
+export default Core;

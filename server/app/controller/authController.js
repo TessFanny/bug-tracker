@@ -1,10 +1,14 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
-require("dotenv").config();
-const debug = require('debug')
-const {errorLog} = require('../services/logger');
+import jwt from 'jsonwebtoken'
+import User from '../models/userModel.js'
+import bcrypt from 'bcrypt'
+import Role from '../models/roleModel.js'
+import debug from 'debug';
 const log = debug('controller:authController');
-const bcrypt = require("bcrypt");
+
+
+// import dotenv from 'dotenv';
+// dotenv.config();
+
 
 const authController = {
   /**
@@ -59,7 +63,7 @@ const authController = {
     const user = new User(req.body);
     // on appelle la méthode qui va vérifier les infos en BDD et rempli les informations de notre user
     // la méthode renvoie true ou false suivant si les informations username/password sont correctes
-    if (await user.checkEmailLogin()) {
+    if (await user.checkEmailLogin(req.body.email, req.body.password)) {
       // generation du token
       const token = jwt.sign(
         { id: user.id},
@@ -67,13 +71,23 @@ const authController = {
       );
       console.log("Token:", token);
       // on enregistre le user courant dans la session
-      req.session.user = user;
       const loggedUser = await user.findByField('email', user.email)
+  //console.log(loggedUser);
+  const role = new Role(req.body)
+  const userRole = await role.findUserRole(loggedUser.id)
+  console.log(userRole);
+  if(!userRole){
+    res.status(404).json('pas de role trouvé pour cet utilisateur')
+  } else{
+    req.session.role = userRole.role;
+  }
+      req.session.user = loggedUser;
       delete loggedUser.password
       // on envoie le token généré au client
       res.json({
         token,
-        loggedUser        
+        loggedUser,
+        role: userRole.role ? userRole.role  : ""  
       });
     } else {
       // erreur dans le couple email/password, on renvoie false au client
@@ -89,4 +103,4 @@ const authController = {
   },
 };
 
-module.exports = authController;
+export default authController;

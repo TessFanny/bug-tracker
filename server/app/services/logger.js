@@ -1,16 +1,13 @@
- // Import de la library de journalisation
-const winston = require('winston');
-const path = require('path')
-const url = require('url')
-
-//const dirname = url.fileURLToPath(new URL('.', import.meta.url))
-const dirname = path.dirname(require.main.filename);
-const errorLogsDir = path.join(dirname, '../logs/errorlogs');
-const adminLogsDir = path.join(dirname, '../logs/adminlogs');
+import winston from 'winston';  // Import de la library de journalisation
+import path from 'path';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
+const errorLogsDir = path.join(__dirname, '../logs/errorlogs');
+const adminLogsDir = path.join(__dirname, '../logs/adminlogs');
 const { createLogger, transports, format } = winston;
 
 
-// Je prépare mes variables date afin que le fichier de log soit Ã  la date du jour.
+// Je prépare mes variables date afin que le fichier de log soit à la date du jour.
 const date = new Date();
 const year = date.getUTCFullYear();
 let month = date.getUTCMonth() + 1;
@@ -46,7 +43,6 @@ const errorLog = createLogger({
 
     ]
 });
-console.log(errorLog.error);
 
 // Permet l'écriture d'un fichier .log pour un suivi des POST, PATCH et DELETE d'un membre du staff ou d'un admin
 const adminLog = createLogger({
@@ -65,4 +61,4 @@ const adminLog = createLogger({
     ]
 });
 
-module.exports = { errorLog, adminLog }; 
+export { errorLog, adminLog }; 

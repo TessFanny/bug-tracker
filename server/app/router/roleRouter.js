@@ -1,6 +1,7 @@
-const express = require('express');
+
+import express from 'express'
 const roleRouter =  express.Router();
 
 
+export default roleRouter; 
 
-module.exports = roleRouter; 

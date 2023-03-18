@@ -1,17 +1,18 @@
-const authRouter = require("./authRouter");
-const userRouter = require("./userRouter");
-const bugRouter = require("./bugRouter");
-const commentRouter = require("./commentRouter");
-const projectRouter = require("./projectRouter");
-const roleRouter = require("./roleRouter");
-const permissionRouter = require("./permissionRouter");
+import authRouter from"./authRouter.js";
+import userRouter from"./userRouter.js";
+import bugRouter from"./bugRouter.js";
+import commentRouter from"./commentRouter.js";
+import projectRouter from"./projectRouter.js";
+import roleRouter from"./roleRouter.js";
 
-module.exports = {
+
+const index = 
+{
     authRouter,
     userRouter,
     bugRouter,
     commentRouter,
     projectRouter,
-    roleRouter,
-    permissionRouter
+    roleRouter,   
 }
+export default index

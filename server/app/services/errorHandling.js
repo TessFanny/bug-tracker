@@ -1,5 +1,5 @@
 
-const {errorLog} = require('./logger.js')
+import {errorLog} from'./logger.js' 
 
 const errorService = {
 
@@ -14,4 +14,4 @@ const errorService = {
 }
 
 
-module.exports = errorService;
+export default errorService;

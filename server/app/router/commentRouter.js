@@ -1,6 +1,5 @@
-const express = require('express');
+import express from 'express'
 const commentRouter =  express.Router();
 
 
-
-module.exports = commentRouter; 
+export default commentRouter; 

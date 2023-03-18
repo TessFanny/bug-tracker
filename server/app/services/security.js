@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const securityService = {
     /**
@@ -33,7 +33,7 @@ const securityService = {
     }
 };
 
-module.exports = securityService;
+export default securityService;
 
 // import jwt from 'jsonwebtoken';
 // import { User, Role } from '../models/index.js';
