@@ -81,7 +81,8 @@ const authController = {
   } else{
     req.session.role = userRole.role;
   }
-      req.session.user = loggedUser;
+    req.session.user = loggedUser;
+    //console.log(req.session.user);
       delete loggedUser.password
       // on envoie le token généré au client
       res.json({

@@ -7,7 +7,43 @@ import security from '../services/security.js';
 import permissions from'../services/permission.js'
 
 
-userRouter.get('/users', permissions.canManageUsers, userController.getAllUsers)
+
+
+
+// CUSTUM TYPE/SCHEMA
+/**
+ * A user
+ * @typedef {object} User
+ * @property {string} firstname - prénom
+ * @property {string} lastname - nom
+ * @property {string} email- email
+ * @property {string} password - mot de passe 
+ * 
+ */
+
+
+
+/**
+ * GET /api/users
+ * @summary  renvoie tous les  utilisateurs 
+ * @type {User}
+ * @tags User
+ * @security TokenAuth
+ * @return {object} 200 - users response
+ * @return {object} 500 - Unexpected error
+ */
+userRouter.get('/users', security.isConnected, security.checkToken, permissions.canManageUsers, userController.getAllUsers); 
+
+/**
+ * GET /api/user/{user_id}
+ * @summary  renvoie un utilisateur selon son id 
+ * @type {User}
+ * @tags User
+ * @security TokenAuth
+ * @return {object} 200 - users response
+ * @return {object} 500 - Unexpected error
+ */
+userRouter.get('/user/:user_id', security.isConnected, security.checkToken, permissions.canManageUsers, userController.getOneUser); 
 
 export default userRouter; 
 

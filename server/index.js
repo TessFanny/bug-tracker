@@ -80,7 +80,9 @@ app.use("/api", index.commentRouter);
 app.use("/api", index.projectRouter);
 app.use("/api", index.roleRouter);
 
-
+app.use('/api', (req, res)=>{
+  res.json('homePage')
+})
 
 app.listen(port, () => {
     console.log(`Server ready: http://localhost:${port}`);
