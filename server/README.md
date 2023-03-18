@@ -4,7 +4,7 @@ La gestion effective d'un projet est la clé pour le terminer en temps et en heu
 Pendant la réalisation d'un projet on peut être confronté à plusieurs bugs et erreurs qui doivent être suivies, priorisées et gerées;
 En créant une application capable de suivre et de centraliser les bugs en un seul lieu, chaque projet peut être suivi afin de mieux gerer les situations critiques qui peuvent en découler;
 
-l'application doit avoir ces fonctionnalités:
+l'application a ces fonctionnalités:
 
 - Résumé du bug;
 - Description détaillée du bug ;
@@ -14,7 +14,7 @@ l'application doit avoir ces fonctionnalités:
 - Qui est chargé de réparer le bug;
 - L'état actuel du bug;
 - Priorité du bug;
-- Date de résolution du bug souhaité;
+- Date de résolution souhaité du bug ;
 - Date effective de la résolution du bug;
 - Rapport de la progression;
 - Résumé de la résolution du bug;
@@ -41,31 +41,9 @@ l'application doit avoir ces fonctionnalités:
 - Dates de résolution des bugs affichées sur un calendrier
 - Nombre de jours pour résoudre des bugs /personnes;
 
-  ### le chef de projet définit quelques fonctionnalités en plus;
+  ### le chef de projet définit quelques fonctionnalités en plus (V2);
 
   - Notifier un membre de son équipe quand un projet lui est assigné;
   - Notifier le chef de projet quand un bugs est en retard de résolution;
 
 
-
-Application de Suivi de Bugs
-Une application de suivi de bugs qui aide les équipes de développement de logiciels à suivre et gérer les bugs dans leur logiciel. Avec cette application, vous pouvez suivre les rapports de bugs, attribuer des tâches à des membres de l'équipe et définir des délais pour corriger les bugs. L'application fournit une interface facile à utiliser pour signaler, suivre et résoudre les bugs.
-
-Fonctionnalités
-Interface conviviale pour signaler et suivre les bugs
-Attribuer des tâches à des membres de l'équipe
-Définir des délais pour corriger les bugs
-
-Statut en temps réel des bugs
-Notifications automatiques pour les mises à jour de bugs
-Possibilité de joindre des captures d'écran et des fichiers pour une meilleure description du bug
-Fonction de recherche pour retrouver facilement les bugs enregistrés
-Historique complet des mises à jour de bugs
-Possibilité de filtrer les bugs en fonction de différents critères tels que l'état, la priorité, le responsable, etc.
-Comment utiliser
-Inscrivez-vous pour obtenir un compte utilisateur
-Créez un nouveau rapport de bug en fournissant les détails pertinents, tels que la description, la gravité et les captures d'écran associées.
-Assignez la tâche de résolution de bug à un membre de l'équipe.
-Suivez l'état du bug à mesure qu'il est corrigé.
-Marquez le bug comme résolu lorsque la correction est terminée.
-Prise en charge

@@ -9,9 +9,12 @@
 - faire un wireframe, un mcd;
 - créer la base de données (créer toutes le tables et les associations) et faire le seeding;
 - creer un server et connecter la base de données;
-- faire les datamappers et les controllers pour le REST API
+- faire les modeles(active record) et les controllers pour le REST API
 - faire la documentation de l'API avec swagger;
-- faire les views ejs: faire les pages html css et js/ apprendre react et faire le front avec;
+- gerer la journalisateur des erreurs avec winston 
+- faire la vérification des données avec Joi; 
+- faire des tests unitaires avec Supertest; 
+- faire la partie front avec react;
 
 
 |en tant que |jai besoin de  ...|afin de   ...|commentaire|
@@ -34,3 +37,27 @@
 |admin| connecter| gérer les roles des utilisateurs|---|
 |admin| connecter| ajouter un commentaire|---|
 
+
+
+
+Application de Suivi de Bugs
+Une application de suivi de bugs qui aide les équipes de développement de logiciels à suivre et gérer les bugs dans leur logiciel. Avec cette application, vous pouvez suivre les rapports de bugs, attribuer des tâches à des membres de l'équipe et définir des délais pour corriger les bugs. L'application fournit une interface facile à utiliser pour signaler, suivre et résoudre les bugs.
+
+Fonctionnalités
+Interface conviviale pour signaler et suivre les bugs
+Attribuer des tâches à des membres de l'équipe
+Définir des délais pour corriger les bugs
+
+Statut en temps réel des bugs
+Notifications automatiques pour les mises à jour de bugs
+Possibilité de joindre des captures d'écran et des fichiers pour une meilleure description du bug
+Fonction de recherche pour retrouver facilement les bugs enregistrés
+Historique complet des mises à jour de bugs
+Possibilité de filtrer les bugs en fonction de différents critères tels que l'état, la priorité, le responsable, etc.
+Comment utiliser
+Inscrivez-vous pour obtenir un compte utilisateur
+Créez un nouveau rapport de bug en fournissant les détails pertinents, tels que la description, la gravité et les captures d'écran associées.
+Assignez la tâche de résolution de bug à un membre de l'équipe.
+Suivez l'état du bug à mesure qu'il est corrigé.
+Marquez le bug comme résolu lorsque la correction est terminée.
+Prise en charge

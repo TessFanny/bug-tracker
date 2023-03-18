@@ -6,8 +6,7 @@ import projectRouter from"./projectRouter.js";
 import roleRouter from"./roleRouter.js";
 
 
-const index = 
-{
+export {
     authRouter,
     userRouter,
     bugRouter,
@@ -15,4 +14,4 @@ const index =
     projectRouter,
     roleRouter,   
 }
-export default index
+  
