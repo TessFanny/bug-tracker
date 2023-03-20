@@ -13,7 +13,7 @@ const projectSchema = {
   },
 
   // project update schema
-  Update() {
+  update() {
     return Joi.object({
         title: Joi.string().max(30),
         description: Joi.string().min(15),

@@ -48,7 +48,7 @@ userRouter.get('/user/:user_id', security.isConnected, security.checkToken, secu
 
 /**
  * PATCH /api/user/{user_id}
- * @summary  permet de  modifier les données d'un utilisateur
+ * @summary  permet de supprimer un utilisateur
  * @type {User}
  * @tags User
  * @security TokenAuth
