@@ -19,11 +19,11 @@ VALUES
 
     
 
-INSERT INTO bug (description, status, priority, color, created_by )
+INSERT INTO bug (title, description, status, priority, color, created_by )
 VALUES 
-    ('issue 1 reported','open', 'high', 'ff0000', 1), 
-    ('issue #2 reported','in progress','medium','ff7f00', 2), 
-    ('issue #3 reported','closed','low', '008000', 1);
+    ('issue 1 ','issue 1 reported','open', 'high', 'ff0000', 1), 
+    ('issue #2', 'issue #2 reported','in progress','medium','ff7f00', 2), 
+    ('issue #3', 'issue #3 reported','closed','low', '008000', 1);
 
 
 INSERT INTO comment (title, text, user_id, bug_id)

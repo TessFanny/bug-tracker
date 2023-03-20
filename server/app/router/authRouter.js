@@ -1,5 +1,7 @@
 import express from 'express'
 import authController from '../controller/authController.js';
+import validation from '../services/joiValidation.js';
+import userSchema from '../schema/userSchema.js'
 const authRouter =  express.Router();
 
 
@@ -29,7 +31,7 @@ const authRouter =  express.Router();
  * @return {object} 200 - user response
  * @return {object} 500 - Unexpected error
  */
-authRouter.post('/register', authController.register)
+authRouter.post('/register', validation.check(userSchema.register(), "body"), authController.register)
 
 
 
@@ -52,6 +54,8 @@ authRouter.post('/register', authController.register)
  * @return {object} 200 - user response
  * @return {object} 500 - Unexpected error
  */
-authRouter.post('/login', authController.login)
+authRouter.post('/login',  validation.check(userSchema.login(), "body"), authController.login);
+
+
 
 export default authRouter;

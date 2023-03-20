@@ -44,7 +44,7 @@ const authController = {
       const token = jwt.sign({ id: savedUser.id }, process.env.SESSION_SECRET);
       // delete password before sending it
       delete savedUser.password;
-      res.status(200).json({ token, savedUser });
+      res.status(201).json({ token, savedUser });
     } catch (error) {
         console.error(`Error in register() : ${error.message}`);
         log(error)
@@ -85,7 +85,7 @@ const authController = {
     //console.log(req.session.user);
       delete loggedUser.password
       // on envoie le token généré au client
-      res.json({
+      res.status(200).json({
         token,
         loggedUser,
         role: userRole.role ? userRole.role  : ""  

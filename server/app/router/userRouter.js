@@ -4,8 +4,8 @@ const userRouter =  express.Router();
 
 import userController from '../controller/userController.js';
 import security from '../services/security.js'; 
-import permissions from'../services/permission.js'
-
+import validation from '../services/joiValidation.js';
+import userSchema from '../schema/userSchema.js'
 
 
 
@@ -32,7 +32,7 @@ import permissions from'../services/permission.js'
  * @return {object} 200 - users response
  * @return {object} 500 - Unexpected error
  */
-userRouter.get('/users', security.isConnected, security.checkToken, permissions.canManageUsers, userController.getAllUsers); 
+userRouter.get('/users', security.isConnected, security.checkToken, security.authMiddleware(['developer','admin']), userController.getAllUsers); 
 
 /**
  * GET /api/user/{user_id}
@@ -40,10 +40,36 @@ userRouter.get('/users', security.isConnected, security.checkToken, permissions.
  * @type {User}
  * @tags User
  * @security TokenAuth
- * @return {object} 200 - users response
+ * @param {number} user_id.path.required - id utilisateur  en entrée
+ * @return {object} 200 - user response
  * @return {object} 500 - Unexpected error
  */
-userRouter.get('/user/:user_id', security.isConnected, security.checkToken, permissions.canManageUsers, userController.getOneUser); 
+userRouter.get('/user/:user_id', security.isConnected, security.checkToken, security.authMiddleware(['admin']), userController.getOneUser); 
+
+/**
+ * PATCH /api/user/{user_id}
+ * @summary  permet de  modifier les données d'un utilisateur
+ * @type {User}
+ * @tags User
+ * @security TokenAuth
+ *  @param {number} user_id.path.required - id utilisateur en entrée
+ * @return {object} 200 - user response
+ * @return {object} 500 - Unexpected error
+ */
+userRouter.patch('/user/:user_id', security.isConnected, security.checkToken, security.authMiddleware([]), validation.check(userSchema.userUpdate(), "body"), userController.updateUser); 
+
+
+/**
+ * DELETE /api/user/{user_id}
+ * @summary  permet de  modifier les données d'un utilisateur
+ * @type {User}
+ * @tags User
+ * @security TokenAuth
+ *  @param {number} user_id.path.required - id utilisateur en entrée
+ * @return {object} 200 - user response
+ * @return {object} 500 - Unexpected error
+ */
+userRouter.delete('/user/:user_id' , security.isConnected, security.checkToken, security.authMiddleware([]), userController.deleteUser); 
 
 export default userRouter; 
 

@@ -23,17 +23,34 @@ const securityService = {
     
     checkToken(req, res, next) {
         try {
-            //console.log(req.headers.authorization.split(" ")[1]);
+            // Récupérer le token JWT depuis l'en-tête Authorization
+             //On récupère la 2eme parties (séparation du type Bearer) pour garder l'élément indice [1] (le code token)
             const token = req.headers.authorization.split(" ")[1];
             const user = jwt.verify(token, process.env.SESSION_SECRET);
             console.log("token validé !", user);
+             // L'utilisateur est authentifié et autorisé, passer au middleware suivant
             next();
         }
         catch (error) {
             console.log(error);
             next(error);
         }
-    }
+    },
+    authMiddleware:(roleTable)=>{
+        return (req, res, next) => {
+            // récupère le role de l'utilisateur en session
+            const userRole = req.session.role
+             console.log(userRole);
+             // je vérifie si son role est  présent dans le tableau des roles autorisés; 
+             if(roleTable.indexOf(userRole) === -1){
+                // si son role n'est pas présent il a un message d'erreur
+               res.status(401).json('pas autorisé')
+              }else{
+                 // sinon  L'utilisateur est authentifié et autorisé, passe au middleware suivant
+               next()
+              }            
+         }
+       }
 };
 
 export default securityService;

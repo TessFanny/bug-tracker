@@ -85,9 +85,9 @@ app.use(
   roleRouter
 );
 
-app.get("/api", (req, res) => {
-  res.json("homePage");
-});
+// app.get("/api", (req, res) => {
+//   res.json("homePage");
+// });
 
 app.listen(port, () => {
   console.log(`Server ready: http://localhost:${port}`);

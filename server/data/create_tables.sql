@@ -14,11 +14,12 @@ CREATE TABLE "user" (
 CREATE TABLE "role"(
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     label text NOT NULL ,
-    user_id int REFERENCES "user"(id)
+    user_id int REFERENCES "user"(id) ON DELETE CASCADE
 );
 
 CREATE TABLE bug (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    title text not null,
     description text NOT NULL,
     status text not null,
     priority text not null,
@@ -41,7 +42,7 @@ CREATE TABLE project (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title text not null,
     description text NOT NULL,
-    author_id int REFERENCES "user"(id),
+    author_id int REFERENCES "user"(id) ,
     bug_id int REFERENCES bug(id),
     created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ 
