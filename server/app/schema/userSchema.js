@@ -7,7 +7,7 @@ const userSchema = {
     register(){
         return Joi.object({ 
             firstname: Joi.string().max(30).required(), 
-            lastname: Joi.string().email().required(), 
+            lastname: Joi.string().required(), 
             email: Joi.string().email().required(), 
             password: Joi.string().min(6).max(30).required(), 
             passwordConfirm: Joi.string().min(6).max(30).required(),        

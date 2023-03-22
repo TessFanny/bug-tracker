@@ -16,6 +16,7 @@ import errorService from "./app/services/errorHandling.js";
 const port = process.env.PORT || `port number`;
 
 const app = express();
+app.use(cors());
 
 /* Configuration des sessions */
 const sessionConfig = {
@@ -34,8 +35,7 @@ app.use(sessionMiddleware);
 
 app.use(express.static("public"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+//app.use(express.urlencoded({ extended: false }));
 
 // SWAGGER
 import expressJSDocSwagger from "express-jsdoc-swagger";
