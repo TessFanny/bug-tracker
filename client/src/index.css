@@ -2,8 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .errmsg{
     background-color: lightpink;
+   
     color: firebrick;
     font-weight: bold;
     padding: 0.5rem;

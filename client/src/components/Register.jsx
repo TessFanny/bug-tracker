@@ -11,9 +11,7 @@ const PWD_REGEX = /(?=.*[A-Z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = '/register'
 
 const Register = () => {
-  const emailRef = useRef();
-  const errRef = useRef();
-
+ 
   const [email, setEmail] = useState("");
 
   const [validEmail, setValidEmail] = useState(false);
@@ -65,14 +63,8 @@ const Register = () => {
       return;
     }
     try {
-      // const response = await fetch("http://localhost:3000/api/register",{
-      //   method: "post",
-      //   headers: { "Content-Type" : "application/json"},
-      //   body: new FormData(data)
-      // }
       
-      // )
-      const response = await axios.post("http://localhost:3000/api/register",
+      const response = await axios.post(REGISTER_URL,
       JSON.stringify({ 
         firstname : firstname, 
         lastname: lastname, 
@@ -91,6 +83,11 @@ const Register = () => {
       console.log(JSON.stringify(response));
       setSuccess(true)
       // clear input fiels 
+      setFirstname('');
+      setLastname('');
+      setEmail('');
+      setPwd('');
+      setMatchPwd('');
 
     } catch (error) {
       console.log(error);
@@ -103,6 +100,7 @@ const Register = () => {
       }
       
     }
+   
   };
 
   return (
@@ -116,8 +114,8 @@ const Register = () => {
           </p>
         </section>
       ) : (
-        <div>
-          <div className=" flex flex-col w-10/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden md:flex-row">
+        
+          <div className=" flex flex-col w-10/12 bg-white rounded-xl overflow-hidden md:flex-row">
             <div className=" md:w-1/2 bg-violet-400 flex justify-center items-center flex-col px-3">
               <h2 className=" text-3xl py-5 text-[#011b5e] font-bold">
                 {" "}
@@ -132,7 +130,7 @@ const Register = () => {
               </div>
             </div>
             <div className=" md:w-1/2  flex flex-col py-3 md:py-10 md:px-7">
-              <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>
+              <p  className={errMsg ? "errmsg" : "offscreen"}>
                 {errMsg}
               </p>
               <h2 className="mb-4 text-3xl text-center text-[#011b5e] font-bold">
@@ -181,7 +179,6 @@ const Register = () => {
                   </label>
                   <input
                     className=" border-2 border-x-gray-400 py-1 px-2 rounded-md"
-                    ref={emailRef}
                     autoComplete="off"
                     id="email"
                     type="email"
@@ -291,7 +288,7 @@ const Register = () => {
               </p>
             </div>
           </div>
-        </div>
+        
       )}
     </>
   );
