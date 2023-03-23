@@ -1,23 +1,14 @@
 BEGIN;
 
-TRUNCATE "user",  bug, project, "role", comment, project_has_user RESTART IDENTITY;
+TRUNCATE "user",  bug, project, comment, project_has_user RESTART IDENTITY;
 INSERT INTO "user"( firstname, lastname, email, password)
 VALUES 
     ('Jean', 'Dupont', 'Jean.Dupont@bugtracker.com', 'password'),
-    ('Jeanne', 'Auvin', 'Jeanne.Auvin@bugtracker.com', 'password'),
-    ('Marie', 'Dupont', 'Marie.Dupont@bugtracker.com', 'password'),
-    ('Michel', 'Auvin', 'Michel.Auvin@bugtracker.com', 'password')
+    ('Jeanne', 'Auvin', 'Jeanne.Auvin@bugtracker.com', 'password')
+   
 ;
 
-INSERT INTO "role"(label, user_id)
-VALUES 
-     ('admin', 1),
-     ('project manager', 2), 
-     ('developer', 3)
-    ;
-
-
-    
+ 
 
 INSERT INTO bug (title, description, status, priority, color, created_by )
 VALUES 

@@ -33,7 +33,25 @@ class Role extends Core {
             throw error;
         }
     }
-  
+
+  async addRoleToUser(user_id){
+    try {
+        const sqlQuery = `INSERT  INTO "role" (label, user_id)
+        VALUES('developer', $1)
+        `
+        const value = [user_id]
+        const result = await pool.query(sqlQuery, value)
+        if (!result.rows[0]) {
+            return null;
+         }       
+         return result.rows[0];
+
+    } catch (error) {
+        console.error(`Error in addRoleToUser() : ${error.message}`);
+         log(error);
+        throw error;
+    }
+  }
 
 }
 

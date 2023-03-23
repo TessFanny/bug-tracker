@@ -3,7 +3,7 @@ dotenv.config();
 import cors from "cors";
 import express from "express";
 import session from "express-session";
-
+import cookieParser from "cookie-parser";
 import {userRouter,
   authRouter,
   bugRouter,
@@ -16,7 +16,11 @@ import errorService from "./app/services/errorHandling.js";
 const port = process.env.PORT || `port number`;
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173'],
+  credentials: true
+}));
+app.use(cookieParser());
 
 /* Configuration des sessions */
 const sessionConfig = {
@@ -25,7 +29,8 @@ const sessionConfig = {
   saveUninitialized: false,
   cookie: {
     secure: false,
-    //maxAge: (1000*60*60*3600)
+    httpOnly: false,
+    maxAge: (24 * 60 * 60 * 1000)
   },
 };
 
@@ -35,7 +40,7 @@ app.use(sessionMiddleware);
 
 app.use(express.static("public"));
 app.use(express.json());
-//app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 
 // SWAGGER
 import expressJSDocSwagger from "express-jsdoc-swagger";

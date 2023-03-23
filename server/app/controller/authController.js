@@ -1,14 +1,12 @@
-import jwt from 'jsonwebtoken'
-import User from '../models/userModel.js'
-import bcrypt from 'bcrypt'
-import Role from '../models/roleModel.js'
-import debug from 'debug';
-const log = debug('controller:authController');
+import jwt from "jsonwebtoken";
+import User from "../models/userModel.js";
+import bcrypt from "bcrypt";
+import Role from "../models/roleModel.js";
+import debug from "debug";
+const log = debug("controller:authController");
 
-
-// import dotenv from 'dotenv';
-// dotenv.config();
-
+ import dotenv from 'dotenv';
+ dotenv.config();
 
 const authController = {
   /**
@@ -41,66 +39,70 @@ const authController = {
         email: req.body.email,
         password: hashedPassword,
       });
-      const token = jwt.sign({ id: savedUser.id }, process.env.SESSION_SECRET);
+
+      const token = jwt.sign({ id: savedUser.id }, process.env.SESSION_SECRET, { expiresIn: "3600s"});
+      const refreshToken = jwt.sign({ id: savedUser.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1d"});
+
+      
       // delete password before sending it
       delete savedUser.password;
-      res.status(201).json({ token, savedUser });
+      res.status(201).json({ token, savedUser});
     } catch (error) {
-        console.error(`Error in register() : ${error.message}`);
-        log(error)
-        next(error)
+      console.error(`Error in register() : ${error.message}`);
+      log(error);
+      next(error);
     }
   },
 
-  /** authentification 
-   * 
-   * @param {*} req 
-   * @param {*} res 
+  /** authentification
+   *
+   * @param {*} req
+   * @param {*} res
    */
   login: async (req, res, next) => {
     try {
-        // on génère une instance de User à partir de req.body qui contient username et password
-    const user = new User(req.body);
-    // on appelle la méthode qui va vérifier les infos en BDD et rempli les informations de notre user
-    // la méthode renvoie true ou false suivant si les informations username/password sont correctes
-    if (await user.checkEmailLogin(req.body.email, req.body.password)) {
-      // generation du token
-      const token = jwt.sign(
-        { id: user.id},
-        process.env.SESSION_SECRET
-      );
-      console.log("Token:", token);
-      // on enregistre le user courant dans la session
-      const loggedUser = await user.findByField('email', user.email)
-  //console.log(loggedUser);
-  const role = new Role(req.body)
-  const userRole = await role.findUserRole(loggedUser.id)
-  console.log(userRole);
-  if(!userRole){
-    res.status(404).json('pas de role trouvé pour cet utilisateur')
-  } else{
-    req.session.role = userRole.role;
-  }
-    req.session.user = loggedUser;
-    //console.log(req.session.user);
-      delete loggedUser.password
-      // on envoie le token généré au client
-      res.status(200).json({
-        token,
-        loggedUser,
-        role: userRole.role ? userRole.role  : ""  
-      });
-    } else {
-      // erreur dans le couple email/password, on renvoie false au client
-      res.status(500).json({
-        error: "l'email ou le mot de passe ne correspont pas",
-      });
-    }
+      // on génère une instance de User à partir de req.body qui contient username et password
+      const userModel = new User(req.body);
+      // on appelle la méthode qui va vérifier les infos en BDD et rempli les informations de notre user
+      // la méthode renvoie true ou false suivant si les informations username/password sont correctes
+      let role;
+      if (await userModel.checkEmailLogin(req.body.email, req.body.password)) {
+        // generation du token
+        const token = jwt.sign({ id: userModel.id }, process.env.SESSION_SECRET , { expiresIn: "24h"});
+        console.log("Token:", token);
+        const refreshToken = jwt.sign({ id: userModel.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1d"});
+  
+          console.log("Token:", token);
+          // on enregistre le user courant dans la session
+          const loggedUser = await userModel.findByField("email", userModel.email);
+          const refToken = await userModel.updateRefreshToken(refreshToken, loggedUser.id)
+          console.log('reftoken:',refToken);
+       
+        //console.log(loggedUser);
+       
+        req.session.user = loggedUser;
+        console.log(req.session.user);
+        //console.log(req.session.user);
+        //res.cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000}) // 24h
+        delete loggedUser.password;
+        delete loggedUser.refresh_token
+        // on envoie le token généré au client
+      
+        res.status(200).json({
+          token,
+          loggedUser
+        });
+      } else {
+        // erreur dans le couple email/password, on renvoie false au client
+        res.status(400).json({
+          error: "l'email ou le mot de passe ne correspont pas",
+        });
+      }
     } catch (error) {
-        console.error(`Error in login() : ${error.message}`);
-        log(error)
-        next(error)
-    }    
+      console.error(`Error in login() : ${error.message}`);
+      log(error);
+      next(error);
+    }
   },
 };
 

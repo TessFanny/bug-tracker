@@ -44,7 +44,7 @@ userRouter.get('/users', security.isConnected, security.checkToken, security.aut
  * @return {object} 200 - user response
  * @return {object} 500 - Unexpected error
  */
-userRouter.get('/user/:user_id', security.isConnected, security.checkToken, security.authMiddleware(['admin']), userController.getOneUser); 
+userRouter.get('/user/:user_id', security.isConnected, security.checkToken, security.authMiddleware(['developer', 'admin']), userController.getOneUser); 
 
 /**
  * PATCH /api/user/{user_id}

@@ -8,7 +8,7 @@ const securityService = {
      * @param {*} next 
      */
     isConnected(req, res, next) {
-        console.log(req.session.user);
+        console.log('loggedUser:', req.session.user);
         if (!req.session.user) {
             // user est absent, je redirige vers la homepage
             console.log('not user in session');
@@ -25,6 +25,7 @@ const securityService = {
         try {
             // Récupérer le token JWT depuis l'en-tête Authorization
              //On récupère la 2eme parties (séparation du type Bearer) pour garder l'élément indice [1] (le code token)
+             console.log(req.headers.authorization);
             const token = req.headers.authorization.split(" ")[1];
             const user = jwt.verify(token, process.env.SESSION_SECRET);
             console.log("token validé !", user);
@@ -39,7 +40,7 @@ const securityService = {
     authMiddleware:(roleTable)=>{
         return (req, res, next) => {
             // récupère le role de l'utilisateur en session
-            const userRole = req.session.role
+            const userRole = req.session.user.role
              console.log(userRole);
              // je vérifie si son role est  présent dans le tableau des roles autorisés; 
              if(roleTable.indexOf(userRole) === -1){

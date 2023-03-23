@@ -7,15 +7,10 @@ CREATE TABLE "user" (
     firstname text NOT NULL ,
     lastname text NOT NULL ,
     email text NOT NULL UNIQUE,
-    password  text NOT NULL 
+    password  text NOT NULL,
+    role text default 'developer' 
 );
 
-
-CREATE TABLE "role"(
-    id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    label text NOT NULL ,
-    user_id int REFERENCES "user"(id) ON DELETE CASCADE
-);
 
 CREATE TABLE bug (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
