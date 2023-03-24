@@ -20,13 +20,13 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="linkpage" element={<LinkPage />} />
         <Route path="unauthorized" element={<Unauthorized />} />
-
+        <Route path="admin" element={<Admin />} />
         {/* we want to protect these routes */}
         <Route element={<RequireAuth allowedRole={['developer', 'admin']} />}>
           <Route path="/" element={<Home />} />
           <Route path="project" element={<Project />} />
           <Route path="bug" element={<Bug />} />
-          <Route path="admin" element={<Admin />} />
+          
         </Route>
 
         {/* catch all */}

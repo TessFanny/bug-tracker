@@ -7,10 +7,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const LOGIN_URL = "/login";
 
-
 const Login = () => {
-
-  axios.defaults.withCredentials = true
+  axios.defaults.withCredentials = true;
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,8 +37,7 @@ const Login = () => {
         }),
         {
           headers: { "Content-Type": "application/json" },
-        },
-      
+        }
       );
       //console.log(response.data);
       //console.log(JSON.stringify(response?.data));
@@ -57,7 +54,6 @@ const Login = () => {
       // Store the received token in local storage
       localStorage.setItem("token", token);
       return { auth };
-      
     } catch (error) {
       console.log(error);
       if (!error?.response) {
@@ -75,12 +71,10 @@ const Login = () => {
   return (
     <div className=" flex flex-col w-10/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden md:flex-row">
       <div className=" md:w-1/2 bg-violet-400 flex justify-center items-center flex-col px-3">
-        <h2 className=" text-3xl py-5 text-[#011b5e]"> welcome</h2>
+        <h2 className=" text-3xl py-5 text-[#011b5e]"> Bug Tracker</h2>
         <div>
           <p className=" text-white py-5 px-5">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic quod
-            ratione incidunt nihil sint voluptatibus. Illum, nobis, cumque iusto
-            maiores perspiciatis tempora ratione{" "}
+          Application de gestion des erreurs qui peuvent survenir pendant la réalisation des projets; Connectez vous ou créer un compte pour commencer
           </p>
         </div>
       </div>

@@ -2,12 +2,12 @@ import { Link } from "react-router-dom"
 import Users from "./Users";
 const Admin = () => {
   return (
-    <section>
+    <section className=" h-screen ">
       <h1>Admin Page</h1>
-      <Users />
+      {/* <Users />
       <div>
         <Link to='/'>Home</Link>
-      </div>
+      </div> */}
     </section>
   )
 }
