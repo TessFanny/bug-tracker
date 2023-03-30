@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
-import Role from "../models/roleModel.js";
 import debug from "debug";
 const log = debug("controller:authController");
 
@@ -41,7 +40,7 @@ const authController = {
       });
 
       const token = jwt.sign({ id: savedUser.id }, process.env.SESSION_SECRET, { expiresIn: "3600s"});
-      const refreshToken = jwt.sign({ id: savedUser.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1d"});
+      // const refreshToken = jwt.sign({ id: savedUser.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1d"});
 
       
       // delete password before sending it
@@ -70,13 +69,13 @@ const authController = {
         // generation du token
         const token = jwt.sign({ id: userModel.id }, process.env.SESSION_SECRET , { expiresIn: "24h"});
         console.log("Token:", token);
-        const refreshToken = jwt.sign({ id: userModel.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1d"});
+        // const refreshToken = jwt.sign({ id: userModel.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1d"});
   
           console.log("Token:", token);
           // on enregistre le user courant dans la session
           const loggedUser = await userModel.findByField("email", userModel.email);
-          const refToken = await userModel.updateRefreshToken(refreshToken, loggedUser.id)
-          console.log('reftoken:',refToken);
+          // const refToken = await userModel.updateRefreshToken(refreshToken, loggedUser.id)
+          
        
         //console.log(loggedUser);
        
@@ -85,7 +84,7 @@ const authController = {
         //console.log(req.session.user);
         //res.cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000}) // 24h
         delete loggedUser.password;
-        delete loggedUser.refresh_token
+        // delete loggedUser.refresh_token
         // on envoie le token généré au client
       
         res.status(200).json({

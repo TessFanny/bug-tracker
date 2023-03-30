@@ -2,8 +2,9 @@ import Project from "../models/projectModel.js";
 
 const projectController = {
   getAllProjects: async(req, res, next)=>{
-    try {        
-        const projects = await Project.findAll();
+    try {   
+        const projectModel = new Project(req.body)     
+        const projects = await projectModel.getProjects();
         if(!projects){
             res.status(404).json('no resources found')
         }else{

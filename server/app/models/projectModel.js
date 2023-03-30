@@ -13,9 +13,30 @@ class Project extends Core {
         this.id = obj.id;
         this.title = obj.title;
         this.description = obj.description;
-        this.author_id = obj.author_id;
-        this.bug_id = obj.bug_id;
+        this.user_id = obj.user_id;
     }
+   async getProjects(){
+        try {
+           const preparedQuery = {
+              text: `SELECT project.* , concat("user".firstname ,' ' ,"user".lastname)as author from project
+              JOIN "user" on project.user_id = "user".id
+              group by project.id, "user".lastname ,"user".firstname;`
+              
+           };
+     
+           const result = await pool.query(preparedQuery);
+     
+           if (!result.rows) {
+              return null;
+           }
+     
+           return result.rows;
+        } catch (error) {
+           console.error(`Error in getAllPojects() : ${error.message}`)
+              throw error;
+        }
+        
+     }
 
 }
 

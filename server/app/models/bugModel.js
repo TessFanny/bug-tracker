@@ -16,7 +16,8 @@ class Bug extends Core {
         this.status = obj.status;
         this.priority = obj.priority;
         this.color = obj.color;
-        this.created_by = obj.created_by;
+        this.user_id = obj.user_id;
+        this.project_id = obj.project_id;
     }
 
 }
