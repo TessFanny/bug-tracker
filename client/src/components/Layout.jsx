@@ -12,35 +12,37 @@ import {
   AiOutlineMail,
 } from "react-icons/ai";
 const Layout = () => {
+
+  
   return (
     <div className="min-h-screen flex bg-[#f3f1f1] text-[#011b5e]">
       {/* side bar */}
-      <div className=" min-w-[220px]  h-screen bg-opacity-60 backdrop-filter backdrop-blur-lg border-r-[1px] bg-white ">
+      <div className=" min-w-[220px]  h-screen bg-opacity-60 backdrop-filter backdrop-blur-lg border-r-[1px] bg-white border-gray-200 ">
         <div className="flex gap-1 p-2  justify-center items-center border-b-[1px] py-5">
           <BsBugFill className="" />
-          <h1 className=" font-bold text-xl">Bug Tracker</h1>
+          <h1 className=" font-bold text-xl"> <Link to="/layout/dashboard">Bug Tracker</Link> </h1>
         </div>
         <nav className=" py-2 ml-3 focus:bg-gray-400 mt-6 relative">
           <ul className="flex flex-col justify-center">
             <li className=" inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
               <AiOutlineHome size={20} className=" mt-1 mr-1  " />
-              <Link to="/">Home</Link>
+              <Link to="/layout/dashboard">Dashboard</Link>
             </li>
             <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
               <GrProjects size={15} className=" mt-1 mr-1  " />
-              <Link to="/project" className="">
+              <Link to="/layout/project" className="">
                 Projects
               </Link>
             </li>
             <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
               <BsBugFill size={15} className=" mt-1 mr-1  " />
-              <Link to="/project" className="">
+              <Link to="/layout/bug" className="">
                 Bugs
               </Link>
             </li>
             <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300  ">
               <RiAdminFill size={15} className=" mt-1 mr-1  " />
-              <Link to="/admin" className="">
+              <Link to="/layout/admin" className="">
                 Administrator
               </Link>
             </li>
@@ -49,7 +51,7 @@ const Layout = () => {
         <div className="absolute w-full bottom-0 flex justify-around py-[10px] px-[10px] gap-2 items-center border-t-[1px] ">
           <div className="flex mr-3 hover:scale-110 ease-in duration-300">
             <FaUser size={15} className=" mt-1 mr-1  " />
-            <Link to="/profile"> Profile</Link>
+            <Link to="/layout/profile"> Profile</Link>
           </div>
           <button className="mr-3 hover:scale-110 ease-in duration-300">
             <IoLogOut size={25} className=" mt-1 mr-1  " />

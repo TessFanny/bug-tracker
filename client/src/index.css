@@ -28,3 +28,83 @@
 .valid{
     display: block;
 }
+
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  table td, table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  table tr:nth-child(even){background-color: #f2f2f2;}
+  
+  table tr:hover {background-color: #ddd;}
+  
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .nav {
+    width: 90vw;
+    max-width: 1120px;
+    margin: 0 auto;
+    height: 6rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .container {
+    width: 90vw;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  .btn {
+    cursor: pointer;
+    color: white;
+    background: #3b82f6;
+    border: transparent;
+    border-radius: 0.25rem;
+    letter-spacing: 1px;
+    padding: 0.375rem 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);;
+    transition: 0.3s ease-in-out all;
+    text-transform: capitalize;
+    display: inline-block;
+  }
+  .btn-hero {
+    font-size: 1.25rem;
+    padding: 0.5rem 1.25rem;
+  }
+  .img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  .page {
+    min-height: calc(100vh - 6rem);
+    display: grid;
+    align-items: center;
+    margin-top: -3rem;
+  }
+  .main-img {
+    display: none;
+  }
+  @media (min-width: 992px) {
+    .page {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 3rem;
+    }
+    .main-img {
+      display: block;
+    }
+  }

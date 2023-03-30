@@ -1,32 +1,37 @@
 import { Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
-import Register from "./components/Register";
-import Login from "./components/Login";
-import LinkPage from "./components/LinkPage";
-import Unauthorized from "./components/Unauthorized";
-import Home from "./components/Home";
-import Project from "./components/Project";
-import Bug from "./components/Bug";
-import Admin from "./components/Admin";
-import Missing from "./components/Missing";
-import RequireAuth from "./components/RequireAuth";
+import {
+  Layout,
+  Register,
+  Login,
+  Unauthorized,
+  Home,
+  Project,
+  Bug,
+  Admin,
+  Missing,
+  Dashboard,
+  RequireAuth,
+} from "./components";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path="" element={<Home />} />
+      <Route path="login" element={<Login />} />
+      <Route path="register" element={<Register />} />
+
+      <Route path="/layout" element={<Layout />}>
         {/* public routes */}
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="linkpage" element={<LinkPage />} />
+
         <Route path="unauthorized" element={<Unauthorized />} />
-        <Route path="admin" element={<Admin />} />
         {/* we want to protect these routes */}
-        <Route element={<RequireAuth allowedRole={['developer', 'admin']} />}>
-          <Route path="/" element={<Home />} />
+        <Route element={<RequireAuth allowedRole={["developer", "admin"]} />}>
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="project" element={<Project />} />
           <Route path="bug" element={<Bug />} />
-          
+        </Route>
+        <Route element={<RequireAuth allowedRole={["admin"]} />}>
+          <Route path="admin" element={<Admin />} />          
         </Route>
 
         {/* catch all */}

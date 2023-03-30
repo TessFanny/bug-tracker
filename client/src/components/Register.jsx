@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import css from "../index.css?inline";
 import { FaInfoCircle, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import axios from '../api/axios'
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -29,6 +31,10 @@ const Register = () => {
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/login";
 
   useEffect(() => {
     const result = EMAIL_REGEX.test(email);
@@ -88,6 +94,7 @@ const Register = () => {
       setEmail('');
       setPwd('');
       setMatchPwd('');
+      navigate(from, { replace: true });
 
     } catch (error) {
       console.log(error);
@@ -104,32 +111,10 @@ const Register = () => {
   };
 
   return (
-    <>
-      {success ? (
-        <section>
-          <h1>Success!</h1>
-          <p>
-            {/* react router */}
-            <a href="#"> Sign In</a>
-          </p>
-        </section>
-      ) : (
-        
-          <div className=" flex flex-col w-10/12 bg-white rounded-xl overflow-hidden md:flex-row">
-            <div className=" md:w-1/2 bg-violet-400 flex justify-center items-center flex-col px-3">
-              <h2 className=" text-3xl py-5 text-[#011b5e] font-bold">
-                {" "}
-                welcome
-              </h2>
-              <div>
-                <p className=" text-white py-5 px-5">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic
-                  quod ratione incidunt nihil sint voluptatibus. Illum, nobis,
-                  cumque iusto maiores perspiciatis tempora ratione{" "}
-                </p>
-              </div>
-            </div>
-            <div className=" md:w-1/2  flex flex-col py-3 md:py-10 md:px-7">
+    <main className=" mt-10 flex justify-center items-center ">
+      <div className=" max-w-[500px] flex flex-col w-10/12 bg-slate-300 rounded-xl mx-auto shadow-xl overflow-hidden">
+           
+            <div className=" flex flex-col py-3 md:py-10 md:px-7">
               <p  className={errMsg ? "errmsg" : "offscreen"}>
                 {errMsg}
               </p>
@@ -141,13 +126,13 @@ const Register = () => {
                 create your account.
               </p>
               <form className="flex flex-col" onSubmit={handleSubmit}>
-                <div className=" grid lg:grid-cols-2  ">
+                
                   <div className=" flex flex-col px-5">
                     <label htmlFor="firstname" className="py-2 text-[#011b5e]">
                       Firstname:
                     </label>
                     <input
-                      className=" border-2 border-x-gray-400 py-1 px-2 rounded-md"
+                      className=" border-2 border-x-gray-400 py-1 px-2 rounded-md outline-none"
                       id="firstname"
                       type="text"
                       onChange={(e) => setFirstname(e.target.value)}
@@ -159,14 +144,14 @@ const Register = () => {
                       Lastname:
                     </label>
                     <input
-                      className=" border-2 border-x-gray-400 py-1 px-2 rounded-md"
+                      className=" border-2 border-x-gray-400 py-1 px-2 rounded-md outline-none"
                       id="lastname"
                       type="text"
                       onChange={(e) => setLastname(e.target.value)}
                       required
                     />
                   </div>
-                </div>
+                
                 <div className=" mt-1 flex flex-col px-5 ">
                   <label htmlFor="email" className="py-2 text-[#011b5e] flex">
                     Email:
@@ -178,7 +163,7 @@ const Register = () => {
                     </span>
                   </label>
                   <input
-                    className=" border-2 border-x-gray-400 py-1 px-2 rounded-md"
+                    className=" border-2 border-x-gray-400 py-1 px-2 rounded-md outline-none"
                     autoComplete="off"
                     id="email"
                     type="email"
@@ -213,7 +198,7 @@ const Register = () => {
                     </span>
                   </label>
                   <input
-                    className=" border-2 border-x-gray-400 py-1 px-2 rounded-md"
+                    className=" border-2 border-x-gray-400 py-1 px-2 rounded-md outline-none"
                     id="password"
                     type="password"
                     autoComplete="off"
@@ -249,7 +234,7 @@ const Register = () => {
                     </span>
                   </label>
                   <input
-                    className=" border-2 border-x-gray-400 py-1 px-2 rounded-md"
+                    className=" border-2 border-x-gray-400 py-1 px-2 rounded-md outline-none"
                     id="passwordConfirm"
                     type="password"
                     onChange={(e) => setMatchPwd(e.target.value)}
@@ -281,16 +266,18 @@ const Register = () => {
                 Already registered? <br />
                 <span>
                   {/* put router link here */}
-                  <a href="#" className=" text-sm text-[#011b5e] font-bold">
-                    Sign In
-                  </a>
+                  <Link to='/login' className=" text-sm text-[#011b5e] font-bold">Sign in</Link>
                 </span>
               </p>
             </div>
           </div>
         
-      )}
-    </>
+
+    </main>
+   
+        
+          
+    
   );
 };
 

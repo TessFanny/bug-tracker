@@ -11,7 +11,7 @@ const RequireAuth = ({allowedRole}) => {
       allowedRole.includes(auth?.role)
         ? <Outlet /> 
         : auth?.email
-            ? <Navigate to="/unauthorized" state={{from: location}} replace/>
+            ? <Navigate to="/layout/unauthorized" state={{from: location}} replace/>
             : <Navigate to="/login" state={{from: location}} replace/>
   );
 }

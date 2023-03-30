@@ -12,7 +12,8 @@ const Login = () => {
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location?.state?.from?.pathname || "/";
+
+  const from = location?.state?.from?.pathname || "/layout/dashboard";
 
   const userRef = useRef();
   const errRef = useRef();
@@ -56,6 +57,7 @@ const Login = () => {
       return { auth };
     } catch (error) {
       console.log(error);
+
       if (!error?.response) {
         setErrMsg("no server response");
       } else if (error?.response?.status === 400) {
@@ -69,16 +71,17 @@ const Login = () => {
   };
 
   return (
-    <div className=" flex flex-col w-10/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden md:flex-row">
-      <div className=" md:w-1/2 bg-violet-400 flex justify-center items-center flex-col px-3">
+    <main className=" mt-10 flex justify-center items-center">
+      <div className="  max-w-[500px] flex flex-col w-10/12 bg-slate-300 rounded-xl mx-auto shadow-xl overflow-hidden">
+      {/* <div className=" md:w-1/2 bg-violet-400 flex justify-center items-center flex-col px-3">
         <h2 className=" text-3xl py-5 text-[#011b5e]"> Bug Tracker</h2>
         <div>
           <p className=" text-white py-5 px-5">
           Application de gestion des erreurs qui peuvent survenir pendant la réalisation des projets; Connectez vous ou créer un compte pour commencer
           </p>
         </div>
-      </div>
-      <div className=" md:w-1/2  flex flex-col py-3 md:py-10 md:px-7">
+      </div> */}
+      <div className="flex flex-col py-3 md:py-10 md:px-7">
         <p className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
         <h2 className="mb-4 text-3xl text-center text-[#011b5e]">Login</h2>
         <p className="mb-4 text-center text-[#011b5e]">
@@ -91,7 +94,7 @@ const Login = () => {
               Email:
             </label>
             <input
-              className=" border-2 border-x-gray-400 py-1 px-2 rounded-md"
+              className=" border-2 border-x-gray-400 py-1 px-2 rounded-md outline-none"
               type="email"
               id="email"
               onChange={(e) => setEmail(e.target.value)}
@@ -104,7 +107,7 @@ const Login = () => {
               Password:
             </label>
             <input
-              className=" border-2 border-x-gray-400 py-1 px-2 rounded-md"
+              className=" border-2 border-x-gray-400 py-1 px-2 rounded-md outline-none"
               type="password"
               id="password"
               onChange={(e) => setPwd(e.target.value)}
@@ -120,13 +123,14 @@ const Login = () => {
           Need an Account? <br />
           <span>
             {/* put router link here */}
-            <a href="#" className=" text-sm text-[#011b5e] font-bold">
-              Sign Up
-            </a>
+            <Link to='/register' className=" text-sm text-[#011b5e] font-bold">Sign Up</Link>
+          
           </span>
         </p>
       </div>
     </div>
+    </main>
+    
   );
 };
 
