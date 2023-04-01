@@ -1,8 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin&family=Roboto+Condensed:wght@400;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Roboto Condensed', Sans-Serif;
+  font-weight: 400;
+  line-height: 1.75;
+ 
+}
 .errmsg{
     background-color: lightpink;
    

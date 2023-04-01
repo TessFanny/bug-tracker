@@ -2,53 +2,63 @@ import { useState, useRef, useEffect } from "react";
 import css from "../index.css?inline";
 import { FaInfoCircle, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import axios from "../utils/axios";
-//import useAuth from "../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useSelector, useDispatch } from "react-redux";
-import { loginUser } from "../features/user/userSlice";
 
 const LOGIN_URL = "/login";
 
 const Login = () => {
   axios.defaults.withCredentials = true;
-  const dispatch = useDispatch();
-  const { user, status } = useSelector((store) => store.user);
-  //const { auth, setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  
 
-  //const from = location?.state?.from?.pathname || "/layout/dashboard";
+  const from = location?.state?.from?.pathname || "/layout/dashboard";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    if (user) {
-      setTimeout(() => {
-        navigate("/layout/dashboard");
-      }, 3000);
-    }
-  }, [user, navigate]);
+  // const [errMsg, setErrMsg] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(
-        loginUser({
+      const response = await axios.post(
+        LOGIN_URL,
+        JSON.stringify({
           email,
-          password
-        })
+          password,
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+        }
       );
+      const token = response?.data?.token;
+      const role = response?.data?.loggedUser?.role;
+      const firstname = response?.data?.loggedUser?.firstname;
+      const lastname = response?.data?.loggedUser?.lastname;
+
+      setAuth({ firstname, lastname, email, password, role, token });
+      // clear input fiels
+      setEmail("");
+      setPassword("");
+      navigate(from, { replace: true });
+      // Store the received token in local storage
+      localStorage.setItem("token", token);
+      toast.success("you're successfully logged in");
+      return { auth };
     } catch (error) {
       console.log(error);
+      if (!error?.response) {
+        //setErrMsg('no server response')
+        toast.error("no server response");
+      } else {
+        toast.error(error.response?.data?.error);
+      }
     }
-    
   };
-
-  // clear input fiels
-
-  console.log("login user:", user);
 
   return (
     <main className=" mt-10 flex justify-center items-center ">

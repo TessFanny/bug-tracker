@@ -1,4 +1,6 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Layout,
   Register,
@@ -31,12 +33,12 @@ function App() {
           <Route path="bug" element={<Bug />} />
         </Route>
         <Route element={<RequireAuth allowedRole={["admin"]} />}>
-          <Route path="admin" element={<Admin />} />          
+          <Route path="admin" element={<Admin />} />
         </Route>
 
         {/* catch all */}
-        <Route path="*" element={<Missing />} />
       </Route>
+      <Route path="*" element={<Missing />} />
     </Routes>
   );
 }

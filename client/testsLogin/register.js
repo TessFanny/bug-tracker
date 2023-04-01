@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import css from "../index.css?inline";
 import { FaInfoCircle, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import axios from "../utils/axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
@@ -55,7 +56,9 @@ const Register = () => {
     setValidMatch(match);
   }, [password, matchPassword]);
 
- 
+  // useEffect(() => {
+  //   setErrMsg("");
+  // }, [email, password, matchPassword]);
   useEffect(() => {
     if (status === 'succeeded') {
       setSuccess(true)
@@ -67,6 +70,9 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // const data = {
+    //   firstname, lastname, email, password
+    // }
     // to prevent js hack
     const v1 = EMAIL_REGEX.test(email);
     const v2 = password_REGEX.test(password);
@@ -74,6 +80,45 @@ const Register = () => {
       toast.error("invalid entry");
       return;
     }
+    // post request to lo the user
+    // try {
+    //   const response = await axios.post(
+    //     REGISTER_URL,
+    //     JSON.stringify({
+    //       firstname: firstname,
+    //       lastname: lastname,
+    //       email: email,
+    //       password: password,
+    //       passwordConfirm: matchPassword,
+    //     }),
+    //     {
+    //       headers: { "Content-Type": "application/json" },
+    //       // withCredentials: true,
+    //     }
+    //   );
+    //   console.log("testing");
+    //   console.log(response.data);
+    //   console.log(response.token);
+    //   console.log(JSON.stringify(response));
+    //   setSuccess(true);
+    //   // clear input fiels
+    //   setFirstname("");
+    //   setLastname("");
+    //   setEmail("");
+    //   setPassword("");
+    //   setMatchPassword("");
+    //   navigate(from, { replace: true });
+    //   toast.success("you're successfully registered");
+    // } catch (error) {
+    //   console.log(error);
+    //   if (!error?.response) {
+    //     //setErrMsg('no server response')
+    //     toast.error("no server response");
+    //   } else {
+    //     //setErrMsg(error.response?.data)
+    //     toast.error(error.response?.data);
+    //   }
+    // }
 
     dispatch(
       registerUser({
@@ -87,14 +132,36 @@ const Register = () => {
     
   };
 
+  // useEffect(() => {
+  //   if (user?.email) {
+  //     setTimeout(() => {
+  //       navigate("/", { replace: true });
+  //     }, 3000);
+  //   }
+  // }, [user, navigate]);
 
   console.log(user);
+  // useEffect(() => {
+  //   if (success) {
+  //     setFirstname("");
+  //     setLastname("");
+  //     setEmail("");
+  //     setPassword("");
+  //     setMatchPassword("");
+  //     setTimeout(() => {
+  //       navigate("/");
+  //     }, 3000);
+  //     //toast.success("you're successfully registered");
+  //   }
+  // }, [user, navigate]);
 
   return (
     <main className=" mt-10 flex justify-center items-center ">
       <div className=" max-w-[500px] flex flex-col w-10/12 bg-slate-300 rounded-xl mx-auto shadow-xl overflow-hidden">
         <div className=" flex flex-col py-3 px-7">
-         
+          {/* <p  className={errMsg ? "errmsg" : "offscreen"}>
+                {errMsg}
+              </p> */}
           <h2 className="mb-4 text-3xl text-center text-[#011b5e] font-bold">
             Register
           </h2>

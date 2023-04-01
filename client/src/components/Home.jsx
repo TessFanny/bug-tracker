@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { BsBugFill } from "react-icons/bs";
 import main from "../assets/main.png";
 const HomeLayout = () => {
+  
   return (
     <main className="text-[#011b5e]">
       <nav className=" nav flex items-center">
