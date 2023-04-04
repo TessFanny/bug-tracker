@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
 import { toast } from "react-toastify";
+
 const initialState = {
-  project: null,
+  projects: null,
 };
 
 export const getAllProjects = createAsyncThunk(
