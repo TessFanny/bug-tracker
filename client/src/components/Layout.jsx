@@ -11,9 +11,21 @@ import {
   AiOutlineProject,
   AiOutlineMail,
 } from "react-icons/ai";
-const Layout = () => {
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../features/user/userSlice";
+import { toast } from "react-toastify";
 
-  
+
+
+const Layout = () => {
+const dispatch = useDispatch()
+//  const {user} = useSelector((store) => store.user)
+
+  const handleLogout = ()=>{
+    dispatch(logout())
+    toast.success('you are logged out')
+    window.location.replace('/');
+  }
   return (
     <div className="min-h-screen flex bg-[#f3f1f1] text-[#011b5e]">
       {/* side bar */}
@@ -50,15 +62,15 @@ const Layout = () => {
         </nav>
         <div className="absolute w-full bottom-0 flex justify-around py-[10px] px-[10px] gap-2 items-center border-t-[1px] ">
           <div className="flex mr-3 hover:scale-110 ease-in duration-300">
-            <FaUser size={15} className=" mt-1 mr-1  " />
-            <Link to="/layout/profile"> Profile</Link>
+            <FaUser size={15} className=" mt-1 mr-2  " />
+            <Link to="/layout/profile">profile</Link>
           </div>
-          <button className="mr-3 hover:scale-110 ease-in duration-300">
+          <button className="mr-3 hover:scale-110 ease-in duration-300" onClick={handleLogout}>
             <IoLogOut size={25} className=" mt-1 mr-1  " />
-          </button>
+          </button >
         </div>
       </div>
-      <div className=" w-full">
+      <div className=" w-full bg-[#eff6ff]">
         <Outlet />
       </div>
     </div>

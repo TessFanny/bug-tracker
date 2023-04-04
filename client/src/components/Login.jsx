@@ -40,6 +40,7 @@ const Login = () => {
           password
         })
       );
+      console.log(email, password);
     } catch (error) {
       console.log(error);
     }

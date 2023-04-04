@@ -7,9 +7,14 @@ import { useState, useEffect } from "react";
 
 const BasicTable = () => {
   const [projects, setProjects] = useState([]);
+
   const fetchProjects = async () => {
     const response = await axios
-      .get("http://localhost:3000/api/projects")
+      .get("http://localhost:3000/api/projects", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Bearer ACCESSTOKEN
+        },
+      })
       .catch((error) => console.log(error));
     if (response) {
       const projects = await response.data;

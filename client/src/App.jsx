@@ -7,12 +7,13 @@ import {
   Login,
   Unauthorized,
   Home,
-  Project,
+  Projects,
   Bug,
   Admin,
   Missing,
   Dashboard,
   RequireAuth,
+  Profile
 } from "./components";
 
 function App() {
@@ -29,8 +30,9 @@ function App() {
         {/* we want to protect these routes */}
         <Route element={<RequireAuth allowedRole={["developer", "admin"]} />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="project" element={<Project />} />
+          <Route path="project" element={<Projects />} />
           <Route path="bug" element={<Bug />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route element={<RequireAuth allowedRole={["admin"]} />}>
           <Route path="admin" element={<Admin />} />

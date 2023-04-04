@@ -3,13 +3,14 @@ import Register from "./Register";
 import Login from "./Login";
 import Unauthorized from "./Unauthorized";
 import Home from "./Home";
-import Project from "./Project";
+import Projects from "./projects/Projects";
 import Bug from "./Bug";
 import Admin from "./Admin";
 import Missing from "./Missing";
 import RequireAuth from "./RequireAuth";
 import HomeLayout from "./Home";
 import Dashboard from "./Dashboard";
+import Profile from "./Profile";
 
 export {
   Layout,
@@ -17,11 +18,12 @@ export {
   Login,
   Unauthorized,
   Home,
-  Project,
+  Projects,
   Bug,
   Admin,
   Missing,
   RequireAuth,
   HomeLayout,
-  Dashboard
+  Dashboard,
+  Profile,
 };
