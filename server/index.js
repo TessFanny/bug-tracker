@@ -6,29 +6,38 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import {userRouter,
   authRouter,
-  bugRouter,
+  ticketRouter,
   commentRouter,
   projectRouter,
   roleRouter} from "./app/router/index.js";
 
 import errorService from "./app/services/errorHandling.js";
 
-const port = process.env.PORT || `port number`;
 
+const port = process.env.PORT || `port number`;
 const app = express();
+
+
 app.use(cors({
-  origin: ['http://localhost:5173'],
+  origin: ['http://127.0.0.1:5173'],
   credentials: true
 }));
-app.use(cookieParser());
+app.use(cookieParser())
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5173');
+ // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  //res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+;
 
 /* Configuration des sessions */
 const sessionConfig = {
   secret: process.env.SESSION_SECRET,
-  resave: false,
+  resave: true,
   saveUninitialized: false,
+  rolling: true,
   cookie: {
-    secure: false,
     httpOnly: false,
     maxAge: (24 * 60 * 60 * 1000)
   },
@@ -48,7 +57,7 @@ import expressJSDocSwagger from "express-jsdoc-swagger";
 const options = {
   info: {
     version: "1.0.0",
-    title: "Bug Tracker",
+    title: "ticket Tracker",
     description: "My API with Swagger documentation",
     license: {
       name: "MIT",
@@ -84,7 +93,7 @@ app.use(
   "/api",
   userRouter,
   authRouter,
-  bugRouter,
+  ticketRouter,
   commentRouter,
   projectRouter,
   roleRouter

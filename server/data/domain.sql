@@ -7,6 +7,4 @@ CREATE DOMAIN email_address AS text CHECK( VALUE ~  '^[a-zA-Z0-9.!#$%&''*+/=?^_`
 ALTER TABLE "user"
 ALTER COLUMN email TYPE email_address; 
 
-
-ALTER TABLE bug ADD COLUMN title text ; 
 COMMIT;

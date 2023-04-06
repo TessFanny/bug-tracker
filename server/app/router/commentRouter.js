@@ -14,7 +14,7 @@ import commentSchema from '../schema/commentSchema.js'
  * @typedef {object} Comment
  * @property {string} title - 
  * @property {string} text - 
- * @property {number} bug_id- 
+ * @property {number} ticket_id- 
  * @property {number} user_id-
  * 
  */

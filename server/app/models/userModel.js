@@ -18,7 +18,6 @@ class User extends Core {
     this.lastname = obj.lastname;
     this.email = obj.email;
     this.password = obj.password;  
-    this.refresh_token = obj.refresh_token
   }
 
   /**
@@ -93,19 +92,7 @@ class User extends Core {
       throw error;
     }
   }
-  async updateRefreshToken(refresh_token, id){
-    try {
-      const sqlQuery = 'UPDATE "user" SET refresh_token = $1 WHERE id = $2';
-      const values = [refresh_token, id];
-      const result = await pool.query(sqlQuery, values);
-      const row = result.rows[0];
-         return row;
-    } catch (error) {
-      console.error(`Error in updateRefreshToken() : ${error.message}`);
-      log(error);
-      throw error;
-    }
-  }
+  
 }
 
 export default User;

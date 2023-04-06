@@ -1,6 +1,6 @@
 
 BEGIN;
-DROP TABLE IF EXISTS "user",  bug, comment, project,  project_has_user CASCADE;
+DROP TABLE IF EXISTS "user",  ticket, comment, project,  project_has_user CASCADE;
 
 CREATE TABLE "user" (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -22,7 +22,7 @@ CREATE TABLE project (
     created_at  TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
     updated_at TEXT
 );
-CREATE TABLE bug (
+CREATE TABLE ticket (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title text not null,
     description text NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE comment (
     title text ,
     text text ,
     user_id  int REFERENCES "user"(id) ON DELETE CASCADE,
-    bug_id  int REFERENCES bug(id) ON DELETE CASCADE,
+    ticket_id  int REFERENCES ticket(id) ON DELETE CASCADE,
     created_at  TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
     updated_at TEXT
 );

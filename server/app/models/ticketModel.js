@@ -1,15 +1,15 @@
 import pool from '../services/dbClient.js';
 import Core from'./coreModel.js'
 import debug from 'debug'
-const log = debug('model:bug');
+const log = debug('model:ticket');
 
 
-class Bug extends Core {
-    static tableName = 'bug';
+class Ticket extends Core {
+    static tableName = 'ticket';
 
     constructor(obj){
         super(obj);
-        this.tableName = 'bug'
+        this.tableName = 'ticket'
         this.id = obj.id;
         this.title = obj.title;
         this.description = obj.description;
@@ -22,4 +22,4 @@ class Bug extends Core {
 
 }
 
-export default Bug;
+export default Ticket;

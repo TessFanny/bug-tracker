@@ -6,9 +6,7 @@ const projectSchema = {
     return Joi.object({
       title: Joi.string().max(30).required(),
       description: Joi.string().min(15).required(),
-      author_id: Joi.number().required(),
-      bug_id: Joi.number().required()
-      
+      author_id: Joi.number().required(),      
     });
   },
 
@@ -17,8 +15,7 @@ const projectSchema = {
     return Joi.object({
         title: Joi.string().max(30),
         description: Joi.string().min(15),
-        author_id: Joi.number(),
-        bug_id: Joi.number()
+        author_id: Joi.number(),        
     });
   },
 };

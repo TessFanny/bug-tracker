@@ -14,7 +14,7 @@ class Comment extends Core {
         this.title = obj.title;
         this.text = obj.text;
         this.user_id = obj.user_id;
-        this.bug_id = obj.bug_id;
+        this.ticket_id = obj.ticket_id;
     }
 
 }

@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-
+import User from '../models/userModel.js';
 const securityService = {
     /**
      * Vérification pour voir si l'utilisateur est connecté
@@ -27,8 +27,10 @@ const securityService = {
              //On récupère la 2eme parties (séparation du type Bearer) pour garder l'élément indice [1] (le code token)
              console.log(req.headers.authorization);
             const token = req.headers.authorization.split(" ")[1];
-            const user = jwt.verify(token, process.env.SESSION_SECRET);
-            console.log("token validé !", user);
+        
+            const decoded =  jwt.verify(token, process.env.SESSION_SECRET)
+              
+            console.log("token validé !", decoded);
              // L'utilisateur est authentifié et autorisé, passer au middleware suivant
             next();
         }
@@ -38,12 +40,17 @@ const securityService = {
         }
     },
     authMiddleware:(roleTable)=>{
-        return (req, res, next) => {
+        return async (req, res, next) => {
             // récupère le role de l'utilisateur en session
-            const userRole = req.session.user.role
-             console.log(userRole);
+            const token = req.headers.authorization.split(" ")[1];
+         const userToken =   jwt.decode(token, process.env.SESSION_SECRET)
+           const userEmail = userToken.email
+           const userModel = new User(req.body)
+           const userRole = await userModel.findByField("email", userEmail)
+        console.log(userRole.role);
+          
              // je vérifie si son role est  présent dans le tableau des roles autorisés; 
-             if(roleTable.indexOf(userRole) === -1){
+             if(roleTable.indexOf(userRole.role) === -1){
                 // si son role n'est pas présent il a un message d'erreur
                res.status(401).json('pas autorisé')
               }else{

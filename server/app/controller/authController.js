@@ -39,7 +39,7 @@ const authController = {
         password: hashedPassword,
       });
 
-      const token = jwt.sign({ id: savedUser.id }, process.env.SESSION_SECRET, { expiresIn: "3600s"});
+      const token = jwt.sign({ email: savedUser.email }, process.env.SESSION_SECRET, { expiresIn: "3600s"});
       // const refreshToken = jwt.sign({ id: savedUser.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1d"});
 
       
@@ -64,25 +64,24 @@ const authController = {
       const userModel = new User(req.body);
       // on appelle la méthode qui va vérifier les infos en BDD et rempli les informations de notre user
       // la méthode renvoie true ou false suivant si les informations username/password sont correctes
-      let role;
+      console.log(userModel);
       if (await userModel.checkEmailLogin(req.body.email, req.body.password)) {
         // generation du token
-        const token = jwt.sign({ id: userModel.id }, process.env.SESSION_SECRET , { expiresIn: "24h"});
-        console.log("Token:", token);
-        // const refreshToken = jwt.sign({ id: userModel.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1d"});
-  
-          console.log("Token:", token);
+        const token = jwt.sign({ 
+          email: userModel.email 
+      }, 
+          process.env.SESSION_SECRET, 
+      { 
+          expiresIn: "24h" 
+      }
+  );
+     
           // on enregistre le user courant dans la session
           const loggedUser = await userModel.findByField("email", userModel.email);
-          // const refToken = await userModel.updateRefreshToken(refreshToken, loggedUser.id)
-          
-       
-        //console.log(loggedUser);
-       
-        req.session.user = loggedUser;
-        console.log(req.session.user);
-        //console.log(req.session.user);
-        //res.cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000}) // 24h
+                 
+        req.user = loggedUser;
+        console.log(req.user);
+      
         delete loggedUser.password;
         // delete loggedUser.refresh_token
         // on envoie le token généré au client

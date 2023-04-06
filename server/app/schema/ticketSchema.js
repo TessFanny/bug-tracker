@@ -1,7 +1,7 @@
 import Joi from "joi";
-// bug's schema
-const bugSchema = {
-  // bug creation schema
+// ticket's schema
+const ticketSchema = {
+  // ticket creation schema
   create() {
     return Joi.object({
       title: Joi.string().max(30).required(),
@@ -9,11 +9,12 @@ const bugSchema = {
       status: Joi.string().required(),
       priority: Joi.string().min(6).max(30).required(),
       color: Joi.string().min(6).max(30).required(),
-      created_by: Joi.number().required(),
+      created_by: Joi.number().required().allow(),
+      project_id: Joi.number()
     });
   },
 
-  // bug update schema
+  // ticket update schema
   update() {
     return Joi.object({
       title: Joi.string().max(30),
@@ -22,7 +23,8 @@ const bugSchema = {
       priority: Joi.string().min(6).max(30),
       color: Joi.string().min(6).max(30),
       created_by: Joi.number(),
+      project_id: Joi.number()
     });
   },
 };
-export default bugSchema;
+export default ticketSchema;

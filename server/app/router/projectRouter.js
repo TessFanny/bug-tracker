@@ -3,7 +3,7 @@ const projectRouter =  express.Router();
 import projectController from '../controller/projectController.js';
 import validation from '../services/joiValidation.js'
 import projectSchema from '../schema/projectSchema.js'
-
+import security from '../services/security.js'; 
 
 
 
@@ -15,7 +15,7 @@ import projectSchema from '../schema/projectSchema.js'
   * @property {string} title - 
  * @property {string} description - 
  * @property {number} author_id- 
- * @property {number} bug_id- 
+ * @property {number} ticket_id- 
  * 
  */
 
@@ -30,7 +30,7 @@ import projectSchema from '../schema/projectSchema.js'
  * @return {object} 200 - projects response
  * @return {object} 500 - Unexpected error
  */
-projectRouter.get('/projects', projectController.getAllProjects);
+projectRouter.get('/projects',  security.checkToken, security.authMiddleware(['developer','admin']), projectController.getAllProjects);
 
 
 /**
@@ -44,7 +44,7 @@ projectRouter.get('/projects', projectController.getAllProjects);
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.get('/project/:project_id', projectController.getOneProject);
+projectRouter.get('/project/:project_id', security.isConnected, security.checkToken, security.authMiddleware(['developer','admin']), projectController.getOneProject);
 
 
 /**
@@ -57,7 +57,7 @@ projectRouter.get('/project/:project_id', projectController.getOneProject);
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.post('/projects', validation.check(projectSchema.create(), "body"), projectController.createProject);
+projectRouter.post('/projects', security.isConnected, security.checkToken, security.authMiddleware(['developer','admin']), validation.check(projectSchema.create(), "body"), projectController.createProject);
 
 /**
  * PATCH /api/project/{project_id}
@@ -70,7 +70,7 @@ projectRouter.post('/projects', validation.check(projectSchema.create(), "body")
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.patch('/project/:project_id', validation.check(projectSchema.update(), "body"),projectController.updateProject);
+projectRouter.patch('/project/:project_id', security.isConnected, security.checkToken, security.authMiddleware(['developer','admin']), validation.check(projectSchema.update(), "body"),projectController.updateProject);
 
 
 /**
@@ -84,7 +84,7 @@ projectRouter.patch('/project/:project_id', validation.check(projectSchema.updat
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.delete('/project/:project_id', projectController.deleteProject);
+projectRouter.delete('/project/:project_id', security.isConnected, security.checkToken, security.authMiddleware(['developer','admin']), projectController.deleteProject);
 
 
 export default projectRouter; 
