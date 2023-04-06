@@ -30,7 +30,7 @@ function App() {
         {/* we want to protect these routes */}
         <Route element={<RequireAuth allowedRole={["developer", "admin"]} />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="project" element={<Projects />} />
+          <Route path="projects" element={<Projects />} />
           <Route path="bug" element={<Bug />} />
           <Route path="profile" element={<Profile />} />
         </Route>

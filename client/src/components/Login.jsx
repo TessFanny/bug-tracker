@@ -13,7 +13,8 @@ const LOGIN_URL = "/login";
 const Login = () => {
   axios.defaults.withCredentials = true;
   const dispatch = useDispatch();
-  const { user, status } = useSelector((store) => store.user);
+  const { user } = useSelector((store) => store.user);
+  const  errorMessage =  useSelector(store => store.user.error)
   //const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,15 +42,20 @@ const Login = () => {
         })
       );
       console.log(email, password);
+      //console.log(user);
     } catch (error) {
       console.log(error);
+      if(error.status == 400){
+        toast("l'email ou le mot de passe ne correspont pas")
+
+      }
     }
     
   };
 
   // clear input fiels
 
-  console.log("login user:", user);
+  //console.log("login user:", user);
 
   return (
     <main className=" mt-10 flex justify-center items-center ">

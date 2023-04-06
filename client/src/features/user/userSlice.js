@@ -2,7 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
 import { toast } from "react-toastify";
 const initialState = {
-  user: null,
+  loading: false,
+  user: '',
+  error: "",
+  statusCode: "",
 };
 
 export const registerUser = createAsyncThunk(
@@ -21,48 +24,38 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
-  async (userData, thunkAPI) => {
-    try {
-      const response = await axios.post("/login", userData);
-
-      console.log("response:", response);
-      const user = response.data.loggedUser;
-      console.log(user);
-      const token = response.data.token;
-      localStorage.setItem("token", token);
-      return { user };
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
-    }
+  async (userData) => {
+    const response = await axios.post("/login", userData);
+    //console.log("response:", response);
+    const user = response.data.loggedUser;
+    //console.log(user);
+    const token = response.data.token;
+    localStorage.setItem("token", token);
+    return { user };
   }
 );
 
 export const updateUser = createAsyncThunk(
   "user/updateUser",
-  async ( {user}, thunkAPI) => {
-    try {
-      const { id, firstname, lastname, email, role } = user;
-      const response = await axios.patch(
-        `/user/${id}`,
-        {
-          firstname,
-          lastname,
-          email,
-          role,
-        },
+  async ({ user }) => {
+    const { id, firstname, lastname, email, role } = user;
+    const response = await axios.patch(
+      `/user/${id}`,
+      {
+        firstname,
+        lastname,
+        email,
+        role,
+      },
 
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      const modifiedUser = response.data;
-      return { modifiedUser };
-    } catch (error) {
-      console.log(error);
-      return thunkAPI.rejectWithValue(error.response.data);
-    }
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    const modifiedUser = response.data;
+    return { modifiedUser };
   }
 );
 
@@ -76,7 +69,7 @@ export const userSlice = createSlice({
     },
     // Reducer for changing the password value in state
     changeRoleValue: (state, action) => {
-      state.user.role= action.payload;
+      state.user.role = action.payload;
     },
     changeFirstnameValue: (state, action) => {
       state.user.firstname = action.payload;
@@ -111,7 +104,13 @@ export const userSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        toast.error(state.error);
+        state.statusCode = action.error.code;
+        console.log(state.error);
+        if (state.error === "Rejected"  ) {
+          toast.error("cet email existe déjà");
+        } else if (state.statusCode === "ERR_BAD_RESPONSE") {
+          //toast.error("le mot de passe ");
+        }
       })
       .addCase(loginUser.pending, (state) => {
         state.status = "loading";
@@ -126,7 +125,14 @@ export const userSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.status = false;
         state.error = action.error.message;
-        toast.error(action.error.message);
+        state.statusCode = action.error.code;
+        console.log(action.error);
+        if (state.statusCode === "ERR_BAD_REQUEST" || "ERR_BAD_RESPONSE" ) {
+          toast.error("email ou mot de passe incorrect");
+        } else if (state.statusCode === "ERR_BAD_RESPONSE") {
+          //toast.error("le mot de passe ");
+        }
+       
       })
       .addCase(updateUser.pending, (state) => {
         state.status = "loading";
@@ -154,4 +160,5 @@ export const {
   changeRoleValue,
   logout,
 } = userSlice.actions;
+
 export default userSlice.reducer;

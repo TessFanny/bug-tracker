@@ -3,8 +3,11 @@ import axios from "../../utils/axios";
 import { toast } from "react-toastify";
 
 const initialState = {
-  projects: null,
+  isLoading: false,
+  projects: [],
 };
+
+
 
 export const getAllProjects = createAsyncThunk(
   "project/getAllProjects",
@@ -15,10 +18,10 @@ export const getAllProjects = createAsyncThunk(
           Authorization: `Bearer ${localStorage.getItem("token")}`, // Bearer ACCESSTOKEN
         },
       });
-      const  projects  = response.data;
-      console.log(response);
-      console.log(response.data);
-      return projects;
+      
+      //console.log(response);
+      //console.log(response.data);
+      return response.data;
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error.response.data);
@@ -27,7 +30,7 @@ export const getAllProjects = createAsyncThunk(
 );
 
 const projectSlice = createSlice({
-  name: "project",
+  name: "projects",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -38,7 +41,7 @@ const projectSlice = createSlice({
       })
       .addCase(getAllProjects.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.project = action.payload;
+        state.projects = action.payload;
       })
       .addCase(getAllProjects.rejected, (state, action) => {
         state.status = "failed";
@@ -48,4 +51,4 @@ const projectSlice = createSlice({
   },
 });
 
-export default projectSlice.reducer;
+export default projectSlice.reducer

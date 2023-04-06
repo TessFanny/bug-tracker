@@ -37,23 +37,23 @@ const dispatch = useDispatch()
         <nav className=" py-2 ml-3 focus:bg-gray-400 mt-6 relative">
           <ul className="flex flex-col justify-center">
             <li className=" inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
-              <AiOutlineHome size={20} className=" mt-1 mr-1  " />
+              <AiOutlineHome size={20} className=" mr-1  " />
               <Link to="/layout/dashboard">Dashboard</Link>
             </li>
             <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
-              <GrProjects size={15} className=" mt-1 mr-1  " />
-              <Link to="/layout/project" className="">
+              <GrProjects size={15} className="  mr-1  " />
+              <Link to="/layout/projects" className="">
                 Projects
               </Link>
             </li>
             <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
-              <BsBugFill size={15} className=" mt-1 mr-1  " />
+              <BsBugFill size={15} className=" mr-1  " />
               <Link to="/layout/bug" className="">
                 Bugs
               </Link>
             </li>
             <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300  ">
-              <RiAdminFill size={15} className=" mt-1 mr-1  " />
+              <RiAdminFill size={15} className=" mr-1  " />
               <Link to="/layout/admin" className="">
                 Administrator
               </Link>

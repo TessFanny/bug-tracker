@@ -84,7 +84,7 @@ const Register = () => {
         passwordConfirm: matchPassword,
       })
     );
-    
+    console.log(status);
   };
 
 
@@ -223,7 +223,7 @@ const Register = () => {
               <p
                 id="confirnnote"
                 className={
-                  matchFocus && !validMatch ? "instructions" : "offscreen"
+                   !validMatch ? "instructions" : "offscreen"
                 }
               >
                 <FaInfoCircle className=" text-red-700 mr-2 mt-1" />
