@@ -9,7 +9,7 @@ const Bug = () => {
   useEffect(()=>{
     dispatch(getAllTickets())
   },[])
-  console.log(tickets);
+ 
   return (
     <div>tickets</div>
   )

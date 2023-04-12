@@ -1,25 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUsers } from "../../features/users/usersSlice";
+import { addProject, changeTitleValue, changeDescriptionValue } from "../../features/projects/projectSlice";
+import AddContributors from "./AddContributors";
 
 const AddProjectModal = ({ open, closeModal }) => {
   const { user } = useSelector((store) => store.user);
   const { users } = useSelector((store) => store.users);
+  const { title, description, user_id} = useSelector(store=> store.projects)
   const dispatch = useDispatch();
-
+  const { id} = user
+ const [isLoading, setIsLoading] = useState(false)
   //console.log('user in project:', user);
   useEffect(() => {
     dispatch(getAllUsers());
   }, []);
 
   if (!open) return null;
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    if(isLoading) return;
+    setIsLoading(true)
+    dispatch(addProject({
+      title,
+      description, 
+      user_id : id
+    }))
+    setIsLoading(false)
+    dispatch(changeTitleValue(''))
+    dispatch(changeDescriptionValue(''))
     closeModal();
   };
-  const handleClick = () => {};
+  // const handleClick = (e) => {
+  //   e.preventDefault()
+
+  // };
 
   return (
     <div
@@ -50,6 +67,7 @@ const AddProjectModal = ({ open, closeModal }) => {
               type="text"
               placeholder=" Enter project title"
               className=" w-full py-[0.375rem] px-[0.75rem]  rounded-[0.25rem] border-[1px] border-[#bcccdc] h-[35px] bg-[#f0f4f8] "
+              onChange={(e)=> dispatch(changeTitleValue(e.target.value))}
             />
           </div>
           <div>
@@ -62,33 +80,17 @@ const AddProjectModal = ({ open, closeModal }) => {
             </label>
             <textarea
               name="description"
-              id=""
+              id="description"
               cols="10"
               rows="10"
               placeholder=" Enter project description"
               className=" w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[100px]"
+              onChange={(e)=> dispatch(changeDescriptionValue(e.target.value))}
             ></textarea>
+            <AddContributors/>
           </div>
-          <div>
-            <h3> Contributors</h3>
-            <fieldset className=" w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[100px] flex flex-col gap-2 overflow-auto">
-              {users.map((user) => {
-                return (
-                  <div className=" flex gap-4" key={user.id}>
-                    <input
-                      type="checkbox"
-                      id="contributor"
-                      name="contributor"
-                    />
-                    <label htmlFor="contributor">
-                      {user.firstname} {user.lastname}
-                    </label>
-                  </div>
-                );
-              })}
-            </fieldset>
-          </div>
-          <button type="submit" className=" btn">
+          
+          <button type="submit" className=" bg-green-700 w-[6rem] self-center py-2 rounded-lg">
             Submit
           </button>
         </form>

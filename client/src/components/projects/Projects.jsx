@@ -2,26 +2,30 @@ import { AiOutlineSearch, AiOutlinePlus } from "react-icons/ai";
 import BasicTable from "../BasicTable";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getAllProjects } from "../../features/projects/projectSlice";
+import { getAllContributors, getAllProjects } from "../../features/projects/projectSlice";
 import Project from "./Project";
 import { Link } from "react-router-dom";
 import axios from "../../utils/axios";
 import AddProjectModal from "./AddProjectModal";
 import { useState } from "react";
-const Projects = () => {
-  const { projects } = useSelector((state) => state.projects);
+import ShowContributors from "./ShowContributors";
 
+
+const Projects = () => {
+  const { projects, contributors } = useSelector((state) => state.projects);
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
+  const [showProject, setShowProject] = useState(false);
+  const [newProject, setNewProject] = useState({});
+  const [projectId, setProjectId] = useState(0)
   const closeModal = () => {
     setOpenModal(false);
   };
   useEffect(() => {
     dispatch(getAllProjects());
-  }, []);
+    dispatch(getAllContributors(projectId));
+  }, [projectId]);
 
-  const projectList = [];
-  //console.log(projects);
   return (
     <section className=" px-4 py-7">
       <div className="flex justify-between">
@@ -72,18 +76,20 @@ const Projects = () => {
               {projects.map((project) => (
                 <tr key={project.id}>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <Link
-                      to="/layout/dashboard"
+                    <button
                       className=" text-[#3b82f6] hover:underline"
+                      onClick={() => {
+                        setNewProject(project), setShowProject(true), setProjectId(project.id)
+                      }}
                     >
                       {project.title}
-                    </Link>{" "}
+                    </button>
                   </td>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {project.description}{" "}
+                    {project.description}
                   </td>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {project.author}{" "}
+                    {project.author}
                   </td>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
                     {project.created_at}
@@ -105,6 +111,10 @@ const Projects = () => {
       </div>
 
       <AddProjectModal open={openModal} closeModal={closeModal} />
+      <div className="grid grid-cols-2 mt-4  w-full gap-7">
+        <div>{showProject && <Project newProject={newProject} />}</div>
+        <div>{showProject && <ShowContributors newProject={newProject} projectId={projectId} contributors={contributors} />}</div>
+      </div>
     </section>
   );
 };
