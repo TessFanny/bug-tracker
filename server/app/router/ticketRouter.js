@@ -18,6 +18,7 @@ const ticketRouter =  express.Router();
  * @property {string} priority -
  * @property {string} color - 
  * @property {string} created_by - 
+ * @property {string} project_id - 
  * 
  */
 

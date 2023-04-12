@@ -8,7 +8,6 @@ const ticketController = {
             res.status(404).json('no resources found')
         }else{
             res.status(200).json(tickets)
-            console.log(tickets);
         }
     } catch (error) {
         console.error(error)
