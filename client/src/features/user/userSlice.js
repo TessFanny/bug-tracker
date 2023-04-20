@@ -31,6 +31,7 @@ export const loginUser = createAsyncThunk(
     //console.log(user);
     const token = response.data.token;
     localStorage.setItem("token", token);
+    window.localStorage.setItem("isLoggedIn", true);
     return { user };
   }
 );
@@ -79,14 +80,11 @@ export const userSlice = createSlice({
     },
 
     // Reducer for logging out the user
-    logout: (state) => {
-      const user = {
-        email: "",
-        password: "",
-      };
-      state.user = user;
+    logout: (state) => {    
+      state.user = null;
       state.status = null;
       localStorage.removeItem("token");
+      window.localStorage.removeItem("isLoggedIn")
     },
   },
   extraReducers: (builder) => {

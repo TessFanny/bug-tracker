@@ -5,7 +5,9 @@ import { toast } from "react-toastify";
 const initialState = {
   isLoading: false,
   projects: [],
-  contributors: []
+  contributors: [],
+  addedProject: {},
+  project: {}
 };
 
 export const getAllProjects = createAsyncThunk(
@@ -50,14 +52,14 @@ export const getAllContributors = createAsyncThunk(
 
 export const addProject = createAsyncThunk(
   "projects/addProject",
-  async ({ title, description, user_id },thunkAPI) => {
+  async ({ title, description, author_id },thunkAPI) => {
     try {
       const response = await axios.post(
         "/projects",
         {
           title,
           description,
-          user_id,
+          author_id,
         },
         {
           headers: {
@@ -66,6 +68,7 @@ export const addProject = createAsyncThunk(
         }
       );
       console.log(response);
+      return response.data
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error.response.data);
@@ -73,6 +76,37 @@ export const addProject = createAsyncThunk(
    
   }
 );
+ // add memeber when adding a project
+export const addMember = createAsyncThunk(
+  "projects/addMember",
+  async ( {user_id, projectId}, thunkAPI) => {
+    console.log(thunkAPI.getState());
+    try {
+      
+      const project_id =   thunkAPI.getState().projects.addedProject.id  || projectId
+      const response = await axios.post(
+        `/project/${project_id}/users`,
+        {
+          user_id
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Bearer ACCESSTOKEN
+          },
+        }
+      );
+      console.log(response);
+      return response.data
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+   
+  }
+);
+
+// add only member 
+
 
 const projectSlice = createSlice({
   name: "projects",
@@ -84,6 +118,8 @@ const projectSlice = createSlice({
     changeDescriptionValue: (state, action) => {
       state.description = action.payload;
     },
+   
+    
   },
   extraReducers: (builder) => {
     builder
@@ -103,18 +139,29 @@ const projectSlice = createSlice({
       .addCase(addProject.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(addProject.fulfilled, (state) => {
-        state.projects = {
-          title: "",
-          description: "",
-        };
+      .addCase(addProject.fulfilled, (state, action) => {
+        state.addedProject = action.payload
+        state.projects.push(action.payload);
         state.status = true;
         toast.success('project successfully added')
       }).addCase(addProject.rejected, (state, action)=>{
         state.status = false
         state.error = action.error.message;
         toast.error(state.error);
-      }).addCase(getAllContributors.pending, (state) => {
+      })
+      .addCase(addMember.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(addMember.fulfilled, (state, action) => {
+        state.status = true;
+        state.contributors.push(action.payload)
+        toast.success('member successfully added')
+      }).addCase(addMember.rejected, (state, action)=>{
+        state.status = false
+        state.error = action.error.message;
+        toast.error(state.error);
+      })
+      .addCase(getAllContributors.pending, (state) => {
         state.status = "loading";
         state.error = null;
       })

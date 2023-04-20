@@ -30,7 +30,7 @@ const Login = () => {
         navigate("/layout/dashboard");
       }, 3000);
     }
-  }, [user, navigate]);
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

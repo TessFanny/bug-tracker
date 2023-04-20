@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
-import AddContributors from "./AddContributors";
-const AddContributorsModal = ({ open, closeModal }) => {
+
+import AddMembers from "./AddMembers";
+const AddContributorsModal = ({ open, closeModal, projectId }) => {
   const handleSubmit = (e) => {
-    e.preventDafault()
+    e.preventDafault();
   };
   if (!open) return null;
   return (
@@ -18,21 +19,10 @@ const AddContributorsModal = ({ open, closeModal }) => {
         }}
       >
         <div className="flex justify-between items-center  rounded-md">
-          <span className=" font-semibold">Add contributors</span>
+          <span className=" font-semibold">Add Members</span>
           <AiFillCloseCircle className=" cursor-pointer" onClick={closeModal} />
         </div>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <div>
-            <AddContributors />
-          </div>
-
-          <button
-            type="submit"
-            className=" bg-green-700 w-[6rem] self-center py-2 rounded-lg"
-          >
-            Submit
-          </button>
-        </form>
+        <AddMembers closeModal={closeModal} projectId={projectId}/>
       </div>
     </div>
   );

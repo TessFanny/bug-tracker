@@ -18,12 +18,12 @@ const Projects = () => {
   const [showProject, setShowProject] = useState(false);
   const [newProject, setNewProject] = useState({});
   const [projectId, setProjectId] = useState(0)
+ 
   const closeModal = () => {
     setOpenModal(false);
   };
   useEffect(() => {
     dispatch(getAllProjects());
-    dispatch(getAllContributors(projectId));
   }, [projectId]);
 
   return (
@@ -76,14 +76,12 @@ const Projects = () => {
               {projects.map((project) => (
                 <tr key={project.id}>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <button
+                    <Link to={`project/${project.id}`}
                       className=" text-[#3b82f6] hover:underline"
-                      onClick={() => {
-                        setNewProject(project), setShowProject(true), setProjectId(project.id)
-                      }}
+                  
                     >
                       {project.title}
-                    </button>
+                    </Link>
                   </td>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
                     {project.description}

@@ -13,19 +13,20 @@ import {
   Missing,
   Dashboard,
   RequireAuth,
-  Profile
+  Profile,
+  Project
 } from "./components";
 
 function App() {
+  const loggedIn = window.localStorage.getItem("isLoggedIn");
+
   return (
     <Routes>
       <Route path="" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
-
-      <Route path="/layout" element={<Layout />}>
-        {/* public routes */}
-
+      {/* public routes */}
+      <Route path="/layout" element={loggedIn ? <Layout /> : <Home />}>
         <Route path="unauthorized" element={<Unauthorized />} />
         {/* we want to protect these routes */}
         <Route element={<RequireAuth allowedRole={["developer", "admin"]} />}>
@@ -33,6 +34,7 @@ function App() {
           <Route path="projects" element={<Projects />} />
           <Route path="bug" element={<Bug />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="projects/project/:id" element={<Project />} />
         </Route>
         <Route element={<RequireAuth allowedRole={["admin"]} />}>
           <Route path="admin" element={<Admin />} />

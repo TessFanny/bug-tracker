@@ -74,7 +74,7 @@ const Profile = () => {
           className="btn btn-block self-end h-[35px] mt-[1rem]"
           type="submit"
         >
-          {" "}
+          
           Save changes
         </button>
       </div>

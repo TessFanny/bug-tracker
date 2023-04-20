@@ -1,41 +1,56 @@
 import React from "react";
 import AddContributorsModal from "./AddContributorsModal";
 import { AiOutlineSearch, AiOutlinePlus } from "react-icons/ai";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import TickectsList from "../tickets/TicketsList";
 
-const Project = ({ newProject }) => {
+import ShowContributors from "./ShowContributors";
+
+const Project = () => {
+  const projectId = useParams().id;
   const [openModal, setOpenModal] = useState(false);
   const closeModal = () => {
     setOpenModal(false);
   };
+  const [project, setProject] = useState({});
+  useEffect(() => {
+    async function fetchProject() {
+      const response = await fetch(
+        `http://localhost:3000/api/project/${projectId}`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Bearer ACCESSTOKEN
+          },
+        }
+      );
+      const projectData = await response.json();
+      setProject(projectData);
+    }
+    fetchProject();
+  }, [projectId]);
+
   return (
     <div className=" w-full mt-4 pb-4 bg-white rounded-md shadow-md px-4 flex-1 text-gray-900">
-      <div className=" w-full border-b-[1px] p-4 flex justify-between">
-        <div>
-          <h3>Title </h3>
-          <p>{newProject.title} </p>
-        </div>
-        <div>
-          <button
-            className=" bg-[#3b82f6] rounded-md px-1 py-1 text-white  flex items-center"
-            onClick={() => setOpenModal(true)}
-          >
-            <AiOutlinePlus className=" text-xl" />
-            Add Contributors
-          </button>
-        </div>
+      <div>
+        <h2>PROJECT </h2>
+        <h3> {project.title}</h3>
       </div>
-      <div className=" p-4">
+      <div className=" flex">
         <div>
-          <h4>Description</h4>
-          <p>{newProject.description} dummy text description to fill out the project </p>
-        </div>
-        <p>{newProject.created_at} </p>
-        <p>{newProject.updated_at} </p>
-        <p>{newProject.author} </p>
-      </div>
+          <ShowContributors
+            projectId={projectId}
+            setOpenModal={setOpenModal}
+            project={project}
+          />
 
-      <AddContributorsModal open={openModal} closeModal={closeModal} />
+          <AddContributorsModal open={openModal} closeModal={closeModal} projectId={projectId} />
+        </div>
+        <div>
+          <TickectsList/>
+        </div>
+      </div>
     </div>
   );
 };

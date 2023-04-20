@@ -24,7 +24,7 @@ const dispatch = useDispatch()
   const handleLogout = ()=>{
     dispatch(logout())
     toast.success('you are logged out')
-    window.location.replace('/');
+    window.location.replace('/login');
   }
   return (
     <div className="min-h-screen flex bg-[#f3f1f1] text-[#011b5e]">
