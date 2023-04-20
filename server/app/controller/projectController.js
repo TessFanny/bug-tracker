@@ -110,7 +110,7 @@ const projectController = {
       const projectModel = new Project(req.body);
       const project = projectModel.findByPk(req.params.project_id);
       if (project) {
-        const deletedProject = await projectModel.delete(req.params.project_id);
+        const deletedProject = await projectModel.deleteProjectModel(req.params.project_id)
         console.log(deletedProject);
         res.status(200).json(deletedProject);
       } else {

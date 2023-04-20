@@ -18,7 +18,7 @@ class Project extends Core {
     try {
       const preparedQuery = {
         text: `SELECT project.* , concat("user".firstname ,' ' ,"user".lastname)as author from project
-              JOIN "user" on project.user_id = "user".id
+              JOIN "user" on project.author_id = "user".id
               group by project.id, "user".lastname ,"user".firstname;`
       };
 
@@ -73,6 +73,20 @@ class Project extends Core {
     } catch (error) {
       console.error(`Error in getUsersOnProject() : ${error.message}`);
       throw error;
+    }
+  }
+  async deleteProjectModel(project_id){
+    try {
+      await pool.query('DELETE FROM "project_has_user" WHERE project_id = $1', [project_id]);
+
+    const result = await pool.query(
+      `DELETE FROM "${this.tableName}" WHERE id = $1`,
+      [project_id]
+    );
+    return !!result.rowCount;
+  }
+    catch (error) {
+      
     }
   }
 }

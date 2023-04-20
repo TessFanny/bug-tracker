@@ -14,7 +14,7 @@ import security from '../services/security.js';
  * @typedef {object} Project
 * @property {string} title - 
  * @property {string} description - 
- * @property {number} user_id- 
+ * @property {number} author_id- 
  * 
  */
 

@@ -6,7 +6,7 @@ const projectSchema = {
     return Joi.object({
       title: Joi.string().required(),
       description: Joi.string().required(),
-      user_id: Joi.number().required(),      
+      author_id: Joi.number().required(),      
     });
   },
 
