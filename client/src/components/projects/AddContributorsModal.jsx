@@ -3,9 +3,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 
 import AddMembers from "./AddMembers";
 const AddContributorsModal = ({ open, closeModal, projectId }) => {
-  const handleSubmit = (e) => {
-    e.preventDafault();
-  };
+ 
   if (!open) return null;
   return (
     <div

@@ -122,7 +122,9 @@ const AddProjectModal = ({ open, closeModal }) => {
               className=" w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[100px]"
               onChange={(e) => dispatch(changeDescriptionValue(e.target.value))}
             ></textarea>
-            <div>
+            
+          </div>
+          <div>
               <h3> Users</h3>
               <fieldset className="  w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[150px] flex gap-20 overflow-auto">
                 <div>
@@ -157,7 +159,6 @@ const AddProjectModal = ({ open, closeModal }) => {
                 </div>
               </fieldset>
             </div>
-          </div>
 
           <button
             type="submit"

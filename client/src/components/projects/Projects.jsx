@@ -1,27 +1,29 @@
 import { AiOutlineSearch, AiOutlinePlus } from "react-icons/ai";
-import BasicTable from "../BasicTable";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getAllContributors, getAllProjects } from "../../features/projects/projectSlice";
-import Project from "./Project";
+import { getAllProjects } from "../../features/projects/projectSlice";
 import { Link } from "react-router-dom";
-import axios from "../../utils/axios";
 import AddProjectModal from "./AddProjectModal";
 import { useState } from "react";
-import ShowContributors from "./ShowContributors";
+import DeleteProjectModal from "./deleteProject/DeleteProjectModal";
+import EditProjectModal from "./editProject/EditProjectModal";
 
 
 const Projects = () => {
-  const { projects, contributors } = useSelector((state) => state.projects);
+  const { projects} = useSelector((state) => state.projects);
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
-  const [showProject, setShowProject] = useState(false);
-  const [newProject, setNewProject] = useState({});
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
+  const [openEditModal, setOpenEditModal] = useState(false)
   const [projectId, setProjectId] = useState(0)
+  const [project, setProject] = useState(0)
  
   const closeModal = () => {
     setOpenModal(false);
+    setOpenDeleteModal(false)
+    setOpenEditModal(false)
   };
+ 
   useEffect(() => {
     dispatch(getAllProjects());
   }, [projectId]);
@@ -94,10 +96,10 @@ const Projects = () => {
                   </td>
 
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <button className=" mr-[.5rem] text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md">
+                    <button className=" mr-[.5rem] text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md" onClick={()=> {setProject(project), setOpenEditModal(true)}}>
                       Edit
                     </button>
-                    <button className=" text-[#842029] bg-[#f8d7da]  px-5 rounded-md ">
+                    <button className=" text-[#842029] bg-[#f8d7da]  px-5 rounded-md" onClick={()=> {setProject(project), setOpenDeleteModal(true)}}>
                       delete
                     </button>
                   </td>
@@ -109,10 +111,8 @@ const Projects = () => {
       </div>
 
       <AddProjectModal open={openModal} closeModal={closeModal} />
-      <div className="grid grid-cols-2 mt-4  w-full gap-7">
-        <div>{showProject && <Project newProject={newProject} />}</div>
-        <div>{showProject && <ShowContributors newProject={newProject} projectId={projectId} contributors={contributors} />}</div>
-      </div>
+      <DeleteProjectModal open={openDeleteModal} closeModal={closeModal} project={project} />
+      <EditProjectModal open={openEditModal}  closeModal={closeModal} project={project} />
     </section>
   );
 };

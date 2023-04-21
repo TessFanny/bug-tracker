@@ -9,6 +9,7 @@ import {
   changeEmailValue,
   updateUser,
 } from "../features/user/userSlice";
+
 const Profile = () => {
   const { user } = useSelector(
     (store) => store.user

@@ -6,11 +6,13 @@ import usersReducer from '../src/features/users/usersSlice'
 import { persistedLoginReducer } from "./persistconfig";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from 'redux-persist/lib/storage';
+import editProjectReducer from "../src/features/projects/editProjectSlice";
 const rootReducer = combineReducers({
   user: persistedLoginReducer,
     projects: projectReducer,
     tickets: ticketReducer,
-    users: usersReducer
+    users: usersReducer,
+    editProject: editProjectReducer
 })
 
 const persistConfig = {

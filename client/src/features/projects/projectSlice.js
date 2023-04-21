@@ -7,7 +7,8 @@ const initialState = {
   projects: [],
   contributors: [],
   addedProject: {},
-  project: {}
+  title: '', 
+  description: ''
 };
 
 export const getAllProjects = createAsyncThunk(
@@ -76,7 +77,7 @@ export const addProject = createAsyncThunk(
    
   }
 );
- // add memeber when adding a project
+ // add member when adding a project
 export const addMember = createAsyncThunk(
   "projects/addMember",
   async ( {user_id, projectId}, thunkAPI) => {
@@ -105,7 +106,40 @@ export const addMember = createAsyncThunk(
   }
 );
 
-// add only member 
+// delete project
+export const deleteProject = createAsyncThunk('projects/deleteProject', async(project_id, thunkAPI)=>{
+  try {
+    const response = await axios.delete(`project/${project_id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // Bearer ACCESSTOKEN
+      }
+    })
+    console.log(response);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data)
+  }
+})
+// edit a project
+
+export const editProject = createAsyncThunk('projects/editProject', async({title, description, project_id}, thunkAPI)=>{
+  console.log(thunkAPI.getState());
+  try {
+    const response = await axios.patch(`project/${project_id}`, {
+      title, description
+    }, 
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      }
+    }
+    )
+    const updatedProject = response.data
+    return updatedProject
+  } catch (error) {
+    console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+  }
+})
 
 
 const projectSlice = createSlice({
@@ -170,6 +204,18 @@ const projectSlice = createSlice({
         state.contributors = action.payload;
       })
       .addCase(getAllContributors.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        toast.error(state.error);
+      }).addCase(editProject.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(editProject.fulfilled, (state, action) => {
+        state.status = "succeeded";
+       toast.success(' project successfully edited')
+      })
+      .addCase(editProject.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
         toast.error(state.error);
