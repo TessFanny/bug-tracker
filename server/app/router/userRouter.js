@@ -56,7 +56,7 @@ userRouter.get('/user/:user_id',  security.checkToken, security.authMiddleware([
  * @return {object} 200 - user response
  * @return {object} 500 - Unexpected error
  */
-userRouter.patch('/user/:user_id',  security.checkToken, security.authMiddleware([]), validation.check(userSchema.userUpdate(), "body"), userController.updateUser); 
+userRouter.patch('/user/:user_id',  security.checkToken, security.authMiddleware(['developer', 'admin']), validation.check(userSchema.userUpdate(), "body"), userController.updateUser); 
 
 
 /**
@@ -69,7 +69,7 @@ userRouter.patch('/user/:user_id',  security.checkToken, security.authMiddleware
  * @return {object} 200 - user response
  * @return {object} 500 - Unexpected error
  */
-userRouter.delete('/user/:user_id' ,  security.checkToken, security.authMiddleware([]), userController.deleteUser); 
+userRouter.delete('/user/:user_id' ,  security.checkToken, security.authMiddleware(['developer', 'admin']), userController.deleteUser); 
 
 export default userRouter; 
 

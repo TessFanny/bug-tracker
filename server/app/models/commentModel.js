@@ -11,7 +11,6 @@ class Comment extends Core {
         super(obj);
         this.tableName = 'comment'
         this.id = obj.id;
-        this.title = obj.title;
         this.text = obj.text;
         this.user_id = obj.user_id;
         this.ticket_id = obj.ticket_id;

@@ -164,6 +164,7 @@ tableName;
             `,
             values,
          };
+         console.log(preparedQuery);
          const result = await pool.query(preparedQuery);
          const row = result.rows[0];
    

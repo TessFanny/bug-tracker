@@ -14,7 +14,7 @@ const ticketRouter =  express.Router();
  * @typedef {object} Ticket
  * @property {string} title - 
  * @property {string} description - 
- * @property {string} status- 
+ * @property {string} ticket_status- 
  * @property {string} priority -
  * @property {string} color - 
  * @property {string} created_by - 
@@ -34,6 +34,17 @@ const ticketRouter =  express.Router();
  * @return {object} 500 - Unexpected error
  */
 ticketRouter.get('/tickets',  security.checkToken, security.authMiddleware(['developer','admin']), ticketController.getAllTickets);
+/**
+ * GET /api/ticket{project_id}
+ * @summary  renvoie tous les  tickets d'un projet 
+ * @type {Ticket}
+ * @tags tickets
+ * @security TokenAuth
+ * @return {object} 200 - tickets response
+ * @return {object} 500 - Unexpected error
+ */
+ticketRouter.get('/tickets/:project_id',  security.checkToken, security.authMiddleware(['developer','admin']), ticketController.getAllTicketsByProject);
+
 
 
 /**
@@ -49,6 +60,18 @@ ticketRouter.get('/tickets',  security.checkToken, security.authMiddleware(['dev
 
 ticketRouter.get('/ticket/:ticket_id', security.checkToken, security.authMiddleware(['developer','admin']), ticketController.getOneTicket);
 
+/**
+ * GET /api/ticket/{ticket_id}/users
+ * @summary  renvoie tous les utilisateurs assignés à un ticket
+ * @type {Ticket}
+ * @tags tickets
+ * @security TokenAuth
+ * @param {number} ticket_id.path.required
+ * @return {object} 200 - ticket response
+ * @return {object} 500 - Unexpected error
+ */
+
+ticketRouter.get('/ticket/:ticket_id/users', security.checkToken, security.authMiddleware(['developer','admin']), ticketController.getAllUsersOnTicket);
 
 /**
  * POST /api/tickets
@@ -61,6 +84,18 @@ ticketRouter.get('/ticket/:ticket_id', security.checkToken, security.authMiddlew
  */
 
 ticketRouter.post('/tickets',  security.checkToken, security.authMiddleware(['developer','admin']), validation.check(ticketSchema.create(), "body"), ticketController.createTicket);
+
+/**
+ * POST /api/ticket/{ticket_id}/users
+ * @summary  assigner un membre à un ticket 
+ * @type {Ticket}
+ * @tags tickets
+ * @security TokenAuth
+ * @return {object} 200 - ticket response
+ * @return {object} 500 - Unexpected error
+ */
+
+ticketRouter.post('/ticket/:ticket_id/users',  security.checkToken, security.authMiddleware(['developer','admin']), ticketController.assignUserToTicket);
 
 /**
  * PATCH /api/ticket/{ticket_id}

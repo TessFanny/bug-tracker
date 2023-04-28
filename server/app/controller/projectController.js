@@ -62,23 +62,33 @@ const projectController = {
       next(error);
     }
   },
+
   assignUserToProject: async (req, res, next) => {
     try {
+      const { user_id} = req.body
+      const { project_id} = req.params
       const projectModel = new Project(req.body);
      
-      const projectAdded = projectModel.assignUsertoProjectModel(
-        req.body.user_id,
-        req.params.project_id
-      );
-      if (projectAdded) {
-        res
-          .status(201)
-          .json({
-            msg: `User ${req.body.user_id} assigned to ${req.params.project_id} succesfully`,
-          });
-      } else {
-        res.status(400).json("failed to create a project");
+      const verifyProject = await projectModel.getUserProject(project_id, user_id)
+
+      if(verifyProject){
+        res.status(409).json(`user  already assigned to the project `)
+      } else{
+        const projectAdded = await projectModel.assignUsertoProjectModel(
+          user_id,
+          project_id
+        );
+        if (projectAdded) {
+          res
+            .status(201)
+            .json({
+              msg: `User ${req.body.user_id} assigned to ${req.params.project_id} succesfully`,
+            });
+        } else {
+          res.status(400).json("failed to create a project");
+        }
       }
+            
     } catch (error) {
       console.error(error);
       next(error);
@@ -87,7 +97,7 @@ const projectController = {
   updateProject: async (req, res, next) => {
     try {
       const projectModel = new Project(req.body);
-      const project = projectModel.findByPk(req.params.project_id);
+      const project =await  projectModel.findByPk(req.params.project_id);
       if (project) {
         const updatedProject = await projectModel.update(
           req.params.project_id,
@@ -108,7 +118,7 @@ const projectController = {
   deleteProject: async (req, res, next) => {
     try {
       const projectModel = new Project(req.body);
-      const project = projectModel.findByPk(req.params.project_id);
+      const project = await  projectModel.findByPk(req.params.project_id);
       if (project) {
         const deletedProject = await projectModel.deleteProjectModel(req.params.project_id)
         console.log(deletedProject);

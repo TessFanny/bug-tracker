@@ -27,7 +27,8 @@ const userSchema = {
        return  Joi.object({
                 firstname: Joi.string().allow("", null), 
                 lastname: Joi.string().allow("", null), 
-                email: Joi.string().email().allow("", null)               
+                email: Joi.string().email().allow("", null),               
+                role: Joi.string().allow("", null)               
             })
      },
 
