@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllTickets } from "../../features/tickets/ticketsSlice";
 
 const Bug = () => {
  

@@ -6,7 +6,7 @@ const initialState = {
   isLoading: false,
   projects: [],
   contributors: [],
-  addedProject: {},
+ addedProject: {},
   title: '', 
   description: ''
 };
@@ -50,17 +50,17 @@ export const getAllContributors = createAsyncThunk(
     }
   }
 );
-
+// create a new project 
 export const addProject = createAsyncThunk(
   "projects/addProject",
-  async ({ title, description, author_id },thunkAPI) => {
+  async ({ title, description, project_author_id },thunkAPI) => {
     try {
       const response = await axios.post(
         "/projects",
         {
           title,
           description,
-          author_id,
+          project_author_id,
         },
         {
           headers: {
@@ -69,6 +69,7 @@ export const addProject = createAsyncThunk(
         }
       );
       console.log(response);
+      thunkAPI.dispatch(getAllProjects());
       return response.data
     } catch (error) {
       console.log(error);
@@ -97,6 +98,7 @@ export const addMember = createAsyncThunk(
         }
       );
       console.log(response);
+      thunkAPI.dispatch(getAllContributors(project_id));
       return response.data
     } catch (error) {
       console.log(error);
@@ -115,6 +117,7 @@ export const deleteProject = createAsyncThunk('projects/deleteProject', async(pr
       }
     })
     console.log(response);
+    thunkAPI.dispatch(getAllProjects());
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data)
   }
@@ -133,7 +136,9 @@ export const editProject = createAsyncThunk('projects/editProject', async({title
       }
     }
     )
+
     const updatedProject = response.data
+    thunkAPI.dispatch(getAllProjects());
     return updatedProject
   } catch (error) {
     console.log(error);
@@ -168,7 +173,7 @@ const projectSlice = createSlice({
       .addCase(getAllProjects.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        toast.error(state.error);
+        toast.error(action.payload);
       })
       .addCase(addProject.pending, (state) => {
         state.status = "loading";
@@ -181,7 +186,7 @@ const projectSlice = createSlice({
       }).addCase(addProject.rejected, (state, action)=>{
         state.status = false
         state.error = action.error.message;
-        toast.error(state.error);
+        toast.error(action.payload);
       })
       .addCase(addMember.pending, (state) => {
         state.status = "loading";
@@ -189,10 +194,11 @@ const projectSlice = createSlice({
       .addCase(addMember.fulfilled, (state, action) => {
         state.status = true;
         state.contributors.push(action.payload)
-        toast.success('member successfully added')
+       // toast.success('member successfully added')
       }).addCase(addMember.rejected, (state, action)=>{
         state.status = false
-        state.error = action.error.message;
+        state.error = action.payload;
+        console.log ("action:",action);
         toast.error(state.error);
       })
       .addCase(getAllContributors.pending, (state) => {
@@ -206,7 +212,7 @@ const projectSlice = createSlice({
       .addCase(getAllContributors.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        toast.error(state.error);
+        toast.error(action.payload);
       }).addCase(editProject.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -217,7 +223,7 @@ const projectSlice = createSlice({
       })
       .addCase(editProject.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message;
+        state.error = action.payload;
         toast.error(state.error);
       })
   },

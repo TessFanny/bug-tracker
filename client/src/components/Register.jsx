@@ -14,7 +14,7 @@ const password_REGEX = /(?=.*[A-Z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = "/register";
 
 const Register = () => {
-  const {user, status} = useSelector((store) => store.user);
+  const { user, status } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -34,7 +34,6 @@ const Register = () => {
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
 
-  const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
   //const from = location?.state?.from?.pathname || "/";
@@ -55,12 +54,16 @@ const Register = () => {
     setValidMatch(match);
   }, [password, matchPassword]);
 
- 
   useEffect(() => {
-    if (status === 'succeeded') {
-      setSuccess(true)
+    if (status === "succeeded") {
+      // setSuccess(true)
       setTimeout(() => {
-        navigate("/");
+        setEmail("");
+        setFirstname("");
+        setLastname("");
+        setPassword("");
+        setMatchPassword("");
+        navigate("/login");
       }, 3000);
     }
   }, [success]);
@@ -84,9 +87,21 @@ const Register = () => {
         passwordConfirm: matchPassword,
       })
     );
+
+    if (status === "succeeded") {
+      // setSuccess(true)
+      setTimeout(() => {
+        setEmail("");
+        setFirstname("");
+        setLastname("");
+        setPassword("");
+        setMatchPassword("");
+        navigate("/login");
+      }, 3000);
+    }
+
     console.log(status);
   };
-
 
   console.log(user);
 
@@ -94,7 +109,6 @@ const Register = () => {
     <main className=" mt-10 flex justify-center items-center ">
       <div className=" max-w-[500px] flex flex-col w-10/12 bg-slate-300 rounded-xl mx-auto shadow-xl overflow-hidden">
         <div className=" flex flex-col py-3 px-7">
-         
           <h2 className="mb-4 text-3xl text-center text-[#011b5e] font-bold">
             Register
           </h2>
@@ -222,9 +236,7 @@ const Register = () => {
               />
               <p
                 id="confirnnote"
-                className={
-                   !validMatch ? "instructions" : "offscreen"
-                }
+                className={!validMatch ? "instructions" : "offscreen"}
               >
                 <FaInfoCircle className=" text-red-700 mr-2 mt-1" />
                 must match the password input field

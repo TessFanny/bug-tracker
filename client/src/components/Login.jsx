@@ -41,6 +41,8 @@ const Login = () => {
           password
         })
       );
+      setEmail("")
+      setPassword("")
       console.log(email, password);
       //console.log(user);
     } catch (error) {

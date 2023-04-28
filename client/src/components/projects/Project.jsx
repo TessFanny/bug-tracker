@@ -48,7 +48,7 @@ const Project = () => {
           <AddContributorsModal open={openModal} closeModal={closeModal} projectId={projectId} />
         </div>
         <div>
-          <TickectsList/>
+          <TickectsList projectId={projectId}/>
         </div>
       </div>
     </div>

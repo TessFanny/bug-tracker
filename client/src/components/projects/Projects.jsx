@@ -15,7 +15,6 @@ const Projects = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
   const [openEditModal, setOpenEditModal] = useState(false)
-  const [projectId, setProjectId] = useState(0)
   const [project, setProject] = useState(0)
  
   const closeModal = () => {
@@ -26,7 +25,7 @@ const Projects = () => {
  
   useEffect(() => {
     dispatch(getAllProjects());
-  }, [projectId]);
+  }, []);
 
   return (
     <section className=" px-4 py-7">
@@ -63,7 +62,7 @@ const Projects = () => {
                   Description
                 </td>
                 <td className="w-40 p-3 text-sm font-semibold tracking-wide text-left">
-                  Author
+                 Project author
                 </td>
                 <td className=" w-40 p-3 text-sm font-semibold tracking-wide text-left">
                   Created_at

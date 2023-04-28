@@ -38,7 +38,7 @@ const AddMembers = ({closeModal, projectId}) => {
     
       selectedMembersId.forEach(async(user_id) => {
         console.log(user_id);
-        dispatch(addMember({user_id, projectId}));
+        dispatch(addMember({ user_id, projectId}));
       });
     setIsLoading(false);
     closeModal();
