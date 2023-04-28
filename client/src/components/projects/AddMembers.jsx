@@ -53,7 +53,7 @@ const AddMembers = ({closeModal, projectId}) => {
           <div>
           <fieldset
           onSubmit={handleSubmit}
-          className="w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[150px] flex gap-20 overflow-auto"
+          className="w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-white max-h-[150px] flex gap-20 overflow-auto"
         >
           <div>
             <h4>Name</h4>

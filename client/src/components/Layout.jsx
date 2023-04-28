@@ -49,7 +49,7 @@ const dispatch = useDispatch()
             <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
               <BsBugFill size={15} className=" mr-1  " />
               <Link to="/layout/bug" className="">
-                Bugs
+                My Tickets
               </Link>
             </li>
             <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300  ">

@@ -18,9 +18,7 @@ const ShowContributors = ({ projectId, setOpenModal, project }) => {
   setActiveIndex(index)
   setIsDropdownOpen(!isDropdownOpen)
  }
- const handleRemoveMemberClick = ()=>{
-   
- }
+
   return (
     <div className=" mt-6 p-4 bg-slate-200 rounded-md shadow-md px-4 flex-1 flex flex-col ">
       <div className=" flex  justify-between">

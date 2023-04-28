@@ -6,14 +6,16 @@ import { Link } from "react-router-dom";
 import AddTicketForm from "./AddTicketForm";
 import DeleteTicket from "./DeleteTicket";
 import EditTicket from "./EditTicket";
+import TicketDetails from "./TicketDetails";
 
-const TicketsList = ({ projectId }) => {
+const TicketsList = ({ projectId , setTicketDetail, setShowDetail}) => {
   const { tickets } = useSelector((store) => store.tickets);
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [ticket, setTicket] = useState({})
+  const [ticket, setTicket] = useState({});
+  
 
   const closeModal = () => {
     setOpenModal(false);
@@ -24,8 +26,15 @@ const TicketsList = ({ projectId }) => {
   useEffect(() => {
     dispatch(getAllTicketsProject({ project_id: projectId }));
   }, []);
+
+  const handleClick = ()=>{
+    setShowDetail(true) 
+    setTicketDetail(ticket) 
+    console.log('ticket:', ticket);
+    console.log('hello');
+  }
   return (
-    <section className=" px-4 py-7 bg-slate-200 rounded-lg shadow-md">
+    <section className=" px-4 py-7 bg-white rounded-lg shadow-md">
       <div className="flex justify-between">
         <h1 className=" text-2xl font-bold">Tickets</h1>
         <button
@@ -36,7 +45,7 @@ const TicketsList = ({ projectId }) => {
           Add ticket
         </button>
       </div>
-      <div className=" flex w-full items-center bg-white px-2 py-1 rounded-md mt-4">
+      <div className=" flex w-full items-center  px-2 py-1 rounded-md mt-4">
         <AiOutlineSearch className=" text-2xl" />
         <input
           type="search"
@@ -46,7 +55,7 @@ const TicketsList = ({ projectId }) => {
           className=" w-full pl-2 py-1 outline-none "
         />
       </div>
-      <div className=" w-full mt-4 pb-4 bg-white rounded-md shadow-md px-4 flex-1">
+      <div className=" w-full mt-4 pb-4 px-4 flex-1">
         <div className="shadow-lg overflow-auto">
           <table className=" w-full  ">
             <thead className=" bg-gray-50 border-b-2 border-gray-200">
@@ -72,12 +81,10 @@ const TicketsList = ({ projectId }) => {
               {tickets.map((ticket, id) => (
                 <tr key={id}>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <Link
-                      to={`ticket/${ticket.id}`}
-                      className=" text-[#3b82f6] hover:underline"
-                    >
+                    <button className=" text-[#3b82f6] hover:underline" onClick={()=>{setShowDetail(true) 
+                      setTicketDetail(ticket) }}>
                       {ticket.title}
-                    </Link>
+                    </button>
                   </td>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
                     {ticket.description}
@@ -89,11 +96,20 @@ const TicketsList = ({ projectId }) => {
                     {ticket.created_at}
                   </td>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <button className=" mr-[.5rem] text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md" onClick={()=>{setOpenEditModal(true), setTicket(ticket) }}>
+                    <button
+                      className=" mr-[.5rem] text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md"
+                      onClick={() => {
+                        setOpenEditModal(true), setTicket(ticket), setTicketDetail(ticket);
+                      }}
+                    >
                       Edit
                     </button>
-                    <button className=" text-[#842029] bg-[#f8d7da]  px-5 rounded-md" onClick={()=> 
-                     { setTicket(ticket) ,setOpenDeleteModal(true)}}>
+                    <button
+                      className=" text-[#842029] bg-[#f8d7da]  px-5 rounded-md"
+                      onClick={() => {
+                        setTicket(ticket), setOpenDeleteModal(true);
+                      }}
+                    >
                       delete
                     </button>
                   </td>
@@ -109,13 +125,19 @@ const TicketsList = ({ projectId }) => {
         projectId={projectId}
         ticket={ticket}
       />
-      <DeleteTicket open={openDeleteModal}
-      closeModal={closeModal}
-      projectId={projectId}
-      ticket={ticket}
+      <DeleteTicket
+        open={openDeleteModal}
+        closeModal={closeModal}
+        projectId={projectId}
+        ticket={ticket}
       />
-      <EditTicket  open={openEditModal} closeModal={closeModal} projectId={projectId}
-      ticket={ticket}  />
+      <EditTicket
+        open={openEditModal}
+        closeModal={closeModal}
+        projectId={projectId}
+        ticket={ticket}
+      />
+      
     </section>
   );
 };

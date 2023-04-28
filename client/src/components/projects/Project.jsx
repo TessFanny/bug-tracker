@@ -6,10 +6,14 @@ import { useParams } from "react-router-dom";
 import TickectsList from "../tickets/TicketsList";
 
 import ShowContributors from "./ShowContributors";
+import TicketDetails from "../tickets/TicketDetails";
+import CommentsOnTicket from "../comments/CommentsOnTicket";
 
 const Project = () => {
   const projectId = useParams().id;
   const [openModal, setOpenModal] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+  const [ticketDetail, setTicketDetail] = useState({});
   const closeModal = () => {
     setOpenModal(false);
   };
@@ -30,9 +34,10 @@ const Project = () => {
     }
     fetchProject();
   }, [projectId]);
+  console.log(ticketDetail);
 
   return (
-    <div className=" w-full mt-4 pb-4 bg-white rounded-md shadow-md px-4 flex-1 text-gray-900">
+    <div className=" w-full mt-4 pb-4 bg-slate-200 rounded-md shadow-md px-4 flex-1 text-gray-900">
       <div>
         <h2>PROJECT </h2>
         <h3> {project.title}</h3>
@@ -45,11 +50,29 @@ const Project = () => {
             project={project}
           />
 
-          <AddContributorsModal open={openModal} closeModal={closeModal} projectId={projectId} />
+          <AddContributorsModal
+            open={openModal}
+            closeModal={closeModal}
+            projectId={projectId}
+          />
         </div>
         <div>
-          <TickectsList projectId={projectId}/>
+          <TickectsList
+            projectId={projectId}
+            setShowDetail={setShowDetail}
+            setTicketDetail={setTicketDetail}
+          />
         </div>
+      </div>
+      <div>
+      {showDetail && <div className="w-full mt-4 pb-4 bg-white rounded-md shadow-md px-4 text-gray-900 ">
+      <h2>Ticket details</h2>
+      <div className="flex gap-3">
+        { <TicketDetails ticketDetail={ticketDetail}  projectId={projectId}/>}
+        <CommentsOnTicket />
+      </div>
+    </div>}
+        
       </div>
     </div>
   );
