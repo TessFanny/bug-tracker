@@ -34,7 +34,7 @@ const Project = () => {
     }
     fetchProject();
   }, [projectId]);
-  console.log(ticketDetail);
+  
 
   return (
     <div className=" w-full mt-4 pb-4 bg-slate-200 rounded-md shadow-md px-4 flex-1 text-gray-900">
