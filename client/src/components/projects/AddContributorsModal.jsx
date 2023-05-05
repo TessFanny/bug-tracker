@@ -17,7 +17,7 @@ const AddContributorsModal = ({ open, closeModal, projectId }) => {
         }}
       >
         <div className="flex justify-between items-center  rounded-md">
-          <span className=" font-semibold">Add Members</span>
+          <span className=" font-semibold">Members</span>
           <AiFillCloseCircle className=" cursor-pointer" onClick={closeModal} />
         </div>
         <AddMembers closeModal={closeModal} projectId={projectId}/>

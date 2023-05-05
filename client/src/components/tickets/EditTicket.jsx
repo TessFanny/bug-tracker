@@ -80,7 +80,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket }) => {
     ).then(() => {
       selectedMembersId.forEach(async (user_id) => {
         console.log(user_id);
-        dispatch(addMemberToTicket({ user_id }));
+        dispatch(addMemberToTicket({ user_id, ticketId: ticket.id }));
       });
     });
 

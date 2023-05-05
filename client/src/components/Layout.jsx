@@ -27,10 +27,10 @@ const dispatch = useDispatch()
     window.location.replace('/login');
   }
   return (
-    <div className="min-h-screen flex bg-[#f3f1f1] text-[#011b5e]">
+    <div className="min-h-screen flex bg-[#edeeef] text-[#011b5e] p-5">
       {/* side bar */}
-      <div className=" min-w-[220px]  h-screen bg-opacity-60 backdrop-filter backdrop-blur-lg border-r-[1px] bg-white border-gray-200 ">
-        <div className="flex gap-1 p-2  justify-center items-center border-b-[1px] py-5">
+      <div className=" min-w-[220px]  h-[100%] backdrop-filter backdrop-blur-lg border-r-[1px] bg-white border-gray-200 rounded-lg fixed top-0 left-0 overflow-auto">
+        <div className="flex gap-1  justify-center items-center border-b-[1px] py-5">
           <BsBugFill className="" />
           <h1 className=" font-bold text-xl"> <Link to="/layout/dashboard">Bug Tracker</Link> </h1>
         </div>
@@ -43,12 +43,12 @@ const dispatch = useDispatch()
             <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
               <GrProjects size={15} className="  mr-1  " />
               <Link to="/layout/projects" className="">
-                Projects
+                 My Projects
               </Link>
             </li>
             <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
               <BsBugFill size={15} className=" mr-1  " />
-              <Link to="/layout/bug" className="">
+              <Link to="/layout/tickets" className="">
                 My Tickets
               </Link>
             </li>
@@ -63,14 +63,16 @@ const dispatch = useDispatch()
         <div className="absolute w-full bottom-0 flex justify-around py-[10px] px-[10px] gap-2 items-center border-t-[1px] ">
           <div className="flex mr-3 hover:scale-110 ease-in duration-300">
             <FaUser size={15} className=" mt-1 mr-2  " />
-            <Link to="/layout/profile">{ user ? user.firstname.charAt(0).toUpperCase() + user.firstname.slice(1) : "profile"}</Link>
+            <Link to="/layout/profile" className=" font-semibold">{ user ? user.firstname.charAt(0).toUpperCase() +  user.firstname.slice(1) + "  " + user.lastname.charAt(0) + "." : "profile"}</Link>
           </div>
           <button className="mr-3 hover:scale-110 ease-in duration-300" onClick={handleLogout}>
-            <IoLogOut size={25} className=" mt-1 mr-1  " />
+            <IoLogOut size={25} className=" mt-1 mr-1 " />
           </button >
         </div>
       </div>
-      <div className=" w-full bg-[#eff6ff]">
+      <div className=" absolute top-0 left-[220px] w-full bg-white/50 h-[12rem] nav-shadow ">
+      </div>
+      <div className=" w-full  ml-[220px] overflow-auto z-10">
         <Outlet />
       </div>
     </div>

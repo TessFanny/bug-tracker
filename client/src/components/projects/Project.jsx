@@ -37,12 +37,12 @@ const Project = () => {
   
 
   return (
-    <div className=" w-full mt-4 pb-4 bg-slate-200 rounded-md shadow-md px-4 flex-1 text-gray-900">
+    <div className=" w-full mt-4 pb-4  px-4 flex-1 text-gray-900">
       <div>
-        <h2>PROJECT </h2>
-        <h3> {project.title}</h3>
+        <h2 className=" text-white">TICKETS</h2>
+        <h3 className=" text-white"> {project.title} Project</h3>
       </div>
-      <div className=" flex">
+      <div className="flex  gap-5 mt-5">
         <div>
           <ShowContributors
             projectId={projectId}
@@ -56,20 +56,21 @@ const Project = () => {
             projectId={projectId}
           />
         </div>
-        <div>
+        <div className=" w-full">
           <TickectsList
             projectId={projectId}
             setShowDetail={setShowDetail}
             setTicketDetail={setTicketDetail}
+            project={project}
           />
         </div>
       </div>
       <div>
       {showDetail && <div className="w-full mt-4 pb-4 bg-white rounded-md shadow-md px-4 text-gray-900 ">
-      <h2>Ticket details</h2>
+      <h2 className=" pt-2 text-blue-500 mb-3">Selected Ticket details</h2>
       <div className="flex gap-3">
         { <TicketDetails ticketDetail={ticketDetail}  projectId={projectId}/>}
-        <CommentsOnTicket />
+        <CommentsOnTicket ticketDetail={ticketDetail}  projectId={projectId}/>
       </div>
     </div>}
         

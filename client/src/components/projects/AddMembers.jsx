@@ -48,7 +48,7 @@ const AddMembers = ({closeModal, projectId}) => {
   return (
     <div>
       <div>
-        <h3> Users</h3>
+        
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div>
           <fieldset

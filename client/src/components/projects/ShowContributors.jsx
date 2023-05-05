@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineSearch, AiOutlinePlus } from "react-icons/ai";
+import { HiOutlineTrash } from "react-icons/hi";
 import { HiEllipsisVertical } from "react-icons/hi2";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllContributors } from "../../features/projects/projectSlice";
@@ -14,13 +15,10 @@ const ShowContributors = ({ projectId, setOpenModal, project }) => {
     // setAllProjects(...projects)
     dispatch(getAllContributors(projectId));
   }, [projectId]);
- const handleClick = (index)=>{
-  setActiveIndex(index)
-  setIsDropdownOpen(!isDropdownOpen)
- }
 
+  const handleRemoveMemberClick = () => {};
   return (
-    <div className=" mt-6 p-4 bg-slate-200 rounded-md shadow-md px-4 flex-1 flex flex-col ">
+    <div className="p-4 bg-white rounded-md shadow-md px-4 flex flex-col ">
       <div className=" flex  justify-between">
         <h3>Team members</h3>
         <button
@@ -30,7 +28,7 @@ const ShowContributors = ({ projectId, setOpenModal, project }) => {
           New Member
         </button>
       </div>
-      <div className="shadow-lg overflow-auto pt-4 w-full">
+      <div className="overflow-auto pt-4 w-full">
         <table className=" w-full  ">
           <thead className=" bg-gray-50 border-b-2 border-gray-200">
             <tr>
@@ -60,17 +58,11 @@ const ShowContributors = ({ projectId, setOpenModal, project }) => {
                 </td>
                 <td className="w-20 p-3 text-sm font-semibold tracking-wide text-left relative">
                   <button
-                    onClick={()=> handleClick(index)}
-                    className="h-[32px] w-[32px] rounded-full bg-white  border-transparent shadow-lg flex justify-center items-center active:border-white duration-300"
+                    onClick={() => handleRemoveMemberClick}
+                    className="h-[32px] w-[32px] flex justify-center items-center active:border-white duration-300"
                   >
-                    <HiEllipsisVertical size="25px" />
+                    <HiOutlineTrash size="25px" color="red" />
                   </button>
-                  {isDropdownOpen && (
-                    <div className={activeIndex === index ? 'active' : 'none'}>
-                      <button onClick={handleRemoveMemberClick}>Remove Member</button>
-                      
-                    </div>
-                  )}
                 </td>
               </tr>
             ))}

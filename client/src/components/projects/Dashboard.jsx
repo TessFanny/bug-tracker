@@ -9,8 +9,9 @@ import DeleteProjectModal from "./deleteProject/DeleteProjectModal";
 import EditProjectModal from "./editProject/EditProjectModal";
 
 
-const Projects = () => {
+const Dashboard = () => {
   const { projects} = useSelector((state) => state.projects);
+  const { user } = useSelector(store => store.user)
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
@@ -28,18 +29,18 @@ const Projects = () => {
   }, []);
 
   return (
-    <section className=" px-4 py-7">
+    <section className=" px-4 py-7 flex flex-col">
       <div className="flex justify-between">
-        <h1 className=" text-2xl font-bold">Projects</h1>
+        <h1 className=" text-2xl text-white">Dashboard</h1>
         <button
-          className=" bg-[#3b82f6] rounded-md px-2 py-2 text-white font-semibold flex items-center"
+          className=" bg-[#3b82f6] rounded-md px-2 py-1 text-white flex items-center"
           onClick={() => setOpenModal(true)}
         >
           <AiOutlinePlus className=" text-xl" />
           Add Project
         </button>
       </div>
-      <div className=" flex w-full items-center bg-white px-2 py-1 rounded-md mt-4">
+      <div className=" flex w-[25%] items-center self-end bg-white px-2 py-1 rounded-lg mt-4 shadow-lg">
         <AiOutlineSearch className=" text-2xl" />
         <input
           type="search"
@@ -81,24 +82,24 @@ const Projects = () => {
                       className=" text-[#3b82f6] hover:underline"
                   
                     >
-                      {project.title}
+                      {project.title.charAt(0).toUpperCase() + project.title.slice(1)}
                     </Link>
                   </td>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {project.description}
+                    {project.description.charAt(0).toUpperCase() + project.description.slice(1)}
                   </td>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {project.author}
+                    {project.author.charAt(0).toUpperCase() + project.author.slice(1)}
                   </td>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
                     {project.created_at}
                   </td>
 
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <button className=" mr-[.5rem] text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md" onClick={()=> {setProject(project), setOpenEditModal(true)}}>
+                    <button className="mr-[.5rem] text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md" onClick={()=> {setProject(project), setOpenEditModal(true)}} disabled={user.role === 'developer' && "disabled"} >
                       Edit
                     </button>
-                    <button className=" text-[#842029] bg-[#f8d7da]  px-5 rounded-md" onClick={()=> {setProject(project), setOpenDeleteModal(true)}}>
+                    <button className=" text-[#842029] bg-[#f8d7da]  px-5 rounded-md" onClick={()=> {setProject(project), setOpenDeleteModal(true)}} disabled={user.role === 'developer' && "disabled"} >
                       delete
                     </button>
                   </td>
@@ -116,4 +117,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default Dashboard;

@@ -13,25 +13,23 @@ import {
   changeColorValue,
 } from "../../features/tickets/ticketsSlice";
 
-const AddTicketForm = ({ open, closeModal, projectId, ticket}) => {
+const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
   const { users } = useSelector((store) => store.users);
   const { user } = useSelector((store) => store.user);
-  const { title, description, ticket_status, priority, color, type } = useSelector(
-    (store) => store.tickets
-  );
+  const { title, description, ticket_status, priority, color, type } =
+    useSelector((store) => store.tickets);
 
   const { id } = user;
   const [selectedMembersId, setSelectedMembersId] = useState([]);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
-
-  useEffect(()=>{
-    dispatch(changeStatusValue('new'))
-    dispatch(changePriorityValue('low'))
-    dispatch(changeTypeValue('issue'))
-    dispatch(changeColorValue('#ccc'))
-  }, [open])
+  useEffect(() => {
+    dispatch(changeStatusValue("new"));
+    dispatch(changePriorityValue("low"));
+    dispatch(changeTypeValue("issue"));
+    dispatch(changeColorValue("#ccc"));
+  }, [open]);
 
   useEffect(() => {
     dispatch(getAllUsers());
@@ -139,17 +137,23 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket}) => {
               cols="10"
               rows="10"
               placeholder=" Enter project description"
-              className=" w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[100px]"
+              className=" w-full py-[0.375rem] px-[0.75rem]   rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[100px]"
               onChange={(e) => dispatch(changeDescriptionValue(e.target.value))}
             ></textarea>
           </div>
-          <div className=" flex justify-between">
+          <div className=" flex justify-evenly w-full gap-3">
             <div className=" flex flex-col">
-              <label htmlFor="type"> Ticket Type</label>
+              <label
+                htmlFor="type"
+                className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
+              >
+                {" "}
+                Ticket Type
+              </label>
               <select
                 name="type"
                 id="type"
-                className=" "
+                className=" px-4 border-[1px] rounded-sm  bg-[#f0f4f8] outline-none py-[0.225rem] "
                 onChange={handleTypeChange}
               >
                 <option defaultValue="issue">issue</option>
@@ -159,36 +163,44 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket}) => {
                 <option value="other">other</option>
               </select>
             </div>
-            <div>
-              <label htmlFor="ticket_status"> Ticket status</label>
-              <select name="ticket_status" id="ticket_status" onChange={handleStatusChange}>
+            <div className=" flex flex-col">
+              <label
+                htmlFor="ticket_status"
+                className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
+              >
+                {" "}
+                Ticket status
+              </label>
+              <select
+                name="ticket_status"
+                id="ticket_status"
+                onChange={handleStatusChange}
+                className=" px-4 border-[1px] rounded-sm  bg-[#f0f4f8] outline-none py-[0.225rem]"
+              >
                 <option defaultValue={ticket_status}>new</option>
-                <option value="open">open</option>
                 <option value="in progress">in progress</option>
                 <option value="resolved">resolved</option>
-                <option value="additional info required">
-                  additional info required
-                </option>
               </select>
             </div>
-          </div>
-          <div>
             <div>
-              <label htmlFor="priority"> Ticket priority</label>
+              <label
+                htmlFor="priority"
+                className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
+              >
+                {" "}
+                Ticket priority
+              </label>
               <select
                 name="priority"
                 id="priority"
                 onChange={handlePriorityChange}
+                className=" px-4 border-[1px] rounded-sm  bg-[#f0f4f8] outline-none py-[0.225rem]"
               >
                 <option defaultValue={priority}>low</option>
                 <option value="medium">medium</option>
                 <option value="high">high</option>
                 <option value="immediate">immediate</option>
               </select>
-            </div>
-            <div>
-              <label htmlFor="color">ticket color</label>
-              <input type="color" name="color"  defaultValue={color} onChange={handleColorChange} />
             </div>
           </div>
 

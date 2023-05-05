@@ -247,7 +247,7 @@ export const ticketsSlice = createSlice({
       })
       .addCase(editTicket.fulfilled, (state, action) => {
         state.status = "succeeded";
-        toast.success("ticket successfully added");
+        toast.success("ticket successfully edited");
       })
       .addCase(editTicket.rejected, (state, action) => {
         state.status = false;
