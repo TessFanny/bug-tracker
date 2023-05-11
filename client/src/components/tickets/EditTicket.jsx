@@ -106,7 +106,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket }) => {
         }}
       >
         <div className="flex justify-between items-center  rounded-md">
-          <span className=" font-semibold">Add New ticket</span>
+          <span className=" font-semibold">Edit {ticket.title} ticket </span>
           <AiFillCloseCircle className=" cursor-pointer" onClick={closeModal} />
         </div>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -144,13 +144,18 @@ const EditTicket = ({ open, closeModal, projectId, ticket }) => {
               onChange={(e) => dispatch(changeDescriptionValue(e.target.value))}
             ></textarea>
           </div>
-          <div className=" flex justify-between">
+          <div className=" flex justify-between w-full gap-3">
             <div className=" flex flex-col">
-              <label htmlFor="type"> Ticket Type</label>
+              <label
+                htmlFor="type"
+                className="block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
+              >
+                Ticket Type
+              </label>
               <select
                 name="type"
                 id="type"
-                className=" "
+                className=" px-4 border-[1px] rounded-sm  bg-[#f0f4f8] outline-none py-[0.225rem]"
                 onChange={handleTypeChange}
               >
                 <option defaultValue={ticket.type}>issue</option>
@@ -161,44 +166,42 @@ const EditTicket = ({ open, closeModal, projectId, ticket }) => {
               </select>
             </div>
             <div>
-              <label htmlFor="ticket_status"> Ticket status</label>
+              <label
+                htmlFor="ticket_status"
+                className="block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
+              >
+                {" "}
+                Ticket status
+              </label>
               <select
                 name="ticket_status"
                 id="ticket_status"
+                className=" px-4 border-[1px] rounded-sm  bg-[#f0f4f8] outline-none py-[0.225rem]"
                 onChange={handleStatusChange}
               >
                 <option defaultValue={ticket.ticket_status}>new</option>
-                <option value="open">open</option>
                 <option value="in progress">in progress</option>
                 <option value="resolved">resolved</option>
-                <option value="additional info required">
-                  additional info required
-                </option>
               </select>
             </div>
-          </div>
-          <div>
             <div>
-              <label htmlFor="priority"> Ticket priority</label>
+              <label
+                htmlFor="priority"
+                className="block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
+              >
+                {" "}
+                Ticket priority
+              </label>
               <select
                 name="priority"
                 id="priority"
+                className=" px-4 border-[1px] rounded-sm  bg-[#f0f4f8] outline-none py-[0.225rem]"
                 onChange={handlePriorityChange}
               >
                 <option defaultValue={ticket.priority}>low</option>
                 <option value="medium">medium</option>
                 <option value="high">high</option>
-                <option value="immediate">immediate</option>
               </select>
-            </div>
-            <div>
-              <label htmlFor="color">ticket color</label>
-              <input
-                type="color"
-                name="color"
-                defaultValue={ticket.color}
-                onChange={handleColorChange}
-              />
             </div>
           </div>
 

@@ -4,6 +4,7 @@ import axios from "../../utils/axios";
 
 const initialState = {
   tickets: [],
+  allTickets: [],
   members: [],
   addedTicket: {},
   title: "",
@@ -13,6 +14,25 @@ const initialState = {
   color: "",
   type: "",
 };
+
+export const getAllTickets = createAsyncThunk(
+  "tickets/getAllTickets",
+  async (thunkAPI) => {
+    try {
+      const response = await axios.get(`/tickets`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Bearer ACCESSTOKEN
+        },
+      });
+      //console.log(response);
+      //console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const getAllTicketsProject = createAsyncThunk(
   "tickets/getAllTicketsProject",
@@ -214,7 +234,19 @@ export const ticketsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
+    builder .addCase(getAllTickets.pending, (state) => {
+      state.status = "loading";
+      state.error = null;
+    })
+    .addCase(getAllTickets.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.allTickets = action.payload;
+    })
+    .addCase(getAllTickets.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.error.message;
+      toast.error(state.error);
+    })
       .addCase(getAllTicketsProject.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -234,6 +266,7 @@ export const ticketsSlice = createSlice({
       .addCase(addTicket.fulfilled, (state, action) => {
         state.addedTicket = action.payload;
         state.tickets.push(state.addedTicket);
+        state.allTickets.push(state.addedTicket);
         state.status = true;
         toast.success("ticket successfully added");
       })

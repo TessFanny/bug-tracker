@@ -6,7 +6,7 @@ const initialState = {
   isLoading: false,
   projects: [],
   contributors: [],
- addedProject: {},
+  addedProject: {},
   title: '', 
   description: ''
 };
@@ -125,7 +125,7 @@ export const deleteProject = createAsyncThunk('projects/deleteProject', async(pr
 // edit a project
 
 export const editProject = createAsyncThunk('projects/editProject', async({title, description, project_id}, thunkAPI)=>{
-  console.log(thunkAPI.getState());
+ 
   try {
     const response = await axios.patch(`project/${project_id}`, {
       title, description

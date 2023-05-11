@@ -23,28 +23,27 @@ function App() {
 
   return (
     <Routes>
-      <Route path="" element={<Home />} />
-      <Route path="login" element={<Login />} />
-      <Route path="register" element={<Register />} />
-      {/* public routes */}
-      <Route path="/layout" element={loggedIn ? <Layout /> : <Home />}>
+  <Route path="" element={<Home />} />
+  {loggedIn ? (
+    <Route path="/layout" element={<Layout />}>
+      <Route element={<RequireAuth allowedRole={["developer", "admin"]} />}>
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="projects" element={<MyProjects />} />
+        <Route path="tickets" element={<MyTickets />} />
+        <Route path="profile" element={<Profile />} />
         <Route path="unauthorized" element={<Unauthorized />} />
-        {/* we want to protect these routes */}
-        <Route element={<RequireAuth allowedRole={["developer", "admin"]} />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="projects" element={<MyProjects />} />
-          <Route path="tickets" element={<MyTickets />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="dashboard/project/:id" element={<Project />} />
-        </Route>
-        <Route element={<RequireAuth allowedRole={["admin"]} />}>
-          <Route path="admin" element={<Admin />} />
-        </Route>
-
-        {/* catch all */}
+        <Route path="dashboard/project/:id" element={<Project />} />
       </Route>
-      <Route path="*" element={<Missing />} />
-    </Routes>
+      <Route element={<RequireAuth allowedRole={["admin"]} />}>
+        <Route path="admin" element={<Admin />} />
+      </Route>
+    </Route>
+  ) : (
+    <Route path="login" element={<Login />} />
+  )}
+  <Route path="register" element={<Register />} />
+  <Route path="*" element={<Missing />} />
+</Routes>
   );
 }
 

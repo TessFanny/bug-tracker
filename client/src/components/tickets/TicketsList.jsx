@@ -6,39 +6,62 @@ import { Link } from "react-router-dom";
 import AddTicketForm from "./AddTicketForm";
 import DeleteTicket from "./DeleteTicket";
 import EditTicket from "./EditTicket";
-import TicketDetails from "./TicketDetails";
 import TicketBgChange from "./TicketBgChange";
 
-const TicketsList = ({ projectId, setTicketDetail, setShowDetail, project}) => {
+const TicketsList = ({
+  projectId,
+  setTicketDetail,
+  setShowDetail,
+  project,
+}) => {
   const { tickets } = useSelector((store) => store.tickets);
-  const { user} = useSelector(store=> store.user)
+  const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [ticket, setTicket] = useState({});
-  const [ticketStatus, setTicketStatus] = useState("");
-
+  const [searchQuery, setSearchQuery] = useState("");
+   // pagination
+   const [currentPage, setCurrentPage] = useState(1); // Current page number
+   const [itemsPerPage, setItemsPerPage] = useState(4); // Number of items per page
+   
   const closeModal = () => {
     setOpenModal(false);
     setOpenDeleteModal(false);
     setOpenEditModal(false);
   };
 
+ 
+
   useEffect(() => {
     dispatch(getAllTicketsProject({ project_id: projectId }));
   }, []);
 
-  const handleClick = () => {
-    setShowDetail(true);
-    setTicketDetail(ticket);
-    console.log("ticket:", ticket);
-    console.log("hello");
+  const filterTableData = () => {
+    return tickets.filter((ticket) => {
+     return Object.values(ticket).some((cell) => {
+        if (cell === null) {
+          return false;
+        }
+        return cell.toString().toLowerCase().includes(searchQuery.toLowerCase())
+      });
+    });
   };
+
+   // pagination
+   const totalPages = Math.ceil(filterTableData().length / itemsPerPage);
+
+   const getCurrentPageData = () => {
+     const startIndex = (currentPage - 1) * itemsPerPage;
+     const endIndex = startIndex + itemsPerPage;
+     return filterTableData().slice(startIndex, endIndex);
+   };
+  
   return (
-    <section className=" px-4 py-7 bg-white rounded-lg shadow-md flex flex-col">
+    <section className=" px-4 py-7 bg-white rounded-lg shadow-md flex flex-col overflow-hidden">
       <div className="flex justify-between">
-        <h1 className=" text-lg">Tickets for  {project.title} Project</h1>
+        <h1 className=" text-lg">Tickets for {project.title} Project</h1>
         <button
           className=" bg-[#3b82f6] rounded-md px-2 py-1 text-white flex items-center"
           onClick={() => setOpenModal(true)}
@@ -54,12 +77,14 @@ const TicketsList = ({ projectId, setTicketDetail, setShowDetail, project}) => {
           name="search"
           id="search"
           placeholder="search ticket"
+          defaultValue={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           className="pl-2 py-1 w-full outline-none"
         />
       </div>
       <div className=" w-full mt-4 pb-4  flex-1">
-        <div className=" overflow-auto">
-          <table className=" w-full  ">
+        <div className=" overflow-y-hidden overflow-x-auto">
+          <table className=" w-full ">
             <thead className=" bg-gray-50 border-b-2 border-gray-200">
               <tr>
                 <td className=" p-3 text-sm font-semibold tracking-wide text-left">
@@ -83,7 +108,7 @@ const TicketsList = ({ projectId, setTicketDetail, setShowDetail, project}) => {
               </tr>
             </thead>
             <tbody className=" divide-y divide-gray-100 ">
-              {tickets.map((ticket, id) => (
+              {getCurrentPageData().map((ticket, id) => (
                 <tr key={id}>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
                     <button
@@ -93,22 +118,22 @@ const TicketsList = ({ projectId, setTicketDetail, setShowDetail, project}) => {
                         setTicketDetail(ticket);
                       }}
                     >
-                      {ticket.title.charAt(0).toUpperCase() +
-                        ticket.title.slice(1)}
+                      { ticket && (ticket.title.charAt(0).toUpperCase() +
+                        ticket.title.slice(1))}
                     </button>
                   </td>
                   <td className=" truncate text-left overflow-ellipsis max-w-md p-3 text-sm text-gray-700  ">
-                    {ticket.description.charAt(0).toUpperCase() +
-                      ticket.description.slice(1)}
+                    {ticket && (ticket.description.charAt(0).toUpperCase() +
+                      ticket.description.slice(1))}
                   </td>
                   <td
                     className={` p-3 text-sm text-gray-700 whitespace-nowrap`}
                   >
-                    <TicketBgChange ticket={ticket}/>
+                    <TicketBgChange ticket={ticket} />
                   </td>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {ticket.author.charAt(0).toUpperCase() +
-                      ticket.author.slice(1)}
+                    {ticket && (ticket.author.charAt(0).toUpperCase() +
+                      ticket.author.slice(1))}
                   </td>
                   <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
                     {ticket.created_at}
@@ -121,7 +146,7 @@ const TicketsList = ({ projectId, setTicketDetail, setShowDetail, project}) => {
                           setTicket(ticket),
                           setTicketDetail(ticket);
                       }}
-                      disabled={user.role === 'admin' && "disabled"}
+                      disabled={user.role === "admin" && "disabled"}
                     >
                       Edit
                     </button>
@@ -130,7 +155,7 @@ const TicketsList = ({ projectId, setTicketDetail, setShowDetail, project}) => {
                       onClick={() => {
                         setTicket(ticket), setOpenDeleteModal(true);
                       }}
-                      disabled={user.role === 'admin' && "disabled"}
+                      disabled={user.role === "admin" && "disabled"}
                     >
                       delete
                     </button>
@@ -139,6 +164,18 @@ const TicketsList = ({ projectId, setTicketDetail, setShowDetail, project}) => {
               ))}
             </tbody>
           </table>
+          <div className=" flex gap-5 pl-5">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index + 1)}
+              disabled={currentPage === index + 1}
+              className=" w-[25px] h-[25px] bg-[#3b82f6] text-white rounded-full flex justify-center items-center"
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
         </div>
       </div>
       <AddTicketForm

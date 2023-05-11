@@ -72,7 +72,7 @@ const dispatch = useDispatch()
       </div>
       <div className=" absolute top-0 left-[220px] w-full bg-white/50 h-[12rem] nav-shadow ">
       </div>
-      <div className=" w-full  ml-[220px] overflow-auto z-10">
+      <div className=" w-full  ml-[220px] z-10 overflow-x-hidden">
         <Outlet />
       </div>
     </div>

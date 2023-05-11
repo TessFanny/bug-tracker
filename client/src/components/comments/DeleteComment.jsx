@@ -1,20 +1,18 @@
+
 import { useSelector, useDispatch } from "react-redux";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { deleteTicket } from "../../features/tickets/ticketsSlice";
+import { deleteComment } from '../../features/comments/commentsSlice';
 
-const DeleteTicket = ({ closeModal, open, projectId, ticket }) => {
+const DeleteComment = ({closeModal, open, comment, ticket_id }) => {
     const dispatch = useDispatch();
-    const { tickets} = useSelector(store => store.tickets)
+    const { comments} = useSelector(store => store.comments)
 
-    const ticketToDelete = tickets.find((tick => tick.id == ticket.id))
-
-
-    
+    const ticketToDelete = comments.find((com => com.id == comment.id))
     if (!open) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(deleteTicket({ticket_id :ticketToDelete.id , project_id: projectId }))
+    dispatch(deleteComment({comment_id: ticketToDelete.id , ticket_id }))
     closeModal()
   };
 
@@ -30,11 +28,11 @@ const DeleteTicket = ({ closeModal, open, projectId, ticket }) => {
         }}
       >
         <div className="flex justify-between items-center  rounded-md">
-          <span className=" font-semibold">Delete {ticket.title}</span>
+          <span className=" font-semibold">Delete comment</span>
           <AiFillCloseCircle className=" cursor-pointer" onClick={closeModal} />
         </div>
         <div>
-          <p>Do you really want to delete this ticket?</p>
+          <p>Do you really want to delete this comment?</p>
           <form onSubmit={handleSubmit}>
             <button
               type="submit"
@@ -53,6 +51,6 @@ const DeleteTicket = ({ closeModal, open, projectId, ticket }) => {
       </div>
     </div>
   );
-};
+}
 
-export default DeleteTicket;
+export default DeleteComment

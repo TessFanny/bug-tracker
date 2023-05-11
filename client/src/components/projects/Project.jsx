@@ -37,7 +37,7 @@ const Project = () => {
   
 
   return (
-    <div className=" w-full mt-4 pb-4  px-4 flex-1 text-gray-900">
+    <div className=" w-full mt-4 pb-4  px-4 flex-1 text-gray-900 overflow-hidden">
       <div>
         <h2 className=" text-white">TICKETS</h2>
         <h3 className=" text-white"> {project.title} Project</h3>

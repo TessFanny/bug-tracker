@@ -141,13 +141,13 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
               onChange={(e) => dispatch(changeDescriptionValue(e.target.value))}
             ></textarea>
           </div>
-          <div className=" flex justify-evenly w-full gap-3">
+          <div className=" flex justify-between w-full gap-3">
             <div className=" flex flex-col">
               <label
                 htmlFor="type"
                 className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
               >
-                {" "}
+                
                 Ticket Type
               </label>
               <select
@@ -158,8 +158,8 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
               >
                 <option defaultValue="issue">issue</option>
                 <option value="bug">bug</option>
-                <option value="error">error</option>
-                <option value="feature request">feature request</option>
+                <option value="code review">code review</option>
+                <option value="feature">feature </option>
                 <option value="other">other</option>
               </select>
             </div>
@@ -168,7 +168,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
                 htmlFor="ticket_status"
                 className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
               >
-                {" "}
+              
                 Ticket status
               </label>
               <select
@@ -187,7 +187,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
                 htmlFor="priority"
                 className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
               >
-                {" "}
+                
                 Ticket priority
               </label>
               <select
@@ -199,7 +199,6 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
                 <option defaultValue={priority}>low</option>
                 <option value="medium">medium</option>
                 <option value="high">high</option>
-                <option value="immediate">immediate</option>
               </select>
             </div>
           </div>

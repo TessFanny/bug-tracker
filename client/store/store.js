@@ -3,16 +3,19 @@ import userReducer from '../src/features/user/userSlice'
 import projectReducer from '../src/features/projects/projectSlice'
 import ticketReducer from '../src/features/tickets/ticketsSlice'
 import usersReducer from '../src/features/users/usersSlice'
+import commentsReducer from "../src/features/comments/commentsSlice";
 import { persistedLoginReducer } from "./persistconfig";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from 'redux-persist/lib/storage';
-import editProjectReducer from "../src/features/projects/editProjectSlice";
+//import editProjectReducer from "../src/features/projects/editProjectSlice";
+
 const rootReducer = combineReducers({
   user: persistedLoginReducer,
     projects: projectReducer,
     tickets: ticketReducer,
     users: usersReducer,
-    editProject: editProjectReducer
+    comments: commentsReducer
+   // editProject: editProjectReducer
 })
 
 const persistConfig = {
