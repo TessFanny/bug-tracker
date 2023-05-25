@@ -12,36 +12,47 @@ import { FaEdit } from "react-icons/fa";
 import DeleteComment from "./DeleteComment";
 
 const CommentsOnTicket = ({ ticketDetail, projectId }) => {
+  // initialize items from the store
   const { comments, text } = useSelector((store) => store.comments);
   const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
+
+  // retreive tickect id
   const ticket_id = ticketDetail.id;
+
+  // edit comment
   const [editingComment, setEditingComment] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+
+  // delete comment 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState({});
-  const [isEditing, setIsEditing] = useState(false);
-  
+
+  // function to close the modal
   const closeModal = () => {
     setOpenDeleteModal(false);
   };
 
+  // get ticket comments from the redux store base on its id
   useEffect(() => {
     dispatch(getTicketComments(ticket_id));
   }, [ticket_id]);
 
-  useEffect(() => {
-    dispatch(changeTextValue(text));
-  }, [isEditing]);
+  // useEffect(() => {
+  //   dispatch(changeTextValue(text));
+  // }, [isEditing]);
 
+  
   const handleTextChange = (e) => {
     dispatch(changeTextValue(e.target.value));
   };
 
+  // function that handles the form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addComment({ text, comment_author_id: user.id, ticket_id }));
     dispatch(changeTextValue(""));
-    e.target.reset()
+    e.target.reset();
   };
 
   return (
@@ -78,7 +89,6 @@ const CommentsOnTicket = ({ ticketDetail, projectId }) => {
                           })
                         );
                         setEditingComment(null);
-                        //setEditedText("");
                       }}
                     >
                       Update

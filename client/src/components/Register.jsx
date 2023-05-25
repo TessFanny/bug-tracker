@@ -14,7 +14,7 @@ const password_REGEX = /(?=.*[A-Z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = "/register";
 
 const Register = () => {
-  const { user, status } = useSelector((store) => store.user);
+  const { userRegistered, user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,7 +36,7 @@ const Register = () => {
 
   const [success, setSuccess] = useState(false);
 
-  //const from = location?.state?.from?.pathname || "/";
+  const from = location?.state?.from?.pathname || "/login";
 
   useEffect(() => {
     const result = EMAIL_REGEX.test(email);
@@ -54,56 +54,48 @@ const Register = () => {
     setValidMatch(match);
   }, [password, matchPassword]);
 
-  useEffect(() => {
-    if (status === "succeeded") {
-      // setSuccess(true)
-      setTimeout(() => {
-        setEmail("");
-        setFirstname("");
-        setLastname("");
-        setPassword("");
-        setMatchPassword("");
-        navigate("/login");
-      }, 3000);
-    }
-  }, [success]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     // to prevent js hack
-    const v1 = EMAIL_REGEX.test(email);
-    const v2 = password_REGEX.test(password);
-    if (!v1 || !v2) {
-      toast.error("invalid entry");
-      return;
+
+    try {
+      const v1 = EMAIL_REGEX.test(email);
+      const v2 = password_REGEX.test(password);
+      if (!v1 || !v2) {
+        toast.error("invalid entry");
+        return;
+      }
+      dispatch(
+        registerUser({
+          firstname,
+          lastname,
+          email,
+          password,
+          passwordConfirm: matchPassword,
+        })
+      );
+      
+    } catch (error) {
+      console.log(error);
+      if (error.status == 400) {
+        toast("l'email ou le mot de passe ne correspont pas");
+      }
     }
-
-    dispatch(
-      registerUser({
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        password: password,
-        passwordConfirm: matchPassword,
-      })
-    );
-
-    if (status === "succeeded") {
-      // setSuccess(true)
-      setTimeout(() => {
-        setEmail("");
-        setFirstname("");
-        setLastname("");
-        setPassword("");
-        setMatchPassword("");
-        navigate("/login");
-      }, 3000);
-    }
-
-    console.log(status);
   };
 
-  console.log(user);
+  console.log("userRegistered in register : ", userRegistered);
+  useEffect(() => {
+    if (userRegistered) {
+      setEmail("");
+      setFirstname("");
+      setLastname("");
+      setPassword("");
+      setMatchPassword("");
+      setTimeout(() => {
+        navigate(from, { replace: true });
+      }, 1000);
+    }
+  }, [userRegistered]);
 
   return (
     <main className=" mt-10 flex justify-center items-center ">
@@ -125,6 +117,7 @@ const Register = () => {
                 className=" border-2 border-x-gray-400 py-1 px-2 rounded-md outline-none"
                 id="firstname"
                 type="text"
+                value={firstname}
                 onChange={(e) => setFirstname(e.target.value)}
                 required
               />
@@ -137,6 +130,7 @@ const Register = () => {
                 className=" border-2 border-x-gray-400 py-1 px-2 rounded-md outline-none"
                 id="lastname"
                 type="text"
+                value={lastname}
                 onChange={(e) => setLastname(e.target.value)}
                 required
               />
@@ -157,6 +151,7 @@ const Register = () => {
                 autoComplete="off"
                 id="email"
                 type="email"
+                 
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 aria-describedby="uidnote"
@@ -189,6 +184,7 @@ const Register = () => {
                 id="password"
                 type="password"
                 autoComplete="off"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 aria-describedby="passwordnote"
@@ -228,6 +224,7 @@ const Register = () => {
                 className=" border-2 border-x-gray-400 py-1 px-2 rounded-md outline-none"
                 id="passwordConfirm"
                 type="password"
+                value={matchPassword}
                 onChange={(e) => setMatchPassword(e.target.value)}
                 required
                 aria-describedby="confirnnote"
@@ -243,9 +240,9 @@ const Register = () => {
               </p>
             </div>
             <button
-              disabled={
-                !validEmail || !validPassword || !validMatch ? true : false
-              }
+              // disabled={
+              //   !validEmail || !validPassword || !validMatch ? true : false
+              // }
               className=" bg-[#011b5e] shadow-blue-900 self-center text-gray-100 w-[10rem] rounded-lg p-2 mt-4 cursor-pointer hover:scale-105 ease-in duration-200"
             >
               Sign Up

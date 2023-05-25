@@ -62,14 +62,7 @@ const Profile = () => {
             dispatch(changeEmailValue(evt.target.value));
           }}
         />
-        <FormRow
-          type="text"
-          name="role"
-          value={role}
-          handleChange={(evt) => {
-            dispatch(changeRoleValue(evt.target.value));
-          }}
-        />
+        
 
         <button
           className="btn btn-block self-end h-[35px] mt-[1rem]"

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 const initialState = {
   isLoading: false,
   users: [],
+
 };
 
 export const getAllUsers = createAsyncThunk("users/getAllUsers", async (thunkAPI) => {
@@ -22,10 +23,34 @@ export const getAllUsers = createAsyncThunk("users/getAllUsers", async (thunkAPI
   }
 });
 
+export const editUser =  createAsyncThunk('users/editUser', async ({user_id, role}, thunkAPI)=>{
+  try {
+    const response = await axios.patch(
+      `user/${user_id}`,
+      {
+         role
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    thunkAPI.dispatch(getAllUsers());
+    return response.data;
+  } catch (error) {
+    console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+  }
+})
+
 export const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    
+  },
   extraReducers: (builder)=>{
     builder.addCase(getAllUsers.pending, (state) => {
         state.status = "loading";
@@ -39,7 +64,19 @@ export const usersSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
         toast.error(state.error);
-      });
+      }).addCase(editUser.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(editUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        toast.success("user successfully edited");
+      })
+      .addCase(editUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        toast.error(state.error);
+      })
   }
 });
 

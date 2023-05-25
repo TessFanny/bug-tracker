@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { loginUser } from "../features/user/userSlice";
 
-const LOGIN_URL = "/login";
 
 const Login = () => {
   axios.defaults.withCredentials = true;
@@ -19,18 +18,13 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  //const from = location?.state?.from?.pathname || "/layout/dashboard";
+  const from = location?.state?.from?.pathname || "/layout/dashboard";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    if (user) {
-      setTimeout(() => {
-        navigate("/layout/dashboard");
-      }, 3000);
-    }
-  }, [user]);
+  
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,8 +35,8 @@ const Login = () => {
           password
         })
       );
-      setEmail("")
-      setPassword("")
+      setEmail("");
+      setPassword("");
       console.log(email, password);
       //console.log(user);
     } catch (error) {
@@ -54,6 +48,13 @@ const Login = () => {
     }
     
   };
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate(from, {replace: true});
+      }, 3000);
+    }
+  }, [user]);
 
   // clear input fiels
 

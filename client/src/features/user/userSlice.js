@@ -1,10 +1,20 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
 import { toast } from "react-toastify";
+
+
+
+export const getUserFromLocalStorage = ()=>{
+  const result = localStorage.getItem('user');
+  const user = result ? JSON.parse(result) : null;
+  return user;
+}
+
+
 const initialState = {
   loading: false,
-  user: '',
-  error: "",
+  user: getUserFromLocalStorage(),
+  userRegistered: "",
   statusCode: "",
 };
 
@@ -15,7 +25,7 @@ export const registerUser = createAsyncThunk(
       const response = await axios.post("/register", user);
       console.log(user);
       console.log(response);
-      return response.data;
+      return response.data.savedUser;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
     }
@@ -24,7 +34,7 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
-  async (userData) => {
+  async (userData, thunkAPI) => {
     const response = await axios.post("/login", userData);
     //console.log("response:", response);
     const user = response.data.loggedUser;
@@ -38,7 +48,7 @@ export const loginUser = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   "user/updateUser",
-  async ({ user }) => {
+  async ({ user }, thunkAPI) => {
     const { id, firstname, lastname, email, role } = user;
     const response = await axios.patch(
       `/user/${id}`,
@@ -93,22 +103,17 @@ export const userSlice = createSlice({
         state.status = "loading";
         state.error = null;
       })
-      .addCase(registerUser.fulfilled, (state) => {
+      .addCase(registerUser.fulfilled, (state, action) => {
         state.status = "succeeded";
-        // const { user } = payload;
-        // state.user = user;
+         state.userRegistered = action.payload;
+         console.log('userRegistered in slice : ',  state.userRegistered);
         toast.success(`you're successfully registered`);
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
         state.statusCode = action.error.code;
-        console.log(state.error);
-        if (state.error === "Rejected"  ) {
-          toast.error("cet email existe déjà");
-        } else if (state.statusCode === "ERR_BAD_RESPONSE") {
-          //toast.error("le mot de passe ");
-        }
+        toast.error(action.payload);
       })
       .addCase(loginUser.pending, (state) => {
         state.status = "loading";

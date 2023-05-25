@@ -40,6 +40,7 @@ const Dashboard = () => {
     dispatch(getAllProjects());
   }, []);
 
+
   // search project array
   const filterTableData = () => {
     return projects.filter((project) => {
@@ -142,7 +143,7 @@ const Dashboard = () => {
                       onClick={() => {
                         setProject(project), setOpenEditModal(true);
                       }}
-                      disabled={user.role === "developer" && "disabled"}
+                      disabled={user.role === "admin" && "disabled"}
                     >
                       Edit
                     </button>

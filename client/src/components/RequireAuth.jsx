@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 const RequireAuth = ({ allowedRole }) => {
   const { user } = useSelector((store) => store.user);
-  //const { auth} = useAuth();
   const location = useLocation();
   return allowedRole.includes(user?.role) ? (
     <Outlet />

@@ -170,7 +170,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket }) => {
                 htmlFor="ticket_status"
                 className="block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
               >
-                {" "}
+                
                 Ticket status
               </label>
               <select
@@ -189,7 +189,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket }) => {
                 htmlFor="priority"
                 className="block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
               >
-                {" "}
+               
                 Ticket priority
               </label>
               <select

@@ -63,7 +63,7 @@ const dispatch = useDispatch()
         <div className="absolute w-full bottom-0 flex justify-around py-[10px] px-[10px] gap-2 items-center border-t-[1px] ">
           <div className="flex mr-3 hover:scale-110 ease-in duration-300">
             <FaUser size={15} className=" mt-1 mr-2  " />
-            <Link to="/layout/profile" className=" font-semibold">{ user ? user.firstname.charAt(0).toUpperCase() +  user.firstname.slice(1) + "  " + user.lastname.charAt(0) + "." : "profile"}</Link>
+            <Link to="/layout/profile" className=" font-semibold">{ user ? user.firstname.charAt(0).toUpperCase() +  user.firstname.slice(1) + "  " + user.lastname.charAt(0).toUpperCase() + "." : "profile"}</Link>
           </div>
           <button className="mr-3 hover:scale-110 ease-in duration-300" onClick={handleLogout}>
             <IoLogOut size={25} className=" mt-1 mr-1 " />

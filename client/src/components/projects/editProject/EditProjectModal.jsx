@@ -1,25 +1,43 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import {
   changeDescriptionValue,
   changeTitleValue,
   editProject,
+  addMember
 } from "../../../features/projects/projectSlice";
 
 const EditProjectModal = ({ open, closeModal, project }) => {
   const dispatch = useDispatch();
   const project_id = project.id;
   const { title, description } = useSelector((store) => store.projects);
+  const { users } = useSelector((store) => store.users);
+  const [selectedMembersId, setSelectedMembersId] = useState([]);
 
   useEffect(() => {
     dispatch(changeTitleValue(project.title));
     dispatch(changeDescriptionValue(project.description));
   }, [project_id]);
 
+  const handleMemberChange = (event) => {
+    const checked = event.target.checked;
+    const value = event.target.value;
+    if (checked) {
+      setSelectedMembersId([...selectedMembersId, value]);
+    } else {
+      setSelectedMembersId((prev) => prev.filter((id) => id !== value));
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(editProject({ title, description, project_id }));
+    dispatch(editProject({ title, description, project_id })).then(() => {
+      selectedMembersId.forEach(async (user_id) => {
+        console.log(user_id);
+        dispatch(addMember({ user_id,  projectId: project_id }));
+      });
+    });
     closeModal();
   };
   if (!open) return null;
@@ -74,6 +92,41 @@ const EditProjectModal = ({ open, closeModal, project }) => {
                   dispatch(changeDescriptionValue(e.target.value))
                 }
               ></textarea>
+            </div>
+            <div>
+              <h3> Users</h3>
+              <fieldset className="  w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[150px] flex gap-20 overflow-auto">
+                <div>
+                  <h4>Name</h4>
+                  {users.map((user) => {
+                    return (
+                      <div className=" flex  gap-4" key={user.id}>
+                        <input
+                          type="checkbox"
+                          value={user.id}
+                          name={user.id}
+                          id={user.id}
+                          onChange={handleMemberChange}
+                        />
+                        <label htmlFor={user.id}>
+                          {user.firstname} {user.lastname}
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div>
+                  <h4>Role</h4>
+                  {users.map((user) => {
+                    return (
+                      <div className=" flex  gap-4" key={user.id}>
+                        <div> {user.role}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </fieldset>
             </div>
             <button
               type="submit"
