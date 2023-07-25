@@ -10,8 +10,11 @@ import EditProjectModal from "./editProject/EditProjectModal";
 import StatusChart from "../charts/StatusChart";
 import PriorityChart from "../charts/PriorityChart";
 import TypeChart from "../charts/TypeChart";
+import Loader from "../Loader";
 
 const Dashboard = () => {
+  // spinner 
+  const [isLoading, setIsLoading] = useState(false);
   // get data from store
   const { projects } = useSelector((state) => state.projects);
   const { user } = useSelector((store) => store.user);
@@ -37,11 +40,14 @@ const Dashboard = () => {
 
   // get all the projects
   useEffect(() => {
-    dispatch(getAllProjects());
+    setIsLoading(true)
+    dispatch(getAllProjects()).then(()=>{
+      setIsLoading(false)
+    });
   }, []);
 
 
-  // search project array
+  // search project function => returns an array
   const filterTableData = () => {
     return projects.filter((project) => {
       return Object.values(project).some((cell) => {
@@ -89,10 +95,12 @@ const Dashboard = () => {
           className=" w-full pl-2 py-1 outline-none "
         />
       </div>
-      <div className=" w-full mt-4 pb-4 bg-white rounded-md shadow-md px-4 flex-1">
+      
+      
+      <div className=" w-full mt-4 pb-4 bg-white rounded-md shadow-md px-4 flex-1 min-h-[300px]">
         <h2 className=" p-4 text-xl font-semibold">All projects</h2>
-        <div className="shadow-lg overflow-auto pb-3">
-          <table className=" w-full  ">
+        <div className="shadow-lg overflow-auto pb-3 h-full relative ">
+          <table className=" w-full h-full">
             <thead className=" bg-gray-50 border-b-2 border-gray-200">
               <tr>
                 <td className=" p-3 text-sm font-semibold tracking-wide text-left">
@@ -113,55 +121,55 @@ const Dashboard = () => {
                 </td>
               </tr>
             </thead>
-            <tbody className=" divide-y divide-gray-100 ">
-              {getCurrentPageData().map((project) => (
-                <tr key={project.id}>
-                  <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <Link
-                      to={`project/${project.id}`}
-                      className=" text-[#3b82f6] hover:underline"
-                    >
-                      {project.title.charAt(0).toUpperCase() +
-                        project.title.slice(1)}
-                    </Link>
-                  </td>
-                  <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {project.description.charAt(0).toUpperCase() +
-                      project.description.slice(1)}
-                  </td>
-                  <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {project.author.charAt(0).toUpperCase() +
-                      project.author.slice(1)}
-                  </td>
-                  <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {project.created_at}
-                  </td>
+            <tbody className=" divide-y divide-gray-100 h-[200px] ">
+            {isLoading ? (<Loader/>) : getCurrentPageData() && getCurrentPageData().length > 0 ? (getCurrentPageData().map((project) => (
+              <tr key={project.id}>
+                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                  <Link
+                    to={`project/${project.id}`}
+                    className=" text-[#3b82f6] hover:underline"
+                  >
+                    {project.title.charAt(0).toUpperCase() +
+                      project.title.slice(1)}
+                  </Link>
+                </td>
+                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                  {project.description.charAt(0).toUpperCase() +
+                    project.description.slice(1)}
+                </td>
+                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                  {project.author}
+                </td>
+                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                  {project.created_at}
+                </td>
 
-                  <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <button
-                      className="mr-[.5rem] text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md"
-                      onClick={() => {
-                        setProject(project), setOpenEditModal(true);
-                      }}
-                      disabled={user.role === "admin" && "disabled"}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className=" text-[#842029] bg-[#f8d7da]  px-5 rounded-md"
-                      onClick={() => {
-                        setProject(project), setOpenDeleteModal(true);
-                      }}
-                      disabled={user.role === "developer" && "disabled"}
-                    >
-                      delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                  <button
+                    className="mr-[.5rem] text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md"
+                    onClick={() => {
+                      setProject(project), setOpenEditModal(true);
+                    }}
+                    disabled={user.role === "developer" && "disabled"}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className=" text-[#842029] bg-[#f8d7da]  px-5 rounded-md"
+                    onClick={() => {
+                      setProject(project), setOpenDeleteModal(true);
+                    }}
+                    disabled={user.role === "developer" && "disabled"}
+                  >
+                    delete
+                  </button>
+                </td>
+              </tr>
+            ))) : ( <tr className="px-3 h-[200px] text-red-500"> no data available ... </tr>) }
+              
             </tbody>
           </table>
-          <div className=" flex gap-5 pl-5">
+          <div className=" flex pl-5 mt-8">
             {Array.from({ length: totalPages }, (_, index) => (
               <button
                 key={index}

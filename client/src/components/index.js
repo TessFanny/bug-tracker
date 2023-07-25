@@ -13,7 +13,7 @@ import HomeLayout from "./Home";
 import Profile from "./Profile";
 import Project from "./projects/Project";
 import MyTickets from "./tickets/myTickets/MyTickets";
-import Loading from "./Loading";
+import Loader from "./Loader";
 export {
   Layout,
   Register,
@@ -30,5 +30,5 @@ export {
   Project,
   MyProjects,
   MyTickets,
-  Loading
+  Loader
 };

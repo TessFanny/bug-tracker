@@ -15,7 +15,7 @@ import {
   RequireAuth,
   Profile,
   Project,
-  Loading,
+  Loader
 } from "./components";
 
 function App() {

@@ -20,14 +20,15 @@ import { toast } from "react-toastify";
 const Layout = () => {
 const dispatch = useDispatch()
   const {user} = useSelector((store) => store.user)
-
+// logging out 
   const handleLogout = ()=>{
     dispatch(logout())
     toast.success('you are logged out')
     window.location.replace('/login');
   }
+  
   return (
-    <div className="min-h-screen flex bg-[#edeeef] text-[#011b5e] p-5">
+    <div className="min-h-screen flex bg-[#edeeef] text-[#011b5e] p-5 overflow-hidden">
       {/* side bar */}
       <div className=" min-w-[220px]  h-[100%] backdrop-filter backdrop-blur-lg border-r-[1px] bg-white border-gray-200 rounded-lg fixed top-0 left-0 overflow-auto">
         <div className="flex gap-1  justify-center items-center border-b-[1px] py-5">
@@ -72,7 +73,7 @@ const dispatch = useDispatch()
       </div>
       <div className=" absolute top-0 left-[220px] w-full bg-white/50 h-[12rem] nav-shadow ">
       </div>
-      <div className=" w-full  ml-[220px] z-10 overflow-x-hidden">
+      <div className=" w-full  ml-[220px] z-10 overflow-hidden">
         <Outlet />
       </div>
     </div>

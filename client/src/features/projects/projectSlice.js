@@ -8,9 +8,10 @@ const initialState = {
   contributors: [],
   addedProject: {},
   title: '', 
-  description: ''
+  description: '',
+  assignedProjectsToUser: []
 };
-
+//  all projects
 export const getAllProjects = createAsyncThunk(
   "projects/getAllProjects",
   async (thunkAPI) => {
@@ -30,7 +31,27 @@ export const getAllProjects = createAsyncThunk(
     }
   }
 );
+ //  all the projects that are assigned to one user
+export const getAllAssignedProjectsToUser = createAsyncThunk(
+  "projects/getAllAssignedProjectsToUser",
+  async ({user_id}, thunkAPI) => {
+    try {
+      const response = await axios.get(`/projects/${user_id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Bearer ACCESSTOKEN
+        },
+      });
 
+      //console.log(response);
+      //console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+// users working on a single project
 export const getAllContributors = createAsyncThunk(
   "projects/getAllContributors",
   async (project_id, thunkAPI) => {
@@ -78,7 +99,7 @@ export const addProject = createAsyncThunk(
    
   }
 );
- // add member when adding a project
+ // add member when adding a new project
 export const addMember = createAsyncThunk(
   "projects/addMember",
   async ( {user_id, projectId}, thunkAPI) => {
@@ -173,7 +194,19 @@ const projectSlice = createSlice({
       .addCase(getAllProjects.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        toast.error(action.payload);
+        
+      }).addCase(getAllAssignedProjectsToUser.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(getAllAssignedProjectsToUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.assignedProjectsToUser = action.payload;
+      })
+      .addCase(getAllAssignedProjectsToUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        
       })
       .addCase(addProject.pending, (state) => {
         state.status = "loading";
@@ -186,7 +219,7 @@ const projectSlice = createSlice({
       }).addCase(addProject.rejected, (state, action)=>{
         state.status = false
         state.error = action.error.message;
-        toast.error(action.payload);
+        
       })
       .addCase(addMember.pending, (state) => {
         state.status = "loading";
@@ -199,7 +232,7 @@ const projectSlice = createSlice({
         state.status = false
         state.error = action.payload;
         console.log ("action:",action);
-        toast.error(state.error);
+        
       })
       .addCase(getAllContributors.pending, (state) => {
         state.status = "loading";
@@ -224,7 +257,7 @@ const projectSlice = createSlice({
       .addCase(editProject.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
-        toast.error(state.error);
+        
       })
   },
 });

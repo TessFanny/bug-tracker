@@ -13,6 +13,7 @@ const initialState = {
   priority: "",
   color: "",
   type: "",
+  assignedTicketsToUser: [],
 };
 
 export const getAllTickets = createAsyncThunk(
@@ -45,6 +46,26 @@ export const getAllTicketsProject = createAsyncThunk(
       });
       //console.log(response);
       //console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getAllAssignedTicketsToUser = createAsyncThunk(
+  "tickets/getAllAssignedTicketsToUser",
+  async ({ user_id }, thunkAPI) => {
+    try {
+      const response = await axios.get(`/tickets/users/${user_id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Bearer ACCESSTOKEN
+        },
+      });
+
+      console.log(response);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -122,7 +143,8 @@ export const addMemberToTicket = createAsyncThunk(
   async ({ user_id, ticketId }, thunkAPI) => {
     console.log(thunkAPI.getState());
     try {
-      const ticket_id = await thunkAPI.getState().tickets.addedTicket.id || ticketId;
+      const ticket_id =
+        (await thunkAPI.getState().tickets.addedTicket.id) || ticketId;
       const response = await axios.post(
         `/ticket/${ticket_id}/users`,
         {
@@ -234,19 +256,19 @@ export const ticketsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder .addCase(getAllTickets.pending, (state) => {
-      state.status = "loading";
-      state.error = null;
-    })
-    .addCase(getAllTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.allTickets = action.payload;
-    })
-    .addCase(getAllTickets.rejected, (state, action) => {
-      state.status = "failed";
-      state.error = action.error.message;
-      toast.error(state.error);
-    })
+    builder
+      .addCase(getAllTickets.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(getAllTickets.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.allTickets = action.payload;
+      })
+      .addCase(getAllTickets.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
       .addCase(getAllTicketsProject.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -258,7 +280,20 @@ export const ticketsSlice = createSlice({
       .addCase(getAllTicketsProject.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        toast.error(state.error);
+        // toast.error(state.error);
+      })
+      .addCase(getAllAssignedTicketsToUser.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(getAllAssignedTicketsToUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.assignedTicketsToUser = action.payload;
+      })
+      .addCase(getAllAssignedTicketsToUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        // toast.error(action.payload);
       })
       .addCase(addTicket.pending, (state) => {
         state.status = "loading";
@@ -273,7 +308,7 @@ export const ticketsSlice = createSlice({
       .addCase(addTicket.rejected, (state, action) => {
         state.status = false;
         state.error = action.error.message;
-        toast.error(action.payload);
+        // toast.error(action.payload);
       })
       .addCase(editTicket.pending, (state) => {
         state.status = "loading";
@@ -285,7 +320,7 @@ export const ticketsSlice = createSlice({
       .addCase(editTicket.rejected, (state, action) => {
         state.status = false;
         state.error = action.error.message;
-        toast.error(action.payload);
+        // toast.error(action.payload);
       })
       .addCase(addMemberToTicket.pending, (state) => {
         state.status = "loading";
@@ -299,7 +334,7 @@ export const ticketsSlice = createSlice({
         state.status = false;
         state.error = action.payload;
         console.log("action:", action);
-        toast.error(state.error);
+        // toast.error(state.error);
       })
       .addCase(getAllMembersTicket.pending, (state) => {
         state.status = "loading";
@@ -312,7 +347,7 @@ export const ticketsSlice = createSlice({
       .addCase(getAllMembersTicket.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        toast.error(action.payload);
+        // toast.error(action.payload);
       });
   },
 });

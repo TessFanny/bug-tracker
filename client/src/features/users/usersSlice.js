@@ -63,7 +63,7 @@ export const usersSlice = createSlice({
       .addCase(getAllUsers.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        toast.error(state.error);
+        // toast.error(state.error);
       }).addCase(editUser.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -75,7 +75,7 @@ export const usersSlice = createSlice({
       .addCase(editUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        toast.error(state.error);
+        // toast.error(state.error);
       })
   }
 });
