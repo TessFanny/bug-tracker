@@ -107,6 +107,27 @@ class Project extends Core {
       throw error;
     }
   }
+  async getProjectsUserIsAssignedToModel(user_id){
+    try {
+      const preparedQuery = `select distinct concat("user".firstname ,' ' ,"user".lastname)as author, * from project 
+      join project_has_user ON project_has_user.project_id = project.id
+      join "user" on "user".id = project.project_author_id
+      where project_has_user.user_id = $1`;
+
+      const value = [user_id];
+
+      const result = await pool.query(preparedQuery, value);
+
+      if (!result.rows) {
+        return null;
+      }
+
+      return result.rows;
+    } catch (error) {
+      console.error(`Error in getProjectsUserIsAssignedToModel() : ${error.message}`);
+      throw error;
+    }
+  }
 }
 
 export default Project;

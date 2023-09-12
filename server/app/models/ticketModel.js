@@ -33,7 +33,8 @@ class Ticket extends Core {
       if (!result.rows) {
         return null;
       }
-
+      console.log(value);
+      console.log(preparedQuery);
       return result.rows;
     } catch (error) {
       console.error(
@@ -90,6 +91,8 @@ console.log(ticket_id, user_id);
     where ticket.id = $1;`;
 
       const value = [ticket_id];
+      console.log(value);
+      console.log(preparedQuery);
 
       const result = await pool.query(preparedQuery, value);
 
@@ -100,6 +103,28 @@ console.log(ticket_id, user_id);
       return result.rows;
     } catch (error) {
       console.error(`Error in getUsersOnTicketModel() : ${error.message}`);
+      throw error;
+    }
+  }
+  async getTicketsUserIsAssignedToModel(user_id){
+    try {
+      const preparedQuery = `select distinct concat("user".firstname ,' ' ,"user".lastname)as author, * from ticket 
+      join ticket_has_user ON ticket_has_user.ticket_id = ticket.id
+      join "user" on "user".id = ticket.ticket_author_id
+      where ticket_has_user.user_id = $1`;
+
+      const value = [user_id];
+
+      const result = await pool.query(preparedQuery, value);
+      console.log(value);
+      console.log(preparedQuery);
+      if (!result.rows) {
+        return null;
+      }
+
+      return result.rows;
+    } catch (error) {
+      console.error(`Error in getTicketsUserIsAssignedToModel() : ${error.message}`);
       throw error;
     }
   }

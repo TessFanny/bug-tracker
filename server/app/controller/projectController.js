@@ -46,6 +46,20 @@ const projectController = {
       next(error);
     }
   },
+  getProjectsUserIsAssignedTo : async (req, res, next)=>{
+    try {
+      const projectModel = new Project(req.body);
+      const projects = await projectModel.getProjectsUserIsAssignedToModel(req.params.user_id);
+      if (!projects) {
+        res.status(404).json("no resources found");
+      } else {
+        res.status(200).json(projects);
+      }
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  },
 
   createProject: async (req, res, next) => {
     try {
@@ -94,10 +108,11 @@ const projectController = {
       next(error);
     }
   },
+ 
   updateProject: async (req, res, next) => {
     try {
       const projectModel = new Project(req.body);
-      const project =await  projectModel.findByPk(req.params.project_id);
+      const project = await  projectModel.findByPk(req.params.project_id);
       if (project) {
         const updatedProject = await projectModel.update(
           req.params.project_id,

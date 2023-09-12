@@ -4,7 +4,7 @@ const commentSchema = {
   // comment creation schema
   create() {
     return Joi.object({
-        text: Joi.string().min(15).required(),
+        text: Joi.string().required(),
         comment_author_id: Joi.number().required(),
         ticket_id: Joi.number().required()
     });
@@ -13,7 +13,7 @@ const commentSchema = {
   // comment update schema
   update() {
     return Joi.object({
-        text: Joi.string().min(15)
+        text: Joi.string().allow(null)
     });
   },
 };

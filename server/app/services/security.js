@@ -24,13 +24,13 @@ const securityService = {
     checkToken(req, res, next) {
         try {
             // Récupérer le token JWT depuis l'en-tête Authorization
-             //On récupère la 2eme parties (séparation du type Bearer) pour garder l'élément indice [1] (le code token)
-             console.log(req.headers.authorization);
+             //On récupère la 2eme partie (séparation du type Bearer) pour garder l'élément indice [1] (le code token)
+             //console.log(req.headers.authorization);
             const token = req.headers.authorization.split(" ")[1];
         
             const decoded =  jwt.verify(token, process.env.SESSION_SECRET)
-              
-            console.log("token validé !", decoded);
+             // console.log(decoded);
+         
              // L'utilisateur est authentifié et autorisé, passer au middleware suivant
             next();
         }
@@ -47,7 +47,7 @@ const securityService = {
            const userEmail = userToken.email
            const userModel = new User(req.body)
            const userRole = await userModel.findByField("email", userEmail)
-        console.log(userRole.role);
+        //console.log(userRole.role);
           
              // je vérifie si son role est  présent dans le tableau des roles autorisés; 
              if(roleTable.indexOf(userRole.role) === -1){

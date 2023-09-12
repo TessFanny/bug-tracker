@@ -1,9 +1,10 @@
 import Comment from "../models/commentModel.js";
 
 const commentController = {
-  getAllComments: async(req, res, next)=>{
+  getTicketComments: async(req, res, next)=>{
     try {        
-        const comments = await Comment.findAll();
+        const commentModel = new Comment(req.body)
+        const comments = await commentModel.getTicketCommentsModel(req.params.ticket_id);
         if(!comments){
             res.status(404).json('no resources found')
         }else{
@@ -49,7 +50,6 @@ const commentController = {
         const comment = commentModel.findByPk(req.params.comment_id)
     if(comment){
         const updatedComment = await commentModel.update(req.params.comment_id, req.body)
-        console.log(updatedComment);
         res.status(200).json(updatedComment)
       }else{
        res.status(400).json(`the user you are trying to update doesn't exists`)

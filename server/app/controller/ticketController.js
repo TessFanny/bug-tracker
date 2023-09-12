@@ -31,6 +31,21 @@ const ticketController = {
       next(error);
     }
   },
+  getTicketsUserIsAssignedTo : async (req, res, next)=>{
+    try {
+      const ticketModel = new Ticket(req.body);
+      const tickets = await ticketModel.getTicketsUserIsAssignedToModel(req.params.user_id);
+      console.log(tickets);
+      if (!tickets) {
+        res.status(404).json("no resources found");
+      } else {
+        res.status(200).json(tickets);
+      }
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  },
 
   getOneTicket: async (req, res, next) => {
     try {
@@ -76,7 +91,7 @@ const ticketController = {
       next(error);
     }
   },
-
+ 
   assignUserToTicket: async (req, res, next) => {
     try {
       const { user_id } = req.body;

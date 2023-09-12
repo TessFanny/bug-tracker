@@ -47,6 +47,19 @@ projectRouter.get('/project/:project_id',  security.checkToken, security.authMid
 
 
 /**
+ * GET /api/projects/{user_id}
+ * @summary  renvoie les  projects qui sont assignés à un utilisateur
+ * @type {Project}
+ * @tags projects
+ * @security TokenAuth
+ * @param {number} user_id.path.required
+ * @return {object} 200 - project response
+ * @return {object} 500 - Unexpected error
+ */
+
+projectRouter.get('/projects/:user_id',  security.checkToken, security.authMiddleware(['developer','admin']), projectController.getProjectsUserIsAssignedTo);
+
+/**
  * GET /api/project/{project_id}/users
  * @summary  renvoie un  project selon son id
  * @type {Project}

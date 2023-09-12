@@ -30,7 +30,7 @@ import commentSchema from '../schema/commentSchema.js'
  * @return {object} 200 - comments response
  * @return {object} 500 - Unexpected error
  */
-commentRouter.get('/comments', commentController.getAllComments);
+commentRouter.get('/comments/:ticket_id', commentController.getTicketComments);
 
 
 /**
@@ -48,7 +48,7 @@ commentRouter.get('/comment/:comment_id', commentController.getOneComment);
 
 
 /**
- * POST /api/comments
+ * POST /api/comments/
  * @summary  crée un  comment 
  * @type {Comment}
  * @tags comments

@@ -1,23 +1,86 @@
-## Application de suivi de bugs
-Cette application de suivi de bugs est conçue pour aider les équipes de développement à suivre et à gérer les problèmes dans leur code. Elle est facile à utiliser et offre une interface utilisateur simple et intuitive.
+# Bug Tracker App
+Bienvenue dans l'application Bug Tracker ! Cette application a été développée en utilisant Node.js pour le backend et React pour le frontend. Elle vous permet de suivre les problèmes, les bogues  de développement de vos projets.
 
-### Comment utiliser l'application
-1. Créez un compte en utilisant votre adresse e-mail et votre nom d'utilisateur.
-Créez un projet pour suivre les bugs pour votre application.
-Ajoutez des bugs à votre projet en fournissant des informations détaillées sur chaque problème.
-2. Assigner la résolution d'un ou de plusieurs bugs à des membres de l'équipe.
-3. Utiliser les outils de filtrage pour trier et trouver des bugs spécifiques.
+## Installation
+Suivez ces étapes pour installer l'application sur votre machine :
+
+1. Assurez-vous d'avoir Node.js et npm installés. Vous pouvez les télécharger depuis nodejs.org.
+
+2. Clonez ce dépôt sur votre ordinateur en utilisant la commande suivante :
+
+```bash
+git clone https://github.com/votre-utilisateur/bug-tracker.git
+```
+3. Accédez au répertoire du projet :
+```bash
+cd bug-tracker
+```
+4. Installez les dépendances du backend en exécutant la commande suivante :
+```bash
+cd server
+```
+```bash
+npm install
+```
+
+5. Accédez au répertoire client pour installer les dépendances du frontend :
+
+```bash
+cd client
+```
+```bash
+npm install
+```
+### <u>Configuration</u>
+1. Créez un fichier:
+ ```bash 
+.env
+```  
+dans le répertoire du backend pour configurer les variables d'environnement nécessaires. Vous pouvez vous inspirer du fichier .env.example.
+
+2. Configurez votre base de données, par exemple en utilisant __Postgresql__ et mettez à jour les informations de connexion dans le fichier __.env__.
+
+### <u>Démarrage de l'application</u>
+Une fois que vous avez installé et configuré l'application, vous pouvez la démarrer avec les commandes suivantes :
+
+1. Démarrer le backend (dans le répertoire principal du projet) :
 
 
-### Fonctionnalités de l'application
-  Gestion de projets: créez des projets pour chaque application ou programme que vous souhaitez suivre.
-Suivi des bugs: enregistrez les détails sur chaque bug, y compris la gravité, la description, les étapes pour reproduire et les fichiers associés.
+```sql
+npm run start
+```
+2. Démarrer le frontend (dans le répertoire client) :
 
-  Attribution des bugs: affectez les bugs à des membres de l'équipe pour les résoudre.
-Outils de filtrage: filtrez les bugs en fonction de leur gravité, leur statut, leur affectation, etc.
+```sql
+npm run start
+```
+L'application sera accessible dans votre navigateur à l'adresse :  http://localhost:3000.
 
-  Commentaires: ajoutez des commentaires à chaque bug pour fournir des mises à jour sur l'état de la résolution.
+### <u>Utilisation</u>
+Vous pouvez vous enregistrer et vous connecter à l'application en utilisant vos identifiants préalablement crées.
+
+Une fois connecté, vous pouvez ajouter de nouveaux bugs et projets, afficher la liste des bugs existants, les mettre à jour et les supprimer.
+
+L'application offre également des fonctionnalités avancées telles que la recherche de bugs et des projets, le tri par statut, la création de tâches et bien d'autres.
+
+### <u>Contribution</u>
+Nous sommes ouverts aux contributions ! Si vous souhaitez contribuer à l'amélioration de cette application, suivez ces étapes :
+
+Créez une branche pour votre contribution :
 
 
-## Auteurs:
- Tessikoue Fanny
+```git
+git checkout -b nom-de-votre-branche
+```
+Faites vos modifications, puis soumettez une demande de fusion (Pull Request) vers la branche principale.
+
+Nous examinerons votre contribution et la fusionnerons si elle est approuvée.
+
+### <u>Problèmes connus</u>
+...
+### <u>Licence</u>
+Ce projet est sous licence MIT. Consultez le fichier LICENSE pour plus de détails.
+
+N'hésitez pas à explorer le code source de l'application et à contribuer pour l'améliorer. Si vous avez des questions ou des problèmes, veuillez ouvrir une nouvelle issue sur GitHub. Je serai ravie de vous aider !
+
+__Bon suivi de bugs !__

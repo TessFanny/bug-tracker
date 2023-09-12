@@ -70,10 +70,7 @@ const authController = {
         const token = jwt.sign({ 
           email: userModel.email 
       }, 
-          process.env.SESSION_SECRET, 
-      { 
-          expiresIn: "24h" 
-      }
+          process.env.SESSION_SECRET
   );
      
           // on enregistre le user courant dans la session
