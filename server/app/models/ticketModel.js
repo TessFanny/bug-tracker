@@ -82,7 +82,7 @@ console.log(ticket_id, user_id);
     }
   }
 
-  // get all the users working on resolving the ticket
+  // get all the users working on resolving the bug ticket
   async getUsersOnTicketModel(ticket_id) {
     try {
       const preparedQuery = `SELECT distinct concat("user".firstname ,' ' ,"user".lastname)as contributor, "user".id, "user".role, "user".email from ticket
@@ -116,8 +116,8 @@ console.log(ticket_id, user_id);
       const value = [user_id];
 
       const result = await pool.query(preparedQuery, value);
-      console.log(value);
-      console.log(preparedQuery);
+     // console.log(value);
+     // console.log(preparedQuery);
       if (!result.rows) {
         return null;
       }

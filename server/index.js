@@ -64,7 +64,7 @@ const options = {
     },
   },
   //Chemin de la doc
-  //swaggerUIPath: "/devboard",
+  //swaggerUIPath: "/bugtracker",
   // security: {
   //   basic: {
   //     type: "http",
@@ -99,9 +99,6 @@ app.use(
   roleRouter
 );
 
-// app.get("/api", (req, res) => {
-//   res.json("homePage");
-// });
 
 app.listen(port, () => {
   console.log(`Server ready: http://localhost:${port}`);

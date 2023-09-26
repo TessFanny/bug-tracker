@@ -26,7 +26,7 @@ const authController = {
       if (req.body.password !== req.body.passwordConfirm)
         return res
           .status(400)
-          .json({ msg: "les mots de passe  ne correspondent pas" });
+          .json("les mots de passe  ne correspondent pas" );
 
       const salt = await bcrypt.genSalt(10);
       // password hashing
@@ -80,7 +80,7 @@ const authController = {
         console.log(req.user);
       
         delete loggedUser.password;
-        // delete loggedUser.refresh_token
+      
         // on envoie le token généré au client
       
         res.status(200).json({
@@ -89,9 +89,7 @@ const authController = {
         });
       } else {
         // erreur dans le couple email/password, on renvoie false au client
-        res.status(400).json({
-          error: "l'email ou le mot de passe ne correspont pas",
-        });
+        res.status(400).json({ msg: "email ou le mot de passe ne correspond pas" });
       }
     } catch (error) {
       console.error(`Error in login() : ${error.message}`);
