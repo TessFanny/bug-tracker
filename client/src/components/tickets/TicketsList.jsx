@@ -32,8 +32,6 @@ const TicketsList = ({
     setOpenEditModal(false);
   };
 
- console.log(tickets);
-
   useEffect(() => {
     dispatch(getAllTicketsProject({ project_id: projectId }));
   }, []);

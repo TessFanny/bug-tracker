@@ -182,7 +182,7 @@ const MyTickets = () => {
                     <tr key={id}>
                       <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
                         <Link
-                          to={`ticket/${ticket.ticket_id}`}
+                          to={`project/${ticket.ticket_id}`}
                           className=" text-[#3b82f6] hover:underline"
                         >
                           {ticket.title.charAt(0).toUpperCase() +

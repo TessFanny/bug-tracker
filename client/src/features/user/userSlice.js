@@ -12,20 +12,24 @@ export const getUserFromLocalStorage = ()=>{
 
 
 const initialState = {
-  loading: false,
+  isLoading: false,
+  isSideBarOpen: false,
   user: getUserFromLocalStorage(),
-  userRegistered: "",
+  registeredUser: {},
   statusCode: "",
+  isRegisteredFulfill : false
 };
 
 export const registerUser = createAsyncThunk(
   "user/registerUser",
-  async (user, thunkAPI) => {
+  async (userData, thunkAPI) => {
     try {
-      const response = await axios.post("/register", user);
-      console.log(user);
+      const response = await axios.post("/register", userData);
+      const user = response.data.savedUser;
       console.log(response);
-      return response.data.savedUser;
+      console.log(user);
+      localStorage.setItem("token", response.data.token);
+      return user;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
     }
@@ -35,14 +39,19 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (userData, thunkAPI) => {
-    const response = await axios.post("/login", userData);
+    try {
+      const response = await axios.post("/login", userData);
     //console.log("response:", response);
     const user = response.data.loggedUser;
-    //console.log(user);
+    console.log(user);
     const token = response.data.token;
     localStorage.setItem("token", token);
     window.localStorage.setItem("isLoggedIn", true);
     return { user };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+    
   }
 );
 
@@ -90,68 +99,65 @@ export const userSlice = createSlice({
     },
 
     // Reducer for logging out the user
-    logout: (state) => {    
+    logout: (state,  { payload }) => {    
       state.user = null;
-      state.status = null;
+      state.isSideBarOpen = false;
       localStorage.removeItem("token");
       window.localStorage.removeItem("isLoggedIn")
+      if (payload) {
+        toast.success(payload);
+      }
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
-        state.status = "loading";
-        state.error = null;
+        state.isLoading = true;
+        
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
-        state.status = "succeeded";
-         state.userRegistered = action.payload;
-         console.log('userRegistered in slice : ',  state.userRegistered);
-        toast.success(`you're successfully registered`);
+      .addCase(registerUser.fulfilled, (state, {payload}) => {
+         const { savedUser} = payload
+         state.isLoading = false;
+         state.isRegisteredFulfill = true
+         state.registeredUser = savedUser;
+         console.log('payload in slice : ', payload );
+         toast.success(` Votre compte a été crée avec succès ${payload.firstname}!`)
       })
-      .addCase(registerUser.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-        state.statusCode = action.error.code;
-        toast.error(action.payload);
+      .addCase(registerUser.rejected, (state, {payload}) => {
+        state.isLoading = false;
+        toast.error(payload);
+        // state.error = action.error.message;
+        // state.statusCode = action.error.code;
+        
       })
       .addCase(loginUser.pending, (state) => {
-        state.status = "loading";
-        state.error = null;
+        state.isLoading = true;
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.status = "succeeded";
         const { user } = payload;
+        state.isLoading = false;
         state.user = user;
-        toast.success(`login successful`);
+        toast.success(`Bienvenue ${user.firstname}`);
       })
-      .addCase(loginUser.rejected, (state, action) => {
-        state.status = false;
-        state.error = action.error.message;
-        state.statusCode = action.error.code;
-        console.log(action.error);
-        if (state.statusCode === "ERR_BAD_REQUEST" || "ERR_BAD_RESPONSE" ) {
-          toast.error("email ou mot de passe incorrect");
-        } else if (state.statusCode === "ERR_BAD_RESPONSE") {
-          //toast.error("le mot de passe ");
-        }
-       
-      })
+      .addCase(loginUser.rejected, (state, {payload}) => {
+        state.isLoading = false;
+        toast.error(payload);
+      })// Reducer for handling the rejected state of the modify request
       .addCase(updateUser.pending, (state) => {
-        state.status = "loading";
-        state.error = null;
+        state.isLoading = true;
       })
       // Reducer for handling the fulfilled state of the modify request
-      .addCase(updateUser.fulfilled, (state, action) => {
+      .addCase(updateUser.fulfilled, (state, {payload}) => {
         state.user = action.payload.modifiedUser;
+        state.isLoading = false;
         state.status = true;
-        toast.success("User updated");
+        toast.success("utilisateur mise à jour avec success");
       })
       // Reducer for handling the rejected state of the modify request
-      .addCase(updateUser.rejected, (state, action) => {
-        state.status = false;
-        state.error = action.error.message;
-        toast.error(action.error.message);
+      .addCase(updateUser.rejected, (state, {payload}) => {
+        state.isLoading = false;
+        toast.error(payload);
       });
   },
 });

@@ -21,14 +21,14 @@ const Register = () => {
 
   const [email, setEmail] = useState("");
 
-  const [validEmail, setValidEmail] = useState(false);
-
+  
   const [firstname, setFirstname] = useState("");
-
+  
   const [lastname, setLastname] = useState("");
-
+  
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
+  const [validEmail, setValidEmail] = useState(false);
 
   const [matchPassword, setMatchPassword] = useState("");
   const [validMatch, setValidMatch] = useState(false);
@@ -36,7 +36,7 @@ const Register = () => {
 
   const [success, setSuccess] = useState(false);
 
-  const from = location?.state?.from?.pathname || "/login";
+  const from = location?.state?.from?.pathname || "/";
 
   useEffect(() => {
     const result = EMAIL_REGEX.test(email);
@@ -240,9 +240,9 @@ const Register = () => {
               </p>
             </div>
             <button
-              // disabled={
-              //   !validEmail || !validPassword || !validMatch ? true : false
-              // }
+              disabled={
+                !validEmail || !validPassword || !validMatch ? true : false
+              }
               className=" bg-[#011b5e] shadow-blue-900 self-center text-gray-100 w-[10rem] rounded-lg p-2 mt-4 cursor-pointer hover:scale-105 ease-in duration-200"
             >
               Sign Up
@@ -252,7 +252,7 @@ const Register = () => {
             Already registered? <br />
             <span>
               {/* put router link here */}
-              <Link to="/login" className=" text-sm text-[#011b5e] font-bold">
+              <Link to="/" className=" text-sm text-[#011b5e] font-bold">
                 Sign in
               </Link>
             </span>

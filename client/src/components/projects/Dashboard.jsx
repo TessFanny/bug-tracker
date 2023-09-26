@@ -72,7 +72,7 @@ const Dashboard = () => {
   };
 
   return (
-    <section className=" px-4 py-7 flex flex-col">
+    <section className=" px-4 py-7 flex flex-col ">
       <div className="flex justify-between">
         <h1 className=" text-2xl text-white">Dashboard</h1>
         <button
@@ -99,8 +99,8 @@ const Dashboard = () => {
       
       <div className=" w-full mt-4 pb-4 bg-white rounded-md shadow-md px-4 flex-1 min-h-[300px]">
         <h2 className=" p-4 text-xl font-semibold">All projects</h2>
-        <div className="shadow-lg overflow-auto pb-3 h-full relative ">
-          <table className=" w-full h-full">
+        <div className="shadow-lg  pb-3 h-full relative ">
+          <table className=" w-full h-full overflow-hidden">
             <thead className=" bg-gray-50 border-b-2 border-gray-200">
               <tr>
                 <td className=" p-3 text-sm font-semibold tracking-wide text-left">
@@ -124,7 +124,7 @@ const Dashboard = () => {
             <tbody className=" divide-y divide-gray-100 h-[200px] ">
             {isLoading ? (<Loader/>) : getCurrentPageData() && getCurrentPageData().length > 0 ? (getCurrentPageData().map((project) => (
               <tr key={project.id}>
-                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap" data-title="Title">
                   <Link
                     to={`project/${project.id}`}
                     className=" text-[#3b82f6] hover:underline"
@@ -133,18 +133,18 @@ const Dashboard = () => {
                       project.title.slice(1)}
                   </Link>
                 </td>
-                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                <td className="truncate text-left overflow-ellipsis p-3 text-sm text-gray-700 whitespace-nowrap" data-title="Description">
                   {project.description.charAt(0).toUpperCase() +
                     project.description.slice(1)}
                 </td>
-                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap" data-title="Project author">
                   {project.author}
                 </td>
-                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap" data-title="Created_at">
                   {project.created_at}
                 </td>
 
-                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap" data-title="Actions">
                   <button
                     className="mr-[.5rem] text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md"
                     onClick={() => {

@@ -1,5 +1,5 @@
 import Layout from "./Layout";
-import Register from "./Register";
+//import Register from "./Register";
 import Login from "./Login";
 import Unauthorized from "./Unauthorized";
 import Home from "./Home";
@@ -13,6 +13,7 @@ import HomeLayout from "./Home";
 import Profile from "./Profile";
 import Project from "./projects/Project";
 import MyTickets from "./tickets/myTickets/MyTickets";
+import Register from "../pages/Register";
 import Loader from "./Loader";
 export {
   Layout,

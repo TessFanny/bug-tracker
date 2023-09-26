@@ -5,8 +5,7 @@ import {
   Layout,
   Register,
   Login,
-  Unauthorized,
-  Home,
+  Unauthorized,  
   Dashboard,
   MyProjects,
   Admin,
@@ -23,9 +22,8 @@ function App() {
 
   return (
     <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="login" element={<Login />} />
-    <Route path="register" element={<Register />} />
+    <Route path="/" element={<Register />} />
+    <Route path="/register" element={<Register />} />
       <Route path="/layout" element={<Layout />}>
         <Route element={<RequireAuth allowedRole={["developer", "admin"]} />}>
           <Route path="dashboard" element={<Dashboard />} />
@@ -35,6 +33,7 @@ function App() {
           <Route path="unauthorized" element={<Unauthorized />} />
           <Route path="dashboard/project/:id" element={<Project />} />
           <Route path="projects/project/:id" element={<Project />} />
+          <Route path="tickets/project/:id" element={<Project />} />
         </Route>
         <Route element={<RequireAuth allowedRole={["admin"]} />}>
           <Route path="admin" element={<Admin />} />
@@ -47,28 +46,3 @@ function App() {
 
 export default App;
 
-// <Routes>
-// <Route path="" element={<Home />} />
-// {loggedIn === undefined ? (
-//   // Show a loading state until the user's authentication status is determined
-//   <Route path="*" element={<Loading />} />
-// ) : loggedIn ? (
-//   <Route path="/layout" element={<Layout />}>
-//     <Route element={<RequireAuth allowedRole={["developer", "admin"]} />}>
-//       <Route path="dashboard" element={<Dashboard />} />
-//       <Route path="projects" element={<MyProjects />} />
-//       <Route path="tickets" element={<MyTickets />} />
-//       <Route path="profile" element={<Profile />} />
-//       <Route path="unauthorized" element={<Unauthorized />} />
-//       <Route path="dashboard/project/:id" element={<Project />} />
-//     </Route>
-//     <Route element={<RequireAuth allowedRole={["admin"]} />}>
-//       <Route path="admin" element={<Admin />} />
-//     </Route>
-//   </Route>
-// ) : (
-//   <Route path="login" element={<Login />} />
-// )}
-// <Route path="register" element={<Register />} />
-
-// </Routes>
