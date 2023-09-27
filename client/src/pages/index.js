@@ -1,2 +1,4 @@
 import Register from "./Register";
-export {Register}
+import Admin from "./Admin";
+import Dashboard from "./Dashboard";
+export {Register, Admin, Dashboard}

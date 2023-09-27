@@ -3,12 +3,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Layout,
-  Register,
   Login,
   Unauthorized,  
-  Dashboard,
+  Projects,
   MyProjects,
-  Admin,
   Missing,
   MyTickets,
   RequireAuth,
@@ -16,6 +14,7 @@ import {
   Project,
   Loader
 } from "./components";
+import { Admin, Register, Dashboard } from "./pages";
 
 function App() {
   const loggedIn = window.localStorage.getItem("isLoggedIn");
@@ -27,7 +26,8 @@ function App() {
       <Route path="/layout" element={<Layout />}>
         <Route element={<RequireAuth allowedRole={["developer", "admin"]} />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="projects" element={<MyProjects />} />
+          <Route path="myProjects" element={<MyProjects />} />
+          <Route path="projects" element={<Projects/>} />
           <Route path="tickets" element={<MyTickets />} />
           <Route path="profile" element={<Profile />} />
           <Route path="unauthorized" element={<Unauthorized />} />

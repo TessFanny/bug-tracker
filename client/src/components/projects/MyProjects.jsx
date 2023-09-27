@@ -3,7 +3,7 @@ import { AiOutlineSearch, AiOutlinePlus } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllAssignedProjectsToUser } from "../../../features/projects/projectSlice";
+import { getAllAssignedProjectsToUser } from "../../features/projects/projectSlice";
 
 const MyProjects = () => {
   const { projects, assignedProjectsToUser } = useSelector((store) => store.projects);

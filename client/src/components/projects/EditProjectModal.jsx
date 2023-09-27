@@ -6,7 +6,7 @@ import {
   changeTitleValue,
   editProject,
   addMember
-} from "../../../features/projects/projectSlice";
+} from "../../features/projects/projectSlice";
 
 const EditProjectModal = ({ open, closeModal, project }) => {
   const dispatch = useDispatch();

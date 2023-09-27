@@ -3,7 +3,7 @@ import { AiOutlineSearch, AiOutlinePlus } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllAssignedTicketsToUser } from "../../../features/tickets/ticketsSlice";
+import { getAllAssignedTicketsToUser } from "../../features/tickets/ticketsSlice";
 
 const MyTickets = () => {
   const { tickets, assignedTicketsToUser } = useSelector(
@@ -60,81 +60,76 @@ const MyTickets = () => {
 
   return (
     <section className=" flex gap-9 w-full flex-col">
-      <h1 className=" text-2xl text-white">My tickets</h1>
       <div className="flex gap-9 w-full justify-evenly">
-       
-          <div className=" w-[50%]">
-            <div className=" w-full mt-4 pb-4 bg-white rounded-md shadow-md px-4 flex-1">
-              <div className=" flex justify-between">
-                <h2 className=" p-4 text-xl font-semibold">
-                  tickets I created
-                </h2>
-                <div className=" flex w-[50%] items-center self-end bg-slate-100 px-2 py-1 rounded-lg mt-4 shadow-lg">
-                  <AiOutlineSearch className=" text-2xl" />
-                  <input
-                    type="search"
-                    name="search"
-                    id="search"
-                    placeholder="search ticket"
-                    defaultValue={searchQueryCreated}
-                    onChange={(e) => setSearchQueryCreated(e.target.value)}
-                    className=" w-full pl-2 py-1 outline-none bg-slate-100 "
-                  />
-                </div>
+        <div className=" w-[50%]">
+          <div className=" w-full mt-4 pb-4 bg-white rounded-md shadow-md px-4 flex-1">
+            <div className=" flex justify-between">
+              <h2 className=" p-4 text-xl font-semibold">tickets I created</h2>
+              <div className=" flex w-[50%] items-center self-end bg-slate-100 px-2 py-1 rounded-lg mt-4 shadow-lg">
+                <AiOutlineSearch className=" text-2xl" />
+                <input
+                  type="search"
+                  name="search"
+                  id="search"
+                  placeholder="search ticket"
+                  defaultValue={searchQueryCreated}
+                  onChange={(e) => setSearchQueryCreated(e.target.value)}
+                  className=" w-full pl-2 py-1 outline-none bg-slate-100 "
+                />
               </div>
-              <div className="shadow-lg overflow-auto pb-3">
-                <table className=" w-full  ">
-                  <thead className=" bg-gray-50 border-b-2 border-gray-200">
-                    <tr>
-                      <td className=" p-3 text-sm font-semibold tracking-wide text-left">
-                        Title
-                      </td>
-                      <td className=" p-3 text-sm font-semibold tracking-wide text-left">
-                        Description
-                      </td>
+            </div>
+            <div className="shadow-lg overflow-auto pb-3">
+              <table className=" w-full  ">
+                <thead className=" bg-gray-50 border-b-2 border-gray-200">
+                  <tr>
+                    <td className=" p-3 text-sm font-semibold tracking-wide text-left">
+                      Title
+                    </td>
+                    <td className=" p-3 text-sm font-semibold tracking-wide text-left">
+                      Description
+                    </td>
 
-                      <td className=" w-40 p-3 text-sm font-semibold tracking-wide text-left">
-                        Created_at
-                      </td>
-                    </tr>
-                  </thead>
-                  <tbody className=" divide-y divide-gray-100 ">
-                    {getCurrentPageData(ticketById, searchQueryCreated).map(
-                      (ticket, id) => (
-                        <tr key={id}>
-                          <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                            {ticket.title.charAt(0).toUpperCase() +
-                              ticket.title.slice(1)}
-                          </td>
-                          <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                            {ticket.description.charAt(0).toUpperCase() +
-                              ticket.description.slice(1)}
-                          </td>
+                    <td className=" w-40 p-3 text-sm font-semibold tracking-wide text-left">
+                      Created_at
+                    </td>
+                  </tr>
+                </thead>
+                <tbody className=" divide-y divide-gray-100 ">
+                  {getCurrentPageData(ticketById, searchQueryCreated).map(
+                    (ticket, id) => (
+                      <tr key={id}>
+                        <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                          {ticket.title.charAt(0).toUpperCase() +
+                            ticket.title.slice(1)}
+                        </td>
+                        <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                          {ticket.description.charAt(0).toUpperCase() +
+                            ticket.description.slice(1)}
+                        </td>
 
-                          <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                            {ticket.created_at}
-                          </td>
-                        </tr>
-                      )
-                    )}
-                  </tbody>
-                </table>
-                <div className=" flex gap-5 pl-5">
-                  {Array.from({ length: totalPagesCreated }, (_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentPage(index + 1)}
-                      disabled={currentPage === index + 1}
-                      className=" w-[25px] h-[25px] bg-[#3b82f6] text-white rounded-full flex justify-center items-center"
-                    >
-                      {index + 1}
-                    </button>
-                  ))}
-                </div>
+                        <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
+                          {ticket.created_at}
+                        </td>
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
+              <div className=" flex gap-5 pl-5">
+                {Array.from({ length: totalPagesCreated }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentPage(index + 1)}
+                    disabled={currentPage === index + 1}
+                    className=" w-[25px] h-[25px] bg-[#3b82f6] text-white rounded-full flex justify-center items-center"
+                  >
+                    {index + 1}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
-       
+        </div>
 
         <div className=" w-[50%]">
           <div className=" w-full mt-4 pb-4 bg-white rounded-md shadow-md px-4 flex-1">

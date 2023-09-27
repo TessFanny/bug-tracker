@@ -63,8 +63,7 @@ const Admin = () => {
     setEditingUser(null);
   };
   return (
-    <section className=" h-screen flex flex-col gap-10 ">
-      <h1 className=" text-2xl text-white">Administration</h1>
+    <section className=" h-screen flex flex-col gap-10 mt-[6rem]">
       <div className=" flex justify-center items-center w-full">
         <div className=" flex justify-center items-center w-[70%]">
           <div className="  mt-4 pb-4 bg-white rounded-md shadow-md px-4 flex-1">

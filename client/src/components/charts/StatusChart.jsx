@@ -22,8 +22,9 @@ const StatusChart = () => {
     counts[ticket_status] = (counts[ticket_status] || 0) + 1;
     return counts;
   }, {});
-
+ 
   const ticketStatusValues = Object.values(ticketStatusCounts);
+
   const data = {
     labels: ticketStatus,
     datasets: [

@@ -1,4 +1,4 @@
-import FormRow from "./FormRow";
+import FormRow from "../components/FormRow";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -11,22 +11,20 @@ import {
 } from "../features/user/userSlice";
 
 const Profile = () => {
-  const { user } = useSelector(
-    (store) => store.user
-  );
-  const { id, firstname, lastname, email, role } = user
+  const { user } = useSelector((store) => store.user);
+  const { id, firstname, lastname, email, role } = user;
   const dispatch = useDispatch();
- 
+
   const handleSubmit = (e) => {
     e.preventDefault();
-   
+
     if (!firstname || !lastname || !email || !role) {
       toast.error("please fill out all fields");
       return;
     }
     dispatch(
       updateUser({
-        user
+        user,
       })
     );
   };
@@ -62,13 +60,11 @@ const Profile = () => {
             dispatch(changeEmailValue(evt.target.value));
           }}
         />
-        
 
         <button
           className="btn btn-block self-end h-[35px] mt-[1rem]"
           type="submit"
         >
-          
           Save changes
         </button>
       </div>

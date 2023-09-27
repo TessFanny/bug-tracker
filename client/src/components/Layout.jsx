@@ -16,9 +16,12 @@ import { logout } from "../features/user/userSlice";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { Turn as Hamburger } from "hamburger-react";
+import Header from "./Header";
+import { motion } from "framer-motion";
 
 const Layout = () => {
   const [nav, setNav] = useState(false);
+  const [title, setTitle] = useState("");
   const [isOpen, setOpen] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
@@ -52,13 +55,21 @@ const Layout = () => {
         />
       </div>
       {nav ? (
-        <aside className=" min-w-[220px] h-[50%] border-r-[1px] mr-[100px] md:hidden bg-slate-400 z-50 border-gray-200 rounded-br-lg fixed top-0 left-0 overflow-auto">
+        <motion.aside
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+          className=" min-w-[220px] h-[50%] border-r-[1px] mr-[100px] md:hidden bg-slate-400 z-50 border-gray-200 rounded-br-lg fixed top-0 left-0 overflow-auto"
+        >
           <div className="flex gap-1  justify-center items-center border-b-[1px] py-5 pl-3">
             <BsBugFill />
 
             <Link
               to="/layout/dashboard"
-              onClick={handleNav}
+              onClick={() => {
+                handleNav(), setTitle("dashboard");
+              }}
               className="font-bold text-xl"
             >
               Bug Tracker
@@ -70,8 +81,9 @@ const Layout = () => {
                 <AiOutlineHome size={20} className=" mr-1  " />
                 <Link
                   to="/layout/dashboard"
-                  onClick={handleNav}
-                 
+                  onClick={() => {
+                    handleNav(), setTitle("Dashboard");
+                  }}
                 >
                   Dashboard
                 </Link>
@@ -80,7 +92,10 @@ const Layout = () => {
                 <GrProjects size={15} className="  mr-1  " />
                 <Link
                   to="/layout/projects"
-                  onClick={handleNav}
+                  onClick={function () {
+                    setTitle("Projects");
+                    handleNav();
+                  }}
                 >
                   My Projects
                 </Link>
@@ -89,7 +104,10 @@ const Layout = () => {
                 <BsBugFill size={15} className=" mr-1  " />
                 <Link
                   to="/layout/tickets"
-                  onClick={handleNav}
+                  onClick={() => {
+                    handleNav();
+                    setTitle("Tickets");
+                  }}
                 >
                   My Tickets
                 </Link>
@@ -98,7 +116,10 @@ const Layout = () => {
                 <RiAdminFill size={15} className=" mr-1  " />
                 <Link
                   to="/layout/admin"
-                  onClick={handleNav}
+                  onClick={() => {
+                    handleNav();
+                    setTitle("Admin");
+                  }}
                 >
                   Admin
                 </Link>
@@ -108,7 +129,7 @@ const Layout = () => {
           <div className="absolute w-full bottom-0 flex justify-around py-[10px] px-[10px] gap-2 items-center border-t-[1px] mt-10 ">
             <div className="flex mr-3 hover:scale-110 ease-in duration-300">
               <FaUser size={15} className=" mt-1 mr-2  " />
-              <Link to="/layout/profile" onClick={handleNav} >
+              <Link to="/layout/profile" onClick={handleNav}>
                 {user
                   ? user.firstname.charAt(0).toUpperCase() +
                     user.firstname.slice(1) +
@@ -125,47 +146,70 @@ const Layout = () => {
               <IoLogOut size={25} className=" mt-1 mr-1 " />
             </button>
           </div>
-        </aside>
+        </motion.aside>
       ) : (
-        <aside className=" md:block hidden min-w-[220px]  h-[100%] backdrop-filter backdrop-blur-lg border-r-[1px] z-50 bg-yellow-500 border-gray-200 rounded-br-lg fixed top-0 left-0 overflow-auto">
+        <aside className=" md:block hidden min-w-[220px]  h-[100%] shadow-lg border-r-[1px] z-50  border-gray-200 rounded-br-lg fixed top-0 left-0 overflow-auto">
           <div className="flex gap-1  justify-center items-center border-b-[1px] py-5">
             <BsBugFill className="" />
             <h1 className=" font-bold text-xl">
-             
-              <NavLink to="/layout/dashboard"  className={({ isActive }) =>
-              isActive ? ' font-bold' : undefined
-            }>Bug Tracker</NavLink>
+              <NavLink
+                to="/layout/dashboard"
+                className={({ isActive }) =>
+                  isActive ? " font-bold" : undefined
+                }
+                onClick={() => setTitle("Dashboard")}
+              >
+                Bug Tracker
+              </NavLink>
             </h1>
           </div>
           <nav className=" py-2 ml-3 focus:bg-gray-400 mt-6 relative">
             <ul className="flex flex-col justify-center">
               <li className=" inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
                 <AiOutlineHome size={20} className=" mr-1  " />
-                <NavLink to="/layout/dashboard" className={({ isActive }) =>
-                isActive ? 'text-red-500 font-bold' : undefined
-              }>Dashboard</NavLink>
+                <NavLink
+                  to="/layout/dashboard"
+                  className={({ isActive }) =>
+                    isActive ? "text-red-500 font-bold" : undefined
+                  }
+                  onClick={() => setTitle("Dashboard")}
+                >
+                  Dashboard
+                </NavLink>
               </li>
               <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
                 <GrProjects size={15} className="  mr-1  " />
-                <NavLink to="/layout/projects" className={({ isActive }) =>
-                isActive ? 'text-red-500 font-bold' : undefined
-              }>
+                <NavLink
+                  to="/layout/projects"
+                  className={({ isActive }) =>
+                    isActive ? "text-red-500 font-bold" : undefined
+                  }
+                  onClick={() => setTitle("Projects")}
+                >
                   My Projects
                 </NavLink>
               </li>
               <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
                 <BsBugFill size={15} className=" mr-1  " />
-                <NavLink to="/layout/tickets" className={({ isActive }) =>
-                isActive ? 'text-red-500 font-bold' : undefined
-              }>
+                <NavLink
+                  to="/layout/tickets"
+                  className={({ isActive }) =>
+                    isActive ? "text-red-500 font-bold" : undefined
+                  }
+                  onClick={() => setTitle("Tickets")}
+                >
                   My Tickets
                 </NavLink>
               </li>
               <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300  ">
                 <RiAdminFill size={15} className=" mr-1  " />
-                <NavLink to="/layout/admin" className={({ isActive }) =>
-                isActive ? 'text-red-500 font-bold' : undefined
-              }>
+                <NavLink
+                  to="/layout/admin"
+                  className={({ isActive }) =>
+                    isActive ? "text-red-500 font-bold" : undefined
+                  }
+                  onClick={() => setTitle("Admin")}
+                >
                   Admin
                 </NavLink>
               </li>
@@ -174,9 +218,12 @@ const Layout = () => {
           <div className="absolute w-full bottom-0 flex justify-around py-[10px] px-[10px] gap-2 items-center border-t-[1px] ">
             <div className="flex mr-3 hover:scale-110 ease-in duration-300">
               <FaUser size={15} className=" mt-1 mr-2  " />
-              <NavLink to="/layout/profile" className={({ isActive }) =>
-              isActive ? 'text-red-500 font-bold' : undefined
-            }>
+              <NavLink
+                to="/layout/profile"
+                className={({ isActive }) =>
+                  isActive ? "text-red-500 font-bold" : undefined
+                }
+              >
                 {user
                   ? user.firstname.charAt(0).toUpperCase() +
                     user.firstname.slice(1) +
@@ -188,7 +235,7 @@ const Layout = () => {
             </div>
             <button
               className="mr-3 hover:scale-110 ease-in duration-300"
-              onClick={ handleLogout}
+              onClick={handleLogout}
             >
               <IoLogOut size={25} className=" mt-1 mr-1 " />
             </button>
@@ -196,8 +243,8 @@ const Layout = () => {
         </aside>
       )}
 
-      <div className=" absolute top-0 left-0 md:left-[220px] w-full  h-[12rem] nav-shadow "></div>
-      <div className=" w-full md:ml-[250px] z-10 overflow-hidden flex flex-col justify-center">
+      <Header title={title} user={user}/>
+      <div className=" w-full md:ml-[220px] z-10 overflow-hidden flex flex-col justify-center items-center">
         <Outlet />
       </div>
     </div>

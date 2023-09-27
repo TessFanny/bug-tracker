@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { deleteProject } from "../../../features/projects/projectSlice";
+import { deleteProject } from "../../features/projects/projectSlice";
 
 const DeleteProjectModal = ({ open, closeModal, project }) => {
   const dispatch = useDispatch();
