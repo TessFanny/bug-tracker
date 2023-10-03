@@ -3,11 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { deleteProject } from "../../features/projects/projectSlice";
 
-const DeleteProjectModal = ({ open, closeModal, project }) => {
+const DeleteProjectModal = ({ open, closeModal, project, position }) => {
   const dispatch = useDispatch();
-  const {projects} = useSelector(store => store.projects)
-  const projectToDelete = projects.find(proj => proj.id == project.id)
-  
+  const { projects } = useSelector((store) => store.projects);
+  const projectToDelete = projects.find((proj) => proj.id == project.id);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,13 +14,16 @@ const DeleteProjectModal = ({ open, closeModal, project }) => {
     closeModal();
   };
   if (!open) return null;
+
   return (
     <div
-      className=" h-[100vh] absolute top-0 left-0 w-[100%] flex justify-center items-center bg-[rgba(.1,.1,.1,.2)]"
+      className=" h-[100%] fixed top-0 left-0 w-[100%] flex justify-center items-center bg-[rgba(.1,.1,.1,.2)]"
+      style={{ top: position.top, left: position.left }}
       onClick={closeModal}
+
     >
       <div
-        className=" bg-white w-[40%] p-6 rounded-lg h-auto shadow-md"
+        className=" bg-white md:w-[40%] p-6 rounded-lg h-auto shadow-md"
         onClick={(e) => {
           e.stopPropagation();
         }}
@@ -32,20 +34,22 @@ const DeleteProjectModal = ({ open, closeModal, project }) => {
         </div>
         <div>
           <p>Do you really want to delete this project?</p>
-          <form onSubmit={handleSubmit}>
+          <div className=" flex justify-between mt-2">
+            <form onSubmit={handleSubmit}>
+              <button
+                type="submit"
+                className=" text-[#842029] bg-[#f8d7da]  px-5 rounded-md"
+              >
+                Delete
+              </button>
+            </form>
             <button
-              type="submit"
-              className=" text-[#842029] bg-[#f8d7da]  px-5 rounded-md"
+              className=" mr-[.5rem] text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md"
+              onClick={closeModal}
             >
-              Delete
+              Cancel
             </button>
-          </form>
-          <button
-            className=" mr-[.5rem] text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md"
-            onClick={closeModal}
-          >
-            Cancel
-          </button>
+          </div>
         </div>
       </div>
     </div>

@@ -62,11 +62,11 @@ const AddProjectModal = ({ open, closeModal }) => {
 
   return (
     <div
-      className=" h-[100vh] absolute top-0 left-0 w-[100%] flex justify-center items-center bg-[rgba(.1,.1,.1,.2)]"
+      className=" h-[100%] absolute top-0 left-0 w-[100%] flex justify-center items-center bg-[rgba(.1,.1,.1,.2)]"
       onClick={closeModal}
     >
       <div
-        className=" bg-white w-[40%] p-6 rounded-lg h-auto shadow-md"
+        className=" bg-white md:w-[40%] p-6 rounded-lg h-auto shadow-md"
         onClick={(e) => {
           e.stopPropagation();
         }}
@@ -87,6 +87,7 @@ const AddProjectModal = ({ open, closeModal }) => {
               id="title"
               name="title"
               type="text"
+              required
               placeholder=" Enter project title"
               className=" w-full py-[0.375rem] px-[0.75rem]  rounded-[0.25rem] border-[1px] border-[#bcccdc] h-[35px] bg-[#f0f4f8] "
               onChange={(e) => dispatch(changeTitleValue(e.target.value))}
@@ -104,6 +105,7 @@ const AddProjectModal = ({ open, closeModal }) => {
               id="description"
               cols="10"
               rows="10"
+              required
               placeholder=" Enter project description"
               className=" w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[100px]"
               onChange={(e) => dispatch(changeDescriptionValue(e.target.value))}

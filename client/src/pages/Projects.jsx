@@ -24,6 +24,7 @@ const Projects = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   // project
   const [project, setProject] = useState(0);
   // search
@@ -38,6 +39,10 @@ const Projects = () => {
     setOpenDeleteModal(false);
     setOpenEditModal(false);
   };
+  const handleModalOpen = (e)=>{
+    setOpenModal(true)
+    setModalPosition({ top: e.clientY, left: e.clientX });
+  }
 
   // get all the projects
   useEffect(() => {
@@ -76,7 +81,7 @@ const Projects = () => {
       <div className="justify-center flex flex-col lg:flex-row-reverse lg:justify-between items-center gap-y-2">
         <button
           className=" bg-[#3b82f6] rounded-md px-2 py-1 text-white shadow-lg flex items-center text-center justify-center w-full lg:w-[10rem]"
-          onClick={() => setOpenModal(true)}
+          onClick={handleModalOpen}
         >
           <AiOutlinePlus className=" text-xl" />
           Add Project
@@ -136,111 +141,19 @@ const Projects = () => {
             ))}
           </div>
       </div>
-      {/*<div className=" h-full relative bg-green-500 ">
-         <table className=" w-full h-full overflow-hidden">
-            <thead className=" bg-gray-50 border-b-2 border-gray-200">
-              <tr>
-                <td className=" p-3 text-sm font-semibold tracking-wide text-left">
-                  Title
-                </td>
-                <td className=" p-3 text-sm font-semibold tracking-wide text-left">
-                  Description
-                </td>
-                <td className="w-40 p-3 text-sm font-semibold tracking-wide text-left">
-                  Project author
-                </td>
-                <td className=" w-40 p-3 text-sm font-semibold tracking-wide text-left">
-                  Created_at
-                </td>
+     
 
-                <td className=" w-44 p-3 text-sm font-semibold tracking-wide text-left">
-                  Actions
-                </td>
-              </tr>
-            </thead>
-            <tbody className=" divide-y divide-gray-100 h-[200px] ">
-              {isLoading ? (
-                <Loader />
-              ) : getCurrentPageData() && getCurrentPageData().length > 0 ? (
-                getCurrentPageData().map((project) => (
-                  
-                  <tr key={project.id}>
-                    <td
-                      className=" p-3 text-sm text-gray-700 whitespace-nowrap"
-                      data-title="Title"
-                    >
-                      <Link
-                        to={`project/${project.id}`}
-                        className=" text-[#3b82f6] hover:underline"
-                      >
-                        {project.title.charAt(0).toUpperCase() +
-                          project.title.slice(1)}
-                      </Link>
-                    </td>
-                    <td
-                      className="truncate text-left overflow-ellipsis p-3 text-sm text-gray-700 whitespace-nowrap"
-                      data-title="Description"
-                    >
-                      {project.description.charAt(0).toUpperCase() +
-                        project.description.slice(1)}
-                    </td>
-                    <td
-                      className=" p-3 text-sm text-gray-700 whitespace-nowrap"
-                      data-title="Project author"
-                    >
-                      {project.author}
-                    </td>
-                    <td
-                      className=" p-3 text-sm text-gray-700 whitespace-nowrap"
-                      data-title="Created_at"
-                    >
-                      {project.created_at}
-                    </td>
-
-                    <td
-                      className=" p-3 text-sm text-gray-700 whitespace-nowrap"
-                      data-title="Actions"
-                    >
-                      <button
-                        className="mr-[.5rem] text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md"
-                        onClick={() => {
-                          setProject(project), setOpenEditModal(true);
-                        }}
-                        disabled={user.role === "developer" && "disabled"}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className=" text-[#842029] bg-[#f8d7da]  px-5 rounded-md"
-                        onClick={() => {
-                          setProject(project), setOpenDeleteModal(true);
-                        }}
-                        disabled={user.role === "developer" && "disabled"}
-                      >
-                        delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr className="px-3 h-[200px] text-red-500">
-                  {" "}
-                  no data available ...{" "}
-                </tr>
-              )}
-            </tbody>
-          </table> 
-        </div>*/}
-
-      <AddProjectModal open={openModal} closeModal={closeModal} />
+      <AddProjectModal open={openModal} closeModal={closeModal}  />
       <DeleteProjectModal
         open={openDeleteModal}
         closeModal={closeModal}
+        position={modalPosition}
         project={project}
       />
       <EditProjectModal
         open={openEditModal}
         closeModal={closeModal}
+        position={modalPosition}
         project={project}
       />
     </section>

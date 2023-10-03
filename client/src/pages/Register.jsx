@@ -92,14 +92,14 @@ const Register = () => {
         </div>
 
         <h3 className=" text-center">
-          {values.isMember ? "Login" : "Register"}
+          {isMember ? "Login" : "Register"}
         </h3>
         {/*section prénom*/}
         {!isMember && (
           <FormRow
             type="text"
             name="firstname"
-            value={values.firstname}
+            value={firstname}
             handleChange={(e) => setFirstname(e.target.value)}
           />
         )}
@@ -109,7 +109,7 @@ const Register = () => {
           <FormRow
             type="text"
             name="lastname"
-            value={values.lastname}
+            value={lastname}
             handleChange={(e) => setLastname(e.target.value)}
           />
         )}
@@ -117,14 +117,14 @@ const Register = () => {
         <FormRow
           type="email"
           name="email"
-          value={values.email}
+          value={email}
           handleChange={(e) => setEmail(e.target.value)}
         />
         {/*section password*/}
         <FormRow
           type="password"
           name="password"
-          value={values.password}
+          value={password}
           handleChange={(e) => setPassword(e.target.value)}
         />
         {/*section confirmation de mote de passe*/}
@@ -132,17 +132,18 @@ const Register = () => {
           <FormRow
             type="password"
             name="passwordConfirm"
-            value={values.passwordConfirm}
+            value={passwordConfirm}
             handleChange={(e) => setPasswordConfirm(e.target.value)}
           />
         )}
+        {/* */}
         <div className="grid gap-y-2">
           <button type="submit" className="btn" disabled={isLoading}>
             {isLoading ? "loading..." : "submit"}
           </button>
           <button
             type="button"
-            className=" btn "
+            className=" btn  bg-blue-300"
             disabled={isLoading}
             onClick={() =>
               dispatch(
@@ -150,11 +151,13 @@ const Register = () => {
               )
             }
           >
+           {/* afficher Loading si ca charge et demo user au cas conttraire*/}
             {isLoading ? " Loading" : "Demo User"}
           </button>
         </div>
 
         <p className=" mt-5">
+         {/* afficher Pas encore enregistré? si pas encore enregistré */}
           {isMember ? "Pas encore enregistré?" : "déjà enregistré?"}
           <button
             type="button"

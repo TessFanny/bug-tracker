@@ -8,7 +8,7 @@ import {
   addMember
 } from "../../features/projects/projectSlice";
 
-const EditProjectModal = ({ open, closeModal, project }) => {
+const EditProjectModal = ({ open, closeModal, project, position}) => {
   const dispatch = useDispatch();
   const project_id = project.id;
   const { title, description } = useSelector((store) => store.projects);
@@ -43,11 +43,12 @@ const EditProjectModal = ({ open, closeModal, project }) => {
   if (!open) return null;
   return (
     <div
-      className=" h-[100vh] absolute top-0 left-0 w-[100%] flex justify-center items-center bg-[rgba(.1,.1,.1,.2)]"
+      className={`h-full fixed top-0 left-0 w-[100%] flex justify-center items-center bg-[rgba(.1,.1,.1,.2)]`}
+      style={{ top: position.top, left: position.left }}
       onClick={closeModal}
     >
       <div
-        className=" bg-white w-[40%] p-6 rounded-lg h-auto shadow-md"
+        className=" bg-white md:w-[40%] p-6 rounded-lg h-auto shadow-md relative "
         onClick={(e) => {
           e.stopPropagation();
         }}
@@ -130,13 +131,13 @@ const EditProjectModal = ({ open, closeModal, project }) => {
             </div>
             <button
               type="submit"
-              className=" text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md"
+              className=" text-[#0f5132] bg-[#d1e7dd]  px-5 rounded-md mt-10"
             >
               Save Changes
             </button>
           </form>
           <button
-            className=" mr-[.5rem] text-[#842029] bg-[#f8d7da]  px-5 rounded-md self-end"
+            className=" mr-[.5rem] text-[#842029] bg-[#f8d7da] absolute bottom-[25px] px-5 rounded-md self-end"
             onClick={closeModal}
           >
             Cancel

@@ -13,7 +13,7 @@ import {
   changeColorValue,
 } from "../../features/tickets/ticketsSlice";
 
-const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
+const AddTicketForm = ({ open, closeModal, projectId, ticket,position }) => {
   const { users } = useSelector((store) => store.users);
   const { user } = useSelector((store) => store.user);
   const { title, description, ticket_status, priority, color, type } =
@@ -94,24 +94,25 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
   if (!open) return null;
   return (
     <div
-      className=" h-[100vh] absolute top-0 left-0 w-[100%] flex justify-center items-center bg-[rgba(.1,.1,.1,.2)]"
-      onClick={closeModal}
+    className=" h-[100%] fixed top-0 left-0 w-[100%] flex justify-center items-center bg-[rgba(.1,.1,.1,.2)]"
+    style={{ top: position.top, left: position.left }}
+    onClick={closeModal}
     >
       <div
-        className=" bg-white w-[30%] p-6 rounded-lg h-auto shadow-md"
+        className=" bg-white max-w-[100%] md:w-[40%]  p-6 rounded-lg h-auto shadow-md relative z-[1000]"
         onClick={(e) => {
           e.stopPropagation();
         }}
       >
         <div className="flex justify-between items-center  rounded-md">
-          <span className=" font-semibold">Add New ticket</span>
+          <span className=" font-semibold capitalize">Add New ticket </span>
           <AiFillCloseCircle className=" cursor-pointer" onClick={closeModal} />
         </div>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        <form className="grid " onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="title"
-              className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
+              className=" block capitalize text-[0.875rem] tracking-[1px]"
             >
               ticket Title
             </label>
@@ -119,15 +120,16 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
               id="title"
               name="title"
               type="text"
+              required
               placeholder=" Enter project title"
-              className=" w-full py-[0.375rem] px-[0.75rem]  rounded-[0.25rem] border-[1px] border-[#bcccdc] h-[35px] bg-[#f0f4f8] "
+              className=" w-full  px-[0.5rem]  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] "
               onChange={(e) => dispatch(changeTitleValue(e.target.value))}
             />
           </div>
           <div>
             <label
               htmlFor="description"
-              className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
+              className=" block  capitalize text-[0.875rem] tracking-[1px]"
             >
               ticket Description
             </label>
@@ -136,16 +138,17 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
               id="description"
               cols="10"
               rows="10"
+              required
               placeholder=" Enter project description"
-              className=" w-full py-[0.375rem] px-[0.75rem]   rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[100px]"
+              className=" w-full  px-[0.5rem]   rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[100px]"
               onChange={(e) => dispatch(changeDescriptionValue(e.target.value))}
             ></textarea>
           </div>
-          <div className=" flex justify-between w-full gap-3">
+          <div className="grid w-full md:grid-cols-3 gap-x-4">
             <div className=" flex flex-col">
               <label
                 htmlFor="type"
-                className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
+                className=" block  capitalize text-[0.875rem] tracking-[1px]"
               >
                 
                 Ticket Type
@@ -153,7 +156,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
               <select
                 name="type"
                 id="type"
-                className=" px-4 border-[1px] rounded-sm  bg-[#f0f4f8] outline-none py-[0.225rem] "
+                className=" px-4 border-[1px] rounded-sm w-full bg-[#f0f4f8] outline-none py-[0.225rem] "
                 onChange={handleTypeChange}
               >
                 <option defaultValue="issue">issue</option>
@@ -166,7 +169,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
             <div className=" flex flex-col">
               <label
                 htmlFor="ticket_status"
-                className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
+                className=" block  capitalize text-[0.875rem] tracking-[1px]"
               >
               
                 Ticket status
@@ -175,7 +178,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
                 name="ticket_status"
                 id="ticket_status"
                 onChange={handleStatusChange}
-                className=" px-4 border-[1px] rounded-sm  bg-[#f0f4f8] outline-none py-[0.225rem]"
+                className=" px-4 border-[1px] rounded-sm w-full bg-[#f0f4f8] outline-none py-[0.225rem]"
               >
                 <option defaultValue={ticket_status}>new</option>
                 <option value="in progress">in progress</option>
@@ -185,7 +188,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
             <div>
               <label
                 htmlFor="priority"
-                className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px]"
+                className=" block  capitalize text-[0.875rem] tracking-[1px]"
               >
                 
                 Ticket priority
@@ -194,7 +197,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
                 name="priority"
                 id="priority"
                 onChange={handlePriorityChange}
-                className=" px-4 border-[1px] rounded-sm  bg-[#f0f4f8] outline-none py-[0.225rem]"
+                className=" px-4 border-[1px] rounded-sm w-full bg-[#f0f4f8] outline-none py-[0.225rem]"
               >
                 <option defaultValue={priority}>low</option>
                 <option value="medium">medium</option>
@@ -204,13 +207,13 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
           </div>
 
           <div>
-            <h3> Users</h3>
-            <fieldset className="  w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[150px] flex gap-20 overflow-auto">
+            <h3 > Users</h3>
+            <fieldset className="  lg:w-[50%] py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[150px] flex gap-x-4 lg:gap-11 overflow-auto">
               <div>
-                <h4>Name</h4>
+                <h4 className=" text-black font-semibold">Name</h4>
                 {users.map((user) => {
                   return (
-                    <div className=" flex  gap-4" key={user.id}>
+                    <div className="flex" key={user.id}>
                       <input
                         type="checkbox"
                         value={user.id}
@@ -218,7 +221,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
                         id={user.id}
                         onChange={handleMemberChange}
                       />
-                      <label htmlFor={user.id}>
+                      <label htmlFor={user.id} className=" ml-1">
                         {user.firstname} {user.lastname}
                       </label>
                     </div>
@@ -227,7 +230,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
               </div>
 
               <div>
-                <h4>Role</h4>
+                <h4 className=" text-black font-semibold">Role</h4>
                 {users.map((user) => {
                   return (
                     <div className=" flex  gap-4" key={user.id}>
@@ -241,7 +244,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket }) => {
 
           <button
             type="submit"
-            className=" bg-green-700 w-[6rem] self-center py-2 rounded-lg"
+            className=" bg-green-700 w-[6rem] rounded-md mx-auto mt-3"
           >
             Submit
           </button>

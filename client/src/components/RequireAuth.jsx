@@ -10,7 +10,7 @@ const RequireAuth = ({ allowedRole }) => {
   ) : user?.email ? (
     <Navigate to="/layout/unauthorized" state={{ from: location }} replace />
   ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
+    <Navigate to="/" state={{ from: location }} replace />
   );
 };
 

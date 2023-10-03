@@ -7,25 +7,25 @@ import AddTicketForm from "./AddTicketForm";
 import DeleteTicket from "./DeleteTicket";
 import EditTicket from "./EditTicket";
 import TicketBgChange from "./TicketBgChange";
+import TicketItem from "./TicketItem";
 
-const TicketsList = ({
-  projectId,
-  setTicketDetail,
-  setShowDetail,
-  project,
-}) => {
+const TicketsList = ({ projectId, setTicketDetail, setShowDetail }) => {
   const { tickets } = useSelector((store) => store.tickets);
+  const { projects } = useSelector((state) => state.projects);
   const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [ticket, setTicket] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
-   // pagination
-   const [currentPage, setCurrentPage] = useState(1); // Current page number
-   const [itemsPerPage, setItemsPerPage] = useState(4); // Number of items per page
-   
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1); // Current page number
+  const [itemsPerPage, setItemsPerPage] = useState(5); // Number of items per page
+
+  const project = projects.find((project) => project.id == projectId);
+
   const closeModal = () => {
     setOpenModal(false);
     setOpenDeleteModal(false);
@@ -38,131 +38,70 @@ const TicketsList = ({
 
   const filterTableData = () => {
     return tickets.filter((ticket) => {
-     return Object.values(ticket).some((cell) => {
+      return Object.values(ticket).some((cell) => {
         if (cell === null) {
           return false;
         }
-        return cell.toString().toLowerCase().includes(searchQuery.toLowerCase())
+        return cell
+          .toString()
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
       });
     });
   };
 
-   // pagination
-   const totalPages = Math.ceil(filterTableData().length / itemsPerPage);
+  // pagination
+  const totalPages = Math.ceil(filterTableData().length / itemsPerPage);
 
-   const getCurrentPageData = () => {
-     const startIndex = (currentPage - 1) * itemsPerPage;
-     const endIndex = startIndex + itemsPerPage;
-     return filterTableData().slice(startIndex, endIndex);
-   };
-  
+  const getCurrentPageData = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filterTableData().slice(startIndex, endIndex);
+  };
+
   return (
-    <section className=" px-4 py-7 bg-white rounded-lg shadow-md flex flex-col overflow-hidden">
-      <div className="flex justify-between">
-        <h1 className=" text-lg">Tickets for {project.title} Project</h1>
-        <button
-          className=" bg-[#3b82f6] rounded-md px-2 py-1 text-white flex items-center"
-          onClick={() => setOpenModal(true)}
-        >
-          <AiOutlinePlus className=" text-xl" />
-          Add ticket
-        </button>
+    <section className="rounded-lg flex flex-col  mt-4 bg-white shadow-md">
+      <div className=" ">
+        <h1 className=" text-lg px-3 pt-4">
+          Tickets for {project.title} Project
+        </h1>
+        <div className="justify-center flex flex-col lg:flex-row-reverse lg:justify-between items-center gap-y-2 p-3">
+          <button
+            className="bg-[#3b82f6] rounded-md px-2 py-1 text-white shadow-lg flex items-center text-center justify-center w-full lg:w-[10rem]"
+            onClick={() => setOpenModal(true)}
+          >
+            <AiOutlinePlus className=" text-xl" />
+            Add ticket
+          </button>
+          <div className=" w-full lg:w-[30%] flex items-center  px-2 rounded-lg mt-4 self-end border-[1px] bg-[#f5f1f3] border-gray-200 shadow-md ">
+            <AiOutlineSearch size={25} className=" text-2xl " />
+            <input
+              type="search"
+              name="search"
+              id="search"
+              placeholder="search ticket"
+              defaultValue={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className=" w-full pl-5 py-1 outline-none rounded-md focus-within:scale-105 pr-3 bg-[#f5f1f3]"
+            />
+          </div>
+        </div>
       </div>
-      <div className=" w-[30%] flex items-center  px-2 rounded-lg mt-4 self-end border-[1px] border-gray-200 shadow-md ">
-        <AiOutlineSearch className=" text-2xl" />
-        <input
-          type="search"
-          name="search"
-          id="search"
-          placeholder="search ticket"
-          defaultValue={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-2 py-1 w-full outline-none"
-        />
-      </div>
-      <div className=" w-full mt-4 pb-4  flex-1">
-        <div className=" overflow-y-hidden overflow-x-auto">
-          <table className=" w-full ">
-            <thead className=" bg-gray-50 border-b-2 border-gray-200">
-              <tr>
-                <td className=" p-3 text-sm font-semibold tracking-wide text-left">
-                  Title
-                </td>
-                <td className=" w-40 p-3 text-sm font-semibold tracking-wide text-left">
-                  Description
-                </td>
-                <td className="w-40 p-3 text-sm font-semibold tracking-wide text-left">
-                  Ticket Status
-                </td>
-                <td className="w-40 p-3 text-sm font-semibold tracking-wide text-left">
-                  Ticket Author
-                </td>
-                <td className=" w-44 p-3 text-sm font-semibold tracking-wide text-left">
-                  created_on
-                </td>
-                <td className=" w-44 p-3 text-sm font-semibold tracking-wide text-left">
-                  Actions
-                </td>
-              </tr>
-            </thead>
-            <tbody className=" divide-y divide-gray-100 ">
-              {getCurrentPageData().map((ticket, id) => (
-                <tr key={id}>
-                  <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <button
-                      className=" text-[#3b82f6] hover:underline"
-                      onClick={() => {
-                        setShowDetail(true);
-                        setTicketDetail(ticket);
-                      }}
-                    >
-                      { ticket && (ticket.title.charAt(0).toUpperCase() +
-                        ticket.title.slice(1))}
-                    </button>
-                  </td>
-                  <td className=" truncate text-left overflow-ellipsis max-w-md p-3 text-sm text-gray-700  ">
-                    {ticket && (ticket.description.charAt(0).toUpperCase() +
-                      ticket.description.slice(1))}
-                  </td>
-                  <td
-                    className={` p-3 text-sm text-gray-700 whitespace-nowrap`}
-                  >
-                    <TicketBgChange ticket={ticket} />
-                  </td>
-                  <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {ticket && (ticket.author.charAt(0).toUpperCase() +
-                      ticket.author.slice(1))}
-                  </td>
-                  <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {ticket.created_at}
-                  </td>
-                  <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <button
-                      className=" mr-[.5rem] text-[#0f5132] bg-[#d1e7dd] py-1 px-5 rounded-md"
-                      onClick={() => {
-                        setOpenEditModal(true),
-                          setTicket(ticket),
-                          setTicketDetail(ticket);
-                      }}
-                      disabled={user.role === "admin" && "disabled"}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className=" text-[#842029] bg-[#f8d7da] py-1 px-5 rounded-md"
-                      onClick={() => {
-                        setTicket(ticket), setOpenDeleteModal(true);
-                      }}
-                      disabled={user.role === "admin" && "disabled"}
-                    >
-                      delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className=" flex gap-5 pl-5">
+      <div className="mt-4 pb-4 ">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-5 bg-[#f5f1f3] p-5 ">
+          {getCurrentPageData().map((ticket, id) => (
+            <TicketItem
+              key={id}
+              ticket={ticket}
+              setOpenDeleteModal={setOpenDeleteModal}
+              setOpenEditModal={setOpenEditModal}
+              setShowDetail={setShowDetail}
+              setTicketDetail={setTicketDetail}
+              setTicket={setTicket}
+            />
+          ))}
+        </div>
+        <div className=" flex gap-5 p-5">
           {Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index}
@@ -174,25 +113,27 @@ const TicketsList = ({
             </button>
           ))}
         </div>
-        </div>
       </div>
       <AddTicketForm
         open={openModal}
         closeModal={closeModal}
         projectId={projectId}
         ticket={ticket}
+        position={modalPosition}
       />
       <DeleteTicket
         open={openDeleteModal}
         closeModal={closeModal}
         projectId={projectId}
         ticket={ticket}
+        position={modalPosition}
       />
       <EditTicket
         open={openEditModal}
         closeModal={closeModal}
         projectId={projectId}
         ticket={ticket}
+        position={modalPosition}
       />
     </section>
   );

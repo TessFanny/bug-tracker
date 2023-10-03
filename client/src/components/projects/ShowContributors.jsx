@@ -35,9 +35,7 @@ const ShowContributors = ({ projectId, setOpenModal, project }) => {
               <td className=" p-3 text-sm font-semibold tracking-wide text-left">
                 Name
               </td>
-              <td className=" p-3 text-sm font-semibold tracking-wide text-left">
-                Email
-              </td>
+
               <td className="w-40 p-3 text-sm font-semibold tracking-wide text-left">
                 Role
               </td>
@@ -50,9 +48,7 @@ const ShowContributors = ({ projectId, setOpenModal, project }) => {
                 <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
                   {contributor.contributor}
                 </td>
-                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                  {contributor.email}
-                </td>
+
                 <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
                   {contributor.role}
                 </td>
