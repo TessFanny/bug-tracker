@@ -18,46 +18,55 @@ const ShowContributors = ({ projectId, setOpenModal, project }) => {
 
   const handleRemoveMemberClick = () => {};
   return (
-    <div className="p-4 bg-white rounded-md shadow-md px-4 flex flex-col ">
-      <div className=" flex  justify-between">
-        <h3>Team members</h3>
+    <div className=" mt-6 md:mt-0 bg-white rounded-md shadow-md px-4 py-2 flex flex-col relative items-center ">
+      <div className=" bgGradient shadow-md rounded-sm absolute top-[-1rem] w-[95%] p-3 text-white flex justify-between">
+        <div className="">
+          <h3 className=" capitalize">Assigned users </h3>
+          <p className=" text-xs md:text-sm">
+            Current users working on this projects
+          </p>
+        </div>
         <button
-          className=" bg-[#3b82f6] rounded-md px-1 py-1 text-white text-sm  flex items-center"
+          className=" bg-white opacity-30 rounded-md px-2 text-black mt-3 h-8 text-sm font-bold hover:opacity-100"
           onClick={() => setOpenModal(true)}
         >
           New Member
         </button>
       </div>
-      <div className="overflow-auto pt-4 w-full">
-        <table className=" w-full  ">
+      <div className=" mt-10 pt-4 w-full">
+        <table className=" w-full max-h-10 overflow-auto">
           <thead className=" bg-gray-50 border-b-2 border-gray-200">
             <tr>
-              <td className=" p-3 text-sm font-semibold tracking-wide text-left">
+              <td className=" px-3 text-sm font-semibold tracking-wide text-left">
                 Name
               </td>
 
-              <td className="w-40 p-3 text-sm font-semibold tracking-wide text-left">
+              <td className="  px-3 text-sm font-semibold tracking-wide text-left">
                 Role
               </td>
-              <td className="w-20 p-3 text-sm font-semibold tracking-wide text-left"></td>
+              <td className="w-40 px-3 text-center text-sm font-semibold tracking-wide capitalize">
+                Remove member
+              </td>
             </tr>
           </thead>
           <tbody className=" divide-y divide-gray-100 ">
             {contributors.map((contributor, index) => (
               <tr key={index}>
-                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                  {contributor.contributor}
+                <td className=" px-3 text-sm text-gray-700 whitespace-nowrap">
+                  {contributor.contributor.charAt(0).toUpperCase() +
+                    contributor.contributor.slice(1)}
                 </td>
 
-                <td className=" p-3 text-sm text-gray-700 whitespace-nowrap">
-                  {contributor.role}
+                <td className=" px-3 text-sm text-gray-700 whitespace-nowrap">
+                  {contributor.role.charAt(0).toUpperCase() +
+                    contributor.role.slice(1)}
                 </td>
-                <td className="w-20 p-3 text-sm font-semibold tracking-wide text-left relative">
+                <td className=" w-40 px-3 text-sm font-semibold tracking-wide text-center relative ">
                   <button
                     onClick={() => handleRemoveMemberClick}
-                    className="h-[32px] w-[32px] flex justify-center items-center active:border-white duration-300"
+                    className="h-[32px] w-[32px] active:border-white duration-300"
                   >
-                    <HiOutlineTrash size="25px" color="red" />
+                    <HiOutlineTrash size={20} color="red" />
                   </button>
                 </td>
               </tr>

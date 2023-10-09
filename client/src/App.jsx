@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   Layout,
   Login,
-  Unauthorized,  
+  Unauthorized,
   Projects,
   MyProjects,
   Missing,
@@ -12,37 +12,42 @@ import {
   RequireAuth,
   Profile,
   Project,
-  Loader
+  Loader,
+  TicketDetails,
+  Ticket
 } from "./components";
-import { Admin, Register, Dashboard } from "./pages";
+import { Admin, Register, Dashboard, Tickets } from "./pages";
 
 function App() {
   const loggedIn = window.localStorage.getItem("isLoggedIn");
 
   return (
     <Routes>
-    <Route path="/" element={<Register />} />
-    <Route path="/register" element={<Register />} />
+      <Route path="/" element={<Register />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/layout" element={<Layout />}>
         <Route element={<RequireAuth allowedRole={["developer", "admin"]} />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="myProjects" element={<MyProjects />} />
-          <Route path="projects" element={<Projects/>} />
-          <Route path="tickets" element={<MyTickets />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="tickets" element={<Tickets />} />
+          <Route
+            path="projects/project/:projectId/ticket/:ticketId"
+            element={<TicketDetails />}
+          />
           <Route path="profile" element={<Profile />} />
           <Route path="unauthorized" element={<Unauthorized />} />
-          <Route path="dashboard/project/:id" element={<Project />} />
           <Route path="projects/project/:id" element={<Project />} />
-          <Route path="tickets/project/:id" element={<Project />} />
+          <Route
+            path="tickets/ticket/:ticketId"
+            element={<Ticket/>}
+          />
         </Route>
         <Route element={<RequireAuth allowedRole={["admin"]} />}>
           <Route path="admin" element={<Admin />} />
         </Route>
       </Route>
-      
     </Routes>
   );
 }
 
 export default App;
-

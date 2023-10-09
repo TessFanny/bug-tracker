@@ -148,7 +148,7 @@ export const userSlice = createSlice({
         state.isLoading = true;
       })
       // Reducer for handling the fulfilled state of the modify request
-      .addCase(updateUser.fulfilled, (state, {payload}) => {
+      .addCase(updateUser.fulfilled, (state, action) => {
         state.user = action.payload.modifiedUser;
         state.isLoading = false;
         state.status = true;

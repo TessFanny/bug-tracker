@@ -28,7 +28,6 @@ const Register = () => {
   const [isMember, setIsMember] = useState(true);
 
   useEffect(() => {
-    console.log(isRegisteredFulfill);
     if (isRegisteredFulfill) {
       setTimeout(() => {
         window.location.reload(false);

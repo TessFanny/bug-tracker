@@ -12,7 +12,7 @@ import TicketPriorityColor from "./TicketPriorityColor";
 import { getAllProjects } from "../../features/projects/projectSlice";
 import CommentsOnTicket from "../comments/CommentsOnTicket";
 
-const TicketDetails = () => {
+const Ticket = () => {
   const navigate = useNavigate();
   const { members } = useSelector((store) => store.tickets);
   const { allTickets } = useSelector((store) => store.tickets);
@@ -35,7 +35,7 @@ const TicketDetails = () => {
         <div className=" bg-white relative flex  justify-center  ">
           <div className="bgGradient shadow-md rounded-sm absolute top-[-1rem] w-[95%] p-2 text-white">
             <h2 className=" capitalize ">
-              details for tickets:{" "}
+              details for tickets:
               {ticket && (
                 <span className=" text-black ml-2">{ticket.title}</span>
               )}
@@ -132,4 +132,4 @@ const TicketDetails = () => {
   );
 };
 
-export default TicketDetails;
+export default Ticket;

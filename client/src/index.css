@@ -25,6 +25,12 @@
   .edit {
     @apply mr-[.5rem] text-[#0f5132] bg-[#d1e7dd] px-2 rounded-sm shadow-lg  hover:scale-105 transition duration-300 ease-in-out hover:bg-[#0f5132] hover:text-[#d1e7dd] font-semibold
   }
+  .layoutLink {
+    @apply text-white bg-gradient-to-r from-cyan-500 to-blue-500  px-4 py-1 rounded-md
+  }
+  .bgGradient {
+    @apply bg-gradient-to-r from-cyan-500 to-blue-500
+  }
 }
 
 *,

@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import TicketBgChange from "./TicketBgChange";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { Outlet, Route, Routes, useParams } from 'react-router-dom';
+import TicketDetails from "./TicketDetails";
 
 const TicketItem = ({
   ticket,
   setOpenDeleteModal,
   setOpenEditModal,
-  setShowDetail,
-  setTicketDetail,
   setTicket,
 }) => {
   const { user } = useSelector((store) => store.user);
+  const {ticketId} = useParams()
 
   let borderColorClass = "";
 
@@ -29,46 +31,37 @@ const TicketItem = ({
   }
   return (
     <div
-      className={` bg-white rounded-md grid ${borderColorClass} border-t-[8px]`}
+      className={` bg-white rounded-md grid border-[1px] ${borderColorClass} border-t-[8px] `}
     >
       <div className="  p-3 w-full flex justify-between border-b rounded-t-lg capitalize transition duration-300 ease-in-out">
-        <button
+        <Link
+          to={`ticket/${ticket.id}`}
           className=" text-[#3b82f6] hover:underline"
-          onClick={() => {
-            setShowDetail(true);
-            setTicketDetail(ticket);
-          }}
+          
         >
           {ticket &&
             ticket.title.charAt(0).toUpperCase() + ticket.title.slice(1)}
-        </button>
-        <div className="">
-          <h3 className="text-sm text-black"> Author :</h3>
-          <p
-            className="text-[.8rem] text-gray-500 "
-            data-title="Project author"
-          >
-            {ticket.author}
-          </p>
+        </Link>
+        <div className={`p-3 text-sm text-gray-700 `}>
+          <TicketBgChange ticket={ticket} />
         </div>
       </div>
 
-      <div className=" truncate text-left overflow-ellipsis max-w-md p-3 text-sm text-gray-700  ">
+      <div className="text-left  max-w-md p-3 text-sm text-gray-700  ">
         {ticket &&
           ticket.description.charAt(0).toUpperCase() +
             ticket.description.slice(1)}
       </div>
-      <div className={` p-3 text-sm text-gray-700 whitespace-nowrap`}>
-        <TicketBgChange ticket={ticket} />
+      <div className="px-3 flex justify-between">
+        <h3 className="text-sm text-black"> Author :</h3>
+        <p className="text-[.8rem] text-gray-500 mr-4">{ticket.author}</p>
       </div>
+
       <div className=" p-3 text-sm text-gray-700 ">
-        {ticket.created_at}
-      </div>
-      <div className=" p-3 text-sm text-gray-700 whitespace-nowrap">
         <button
           className="edit"
           onClick={() => {
-            setOpenEditModal(true), setTicket(ticket), setTicketDetail(ticket);
+            setOpenEditModal(true), setTicket(ticket)
           }}
           disabled={user.role === "developer" && "disabled"}
         >
@@ -83,7 +76,11 @@ const TicketItem = ({
         >
           delete
         </button>
+        <span className="  text-[.6rem] text-gray-700 ml-[4.2rem] ">
+          {ticket.created_at}
+        </span>
       </div>
+      
     </div>
   );
 };

@@ -61,7 +61,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(selectedMembersId);
+    
     if (isLoading) return;
 
     setIsLoading(true);

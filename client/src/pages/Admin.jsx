@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { HiOutlineTrash } from "react-icons/hi";
-import { editUser } from "../features/users/usersSlice";
+import { editUser, getAllUsers } from "../features/users/usersSlice";
 import { changeRoleValue } from "../features/user/userSlice";
 
 const Admin = () => {
@@ -25,6 +25,10 @@ const Admin = () => {
   // useEffect(()=>{
   //   dispatch(changeRoleValue(editingUser))
   // }, [editingUser])
+  useEffect(()=>{
+dispatch(getAllUsers())
+  }, [])
+  
 
   const filterTableData = () => {
     return users.filter((user) => {
@@ -93,12 +97,13 @@ const Admin = () => {
                     <td className=" p-3 text-sm font-semibold tracking-wide text-left">
                       Email
                     </td>
-                    <td className=" p-3 text-sm font-semibold tracking-wide text-left">
+                    <td className=" p-3 text-sm font-semibold tracking-wide text-left capitalize">
                       Role
                     </td>
                     <td className=" p-3 text-sm font-semibold tracking-wide text-left">
                       Delete
                     </td>
+              
                   </tr>
                 </thead>
                 <tbody className=" divide-y divide-gray-100 ">
@@ -126,7 +131,7 @@ const Admin = () => {
                               
                               }}
                             >
-                              <option value="lead developer">
+                              <option value="developer">
                                 developer
                               </option>
                               <option value="lead developer">
@@ -157,6 +162,7 @@ const Admin = () => {
                           <HiOutlineTrash size="15px" color="red" />
                         </button>
                       </td>
+                      
                     </tr>
                   ))}
                 </tbody>
@@ -167,7 +173,7 @@ const Admin = () => {
                     key={index}
                     onClick={() => setCurrentPage(index + 1)}
                     disabled={currentPage === index + 1}
-                    className=" w-[25px] h-[25px] bg-[#3b82f6] text-white rounded-full flex justify-center items-center"
+                    className=" w-[25px] h-[25px] bgGradient text-white rounded-full flex justify-center items-center"
                   >
                     {index + 1}
                   </button>

@@ -39,10 +39,10 @@ const Projects = () => {
     setOpenDeleteModal(false);
     setOpenEditModal(false);
   };
-  const handleModalOpen = (e)=>{
-    setOpenModal(true)
-    setModalPosition({ top: e.clientY, left: e.clientX });
-  }
+  const handleModalOpen = (e) => {
+    setOpenModal(true);
+    //setModalPosition({ top: e.clientY, left: e.clientX });
+  };
 
   // get all the projects
   useEffect(() => {
@@ -78,33 +78,35 @@ const Projects = () => {
 
   return (
     <section className="  mt-[8rem] w-full h-full lg:p-5">
-      <div className="justify-center flex flex-col lg:flex-row-reverse lg:justify-between items-center gap-y-2">
-        <button
-          className=" bg-[#3b82f6] rounded-md px-2 py-1 text-white shadow-lg flex items-center text-center justify-center w-full lg:w-[10rem]"
-          onClick={handleModalOpen}
-        >
-          <AiOutlinePlus className=" text-xl" />
-          Add Project
-        </button>
-        <div className="relative w-full lg:w-[25%] shadow-lg ">
-          <AiOutlineSearch
-            size={25}
-            className=" absolute top-2 right-4 text-2xl"
-          />
-          <input
-            type="search"
-            name="search"
-            id="search"
-            placeholder="search project"
-            defaultValue={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className=" w-full pl-3 py-1 outline-none rounded-md focus-within:scale-105 pr-3 "
-          />
+      <div className=" bgGradient rounded-md">
+        <h1 className=" text-3xl font-bold capitalize text-center pt-3"> Projects</h1>
+        <div className="  p-5 justify-center flex flex-col lg:flex-row-reverse lg:justify-between items-center gap-y-2">
+          <button
+            className=" bgGradient rounded-md px-2 py-1 text-white shadow-md flex items-center text-center justify-center w-full lg:w-[10rem]"
+            onClick={()=> setOpenModal(true)}
+          >
+            <AiOutlinePlus className=" text-xl" />
+            Add Project
+          </button>
+          <div className="relative w-full lg:w-[25%] shadow-lg ">
+            <AiOutlineSearch
+              size={25}
+              className=" absolute top-2 right-4 text-2xl"
+            />
+            <input
+              type="search"
+              name="search"
+              id="search"
+              placeholder="search project"
+              defaultValue={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className=" w-full pl-3 py-1 outline-none rounded-md focus-within:scale-105 pr-3 "
+            />
+          </div>
         </div>
       </div>
 
-      <div className=" mt-2">
-        <h1> All the projects go here</h1>
+      <div className=" mt-5">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {isLoading ? (
             <Loader />
@@ -122,28 +124,25 @@ const Projects = () => {
             ))
           ) : (
             <div className="px-3 h-[200px] text-red-500">
-              
               no data available ...{" "}
             </div>
-          )}         
-          
+          )}
         </div>
         <div className=" w-full flex pl-5 mt-8 shadow-2xl">
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentPage(index + 1)}
-                disabled={currentPage === index + 1}
-                className=" w-[25px] h-[25px] bg-[#3b82f6] text-white rounded-full flex justify-center items-center"
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index + 1)}
+              disabled={currentPage === index + 1}
+              className=" w-[25px] h-[25px] bgGradient text-white rounded-full flex justify-center items-center"
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
       </div>
-     
 
-      <AddProjectModal open={openModal} closeModal={closeModal}  />
+      <AddProjectModal open={openModal} closeModal={closeModal} />
       <DeleteProjectModal
         open={openDeleteModal}
         closeModal={closeModal}

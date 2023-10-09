@@ -16,6 +16,8 @@ const initialState = {
   assignedTicketsToUser: [],
 };
 
+
+// all the tickets 
 export const getAllTickets = createAsyncThunk(
   "tickets/getAllTickets",
   async (thunkAPI) => {

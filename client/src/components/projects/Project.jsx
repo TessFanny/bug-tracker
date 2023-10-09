@@ -2,86 +2,95 @@ import React from "react";
 import AddContributorsModal from "./AddContributorsModal";
 import { AiOutlineSearch, AiOutlinePlus } from "react-icons/ai";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import TickectsList from "../tickets/TicketsList";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import ShowContributors from "./ShowContributors";
 import TicketDetails from "../tickets/TicketDetails";
 import CommentsOnTicket from "../comments/CommentsOnTicket";
+import Loader from "../Loader";
+import { getAllProjects } from "../../features/projects/projectSlice";
 
 const Project = () => {
+  const navigate = useNavigate();
   const { projects } = useSelector((state) => state.projects);
   const projectId = useParams().id;
   const [openModal, setOpenModal] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [ticketDetail, setTicketDetail] = useState({});
-  
+  const dispatch = useDispatch();
   const closeModal = () => {
     setOpenModal(false);
   };
+
+  useEffect(() => {
+    dispatch(getAllProjects());
+  }, [projectId]);
   //const [project, setProject] = useState({});
 
   const project = projects.find((project) => project.id == projectId);
 
   return (
-    <div className=" mt-[8rem] w-full h-full lg:p-5 ">
-      <div className=" grid ">
-        <div className="grid lg:grid-cols-2 gap-3 ">
-          <div className="bg-white shadow-lg rounded-lg min-w-fit lg:min-w-full max-w-sm ">
-            <div className=" p-3 w-full flex justify-between border-b rounded-t-lg capitalize transition duration-300 ease-in-out">
-              <h2 className=" text-md  hover:text-black">
-                {project.title.charAt(0).toUpperCase() + project.title.slice(1)}
-              </h2>
-              <div className="">
-                <h3 className="text-sm text-black"> Author :</h3>
-                <p
-                  className="text-[.8rem] text-gray-500 "
-                  data-title="Project author"
+    <section className=" mt-[8rem] w-full h-full lg:p-5 ">
+      {project ? (
+        <div className=" grid ">
+          <div className="grid lg:grid-cols-2 gap-3 ">
+            <div className=" bg-white shadow-lg rounded-lg min-w-fit lg:min-w-full max-w-sm relative flex items-center flex-col max-h-[15rem]">
+              <div className=" bgGradient shadow-md rounded-sm absolute top-[-1rem] w-[95%] p-2 text-whiteborder-b capitalize transition duration-300 ease-in-out text-white">
+                <h2 className=" text-md  hover:text-black">
+                  {project.title.charAt(0).toUpperCase() +
+                    project.title.slice(1)}
+                </h2>
+                <button
+                  className=" underline text-sm"
+                  onClick={() => navigate(-1)}
                 >
-                  {project.author}
+                  Back to list
+                </button>
+              </div>
+              <div className=" mt-12 text-left p-5 ml-6 text-sm text-gray-700 w-[100%]">
+                <h3 className=" font-semibold capitalize">
+                  Project description
+                </h3>
+                <p className=" text-sm ">
+                  {project.description.charAt(0).toUpperCase() +
+                    project.description.slice(1)}
+                </p>
+              </div>
+              <div className=" text-left ml-6  px-5 pb-2 text-sm text-gray-700 w-[100%]">
+                <h3 className=" font-semibold capitalize">Project submitter</h3>
+                <p className=" text-sm">
+                  {project.author.charAt(0).toUpperCase() +
+                    project.author.slice(1)}
                 </p>
               </div>
             </div>
 
-            <p
-              className=" text-left p-3 text-sm text-gray-700 w-[100%]"
-              data-title="Description"
-            >
-              {project.description.charAt(0).toUpperCase() +
-                project.description.slice(1)}
-            </p>
-
-            <div className=" p-3 text-sm text-gray-700 flex justify-between items-center">
-              <p
-                className=" p-3 text-[.7rem] text-black  font-semibold"
-                data-title="Created_at"
-              >
-                {project.created_at}
-              </p>
+            <div className=" ">
+              <ShowContributors
+                projectId={projectId}
+                setOpenModal={setOpenModal}
+                project={project}
+              />
+              <AddContributorsModal
+                open={openModal}
+                closeModal={closeModal}
+                projectId={projectId}
+              />
             </div>
           </div>
-          <div>
-            <ShowContributors
-              projectId={projectId}
-              setOpenModal={setOpenModal}
-              project={project}
-            />
-            <AddContributorsModal
-              open={openModal}
-              closeModal={closeModal}
-              projectId={projectId}
-            />
-          </div>
-        </div>
 
-        <TickectsList
-          projectId={projectId}
-          setShowDetail={setShowDetail}
-          setTicketDetail={setTicketDetail}
-        />
-      </div>
+          <TickectsList
+            projectId={projectId}
+            setShowDetail={setShowDetail}
+            setTicketDetail={setTicketDetail}
+          />
+        </div>
+      ) : (
+        <Loader />
+      )}
 
       <div>
         {showDetail && (
@@ -96,15 +105,12 @@ const Project = () => {
                   projectId={projectId}
                 />
               }
-              <CommentsOnTicket
-                ticketDetail={ticketDetail}
-                projectId={projectId}
-              />
+              <CommentsOnTicket ticket={ticket} />
             </div>
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

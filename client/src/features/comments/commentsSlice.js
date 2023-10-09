@@ -133,6 +133,18 @@ const commentsSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
         toast.error(state.error);
+      }).addCase(deleteComment.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(deleteComment.fulfilled, (state, action) => {
+        state.status = "succeeded";
+       toast.success(' comment successfully deleted')
+      })
+      .addCase(deleteComment.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+        toast.error(state.error);
       })
      }
 })

@@ -11,7 +11,7 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { FaEdit } from "react-icons/fa";
 import DeleteComment from "./DeleteComment";
 
-const CommentsOnTicket = ({ ticketDetail, projectId }) => {
+const CommentsOnTicket = ({ ticketDetail }) => {
   // initialize items from the store
   const { comments, text } = useSelector((store) => store.comments);
   const { user } = useSelector((store) => store.user);
@@ -24,7 +24,7 @@ const CommentsOnTicket = ({ ticketDetail, projectId }) => {
   const [editingComment, setEditingComment] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  // delete comment 
+  // delete comment
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState({});
 
@@ -42,7 +42,6 @@ const CommentsOnTicket = ({ ticketDetail, projectId }) => {
   //   dispatch(changeTextValue(text));
   // }, [isEditing]);
 
-  
   const handleTextChange = (e) => {
     dispatch(changeTextValue(e.target.value));
   };
@@ -56,7 +55,23 @@ const CommentsOnTicket = ({ ticketDetail, projectId }) => {
   };
 
   return (
-    <section className="px-4 py-7 rounded-lg shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] w-[50%]">
+    <section className=" mt-14 text-black">
+      <form className=" flex flex-col" onSubmit={handleSubmit}>
+        <label htmlFor="text"></label>
+        <div className=" flex gap-6 pr-3">
+          <input
+            type="text"
+            name="text"
+            id="text"
+            placeholder="insert your comment here "
+            className=" w-full border-2 border-gray-200 outline-none px-4 py-1 rounded-md"
+            onChange={handleTextChange}
+          ></input>
+          <button type="submit" className=" bgGradient px-7 text-white rounded-md">
+            Add
+          </button>
+        </div>
+      </form>
       {comments.length === 0 ? (
         "No comment for the moment"
       ) : (
@@ -129,22 +144,6 @@ const CommentsOnTicket = ({ ticketDetail, projectId }) => {
         </div>
       )}
 
-      <form className=" flex flex-col" onSubmit={handleSubmit}>
-        <label htmlFor="text"></label>
-        <div className=" flex gap-6 pr-3">
-          <input
-            type="text"
-            name="text"
-            id="text"
-            placeholder="insert your comment here "
-            className=" w-full border-2 border-gray-200 outline-none px-4 py-1 rounded-md"
-            onChange={handleTextChange}
-          ></input>
-          <button type="submit" className=" bg-blue-400 px-7 rounded-md">
-            Add
-          </button>
-        </div>
-      </form>
       <DeleteComment
         comment={commentToDelete}
         open={openDeleteModal}
