@@ -78,7 +78,7 @@ const TicketsList = ({ projectId, setTicketDetail, setShowDetail }) => {
         </h1>
         <div className="justify-center flex flex-col lg:flex-row-reverse lg:justify-between items-center gap-y-2 px-3">
           <button
-            className="bgGradient rounded-md px-2 py-1 text-white shadow-lg flex items-center text-center justify-center w-full lg:w-[10rem]"
+            className="bgGradient rounded-md px-2 py-1 text-white shadow-lg flex items-center text-center justify-center w-full lg:w-[10rem] border-[1px]"
             onClick={() => setOpenModal(true)}
           >
             <AiOutlinePlus className=" text-xl" />

@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser, registerUser } from "../features/user/userSlice";
 import { useNavigate, useRouteLoaderData } from "react-router-dom";
 
-const initialState = {
-  isMember: true,
-};
+// const initialState = {
+//   isMember: true,
+// };
 const Register = () => {
-  const [values, setValues] = useState(initialState);
+  //const [values, setValues] = useState(initialState);
   const { user, isLoading, isRegisteredFulfill } = useSelector(
     (store) => store.user
   );
@@ -81,18 +81,22 @@ const Register = () => {
         className=" max-w-[400px]  border-t-[5px] border-teal-500 w-[90vw] shadow-lg rounded-sm py-[2rem] px-[2.5rem] my-10 mx-auto"
         onSubmit={handleSubmit}
       >
-        <div className=" flex items-center justify-center gap-4 mb-6">
-          <img
-            src="favicon_io/favicon-32x32.png"
-            alt=""
-            className="  bg-red-600"
-          />
-          <h2 className=" text-3xl text-purple-900 font-bold">Bug Tracker</h2>
+        <div className=" flex flex-col items-center justify-center gap-2 mb-6">
+          <div className=" flex  items-center justify-center gap-4 ">
+            <img
+              src="favicon_io/favicon-32x32.png"
+              alt=""
+              className="  bg-red-600"
+            />
+            <h2 className=" text-3xl text-purple-900 font-bold">Bug Tracker</h2>
+          </div>
+
+          <p className=" text-center">
+          Organize, Track, Manage, and Resolve issues, bugs on your projects
+          </p>
         </div>
 
-        <h3 className=" text-center">
-          {isMember ? "Login" : "Register"}
-        </h3>
+        <h3 className=" text-center font-semibold">{isMember ? "Login" : "Register"}</h3>
         {/*section prénom*/}
         {!isMember && (
           <FormRow
@@ -140,24 +144,69 @@ const Register = () => {
           <button type="submit" className="btn" disabled={isLoading}>
             {isLoading ? "loading..." : "submit"}
           </button>
-          <button
-            type="button"
-            className=" btn  bg-blue-300"
-            disabled={isLoading}
-            onClick={() =>
-              dispatch(
-                loginUser({ email: "testUser@gamil.com", password: "secret" })
-              )
-            }
-          >
-           {/* afficher Loading si ca charge et demo user au cas conttraire*/}
-            {isLoading ? " Loading" : "Demo User"}
-          </button>
+          {isMember && (
+            <div className=" grid gap-2">
+              <h2> Demo users:</h2>
+              {/* admin demo */}
+              <button
+                type="button"
+                className=" btn  bg-blue-300"
+                disabled={isLoading}
+                onClick={() =>
+                  dispatch(
+                    loginUser({
+                      email: "testUser@gamil.com",
+                      password: "secret",
+                    })
+                  )
+                }
+              >
+                {/* afficher Loading si ca charge et demo user au cas conttraire*/}
+                {isLoading ? " Loading" : "Admin"}
+              </button>
+              {/* lead dev demo */}
+              <button
+                type="button"
+                className=" btn  bg-blue-300"
+                disabled={isLoading}
+                onClick={() =>
+                  dispatch(
+                    loginUser({
+                      email: "dev@oclock.fr",
+                      password: "Tracker@23",
+                    })
+                  )
+                }
+              >
+                {/* afficher Loading si ca charge et demo user au cas conttraire*/}
+                {isLoading ? " Loading" : "Project Manager"}
+              </button>
+
+              {/* dev demo */}
+
+              <button
+                type="button"
+                className=" btn  bg-blue-300"
+                disabled={isLoading}
+                onClick={() =>
+                  dispatch(
+                    loginUser({
+                      email: "demotest@gmail.com",
+                      password: "secret",
+                    })
+                  )
+                }
+              >
+                {/* afficher Loading si ca charge et demo user au cas conttraire*/}
+                {isLoading ? " Loading" : "Developer"}
+              </button>
+            </div>
+          )}
         </div>
 
         <p className=" mt-5">
-         {/* afficher Pas encore enregistré? si pas encore enregistré */}
-          {isMember ? "Pas encore enregistré?" : "déjà enregistré?"}
+          {/* afficher Pas encore enregistré? si pas encore enregistré */}
+          {isMember ? "Not a member yet?" : "Member?"}
           <button
             type="button"
             onClick={toggleMember}

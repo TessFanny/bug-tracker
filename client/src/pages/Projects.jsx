@@ -82,7 +82,7 @@ const Projects = () => {
         <h1 className=" text-3xl font-bold capitalize text-center pt-3"> Projects</h1>
         <div className="  p-5 justify-center flex flex-col lg:flex-row-reverse lg:justify-between items-center gap-y-2">
           <button
-            className=" bgGradient rounded-md px-2 py-1 text-white shadow-md flex items-center text-center justify-center w-full lg:w-[10rem]"
+            className=" bgGradient rounded-md px-2 py-1 text-white shadow-md flex items-center text-center justify-center w-full lg:w-[10rem] border-[1px]"
             onClick={()=> setOpenModal(true)}
           >
             <AiOutlinePlus className=" text-xl" />

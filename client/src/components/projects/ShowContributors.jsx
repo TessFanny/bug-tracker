@@ -9,8 +9,7 @@ import { useEffect } from "react";
 const ShowContributors = ({ projectId, setOpenModal, project }) => {
   const { contributors } = useSelector((store) => store.projects);
   const dispatch = useDispatch();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
+  
   useEffect(() => {
     // setAllProjects(...projects)
     dispatch(getAllContributors(projectId));
@@ -27,7 +26,7 @@ const ShowContributors = ({ projectId, setOpenModal, project }) => {
           </p>
         </div>
         <button
-          className=" bg-white opacity-30 rounded-md px-2 text-black mt-3 h-8 text-sm font-bold hover:opacity-100"
+          className=" bgGradient border-[1px] rounded-md px-2 text-black mt-3 h-8 text-sm font-bold hover:opacity-100"
           onClick={() => setOpenModal(true)}
         >
           New Member

@@ -116,7 +116,7 @@ const commentsSlice = createSlice({
         state.addedComment = action.payload
         state.comments.push(action.payload);
         state.status = true;
-        toast.success('comment successfully added')
+        toast.success('Comment successfully added')
       }).addCase(addComment.rejected, (state, action)=>{
         state.status = false
         state.error = action.error.message;
@@ -131,8 +131,7 @@ const commentsSlice = createSlice({
       })
       .addCase(editComment.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload;
-        toast.error(state.error);
+        toast.error(action.payload);
       }).addCase(deleteComment.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -143,8 +142,7 @@ const commentsSlice = createSlice({
       })
       .addCase(deleteComment.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload;
-        toast.error(state.error);
+        toast.error(action.payload);
       })
      }
 })

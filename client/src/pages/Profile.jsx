@@ -35,7 +35,7 @@ const Profile = () => {
       onSubmit={handleSubmit}
     >
       <h3 className=" text-lg font-bold ">Profile</h3>
-      <div className=" grid grid-cols-3 gap-2">
+      <div className=" grid md:grid-cols-3 gap-2">
         <FormRow
           type="text"
           name="firstname"
@@ -60,6 +60,7 @@ const Profile = () => {
             dispatch(changeEmailValue(evt.target.value));
           }}
         />
+        
 
         <button
           className="btn btn-block self-end h-[35px] mt-[1rem]"

@@ -26,7 +26,7 @@ function App() {
       <Route path="/" element={<Register />} />
       <Route path="/register" element={<Register />} />
       <Route path="/layout" element={<Layout />}>
-        <Route element={<RequireAuth allowedRole={["developer", "admin"]} />}>
+        <Route element={<RequireAuth allowedRole={["developer", "admin", "lead developer"]} />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="projects" element={<Projects />} />
           <Route path="tickets" element={<Tickets />} />

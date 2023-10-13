@@ -115,7 +115,7 @@ const Ticket = () => {
             <Loader />
           )}
         </div>
-        <div className=" bg-white relative flex items-center justify-center text-white h-full">
+        <div className=" bg-white relative flex  justify-center text-white h-full">
           <div className="bgGradient shadow-lg rounded-sm absolute top-[-1rem] w-[95%] p-2">
             <h2 className=" capitalize ">Ticket comments</h2>
             {ticket && (

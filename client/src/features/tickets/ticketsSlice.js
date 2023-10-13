@@ -322,7 +322,7 @@ export const ticketsSlice = createSlice({
       .addCase(editTicket.rejected, (state, action) => {
         state.status = false;
         state.error = action.error.message;
-        // toast.error(action.payload);
+         toast.error(action.payload);
       })
       .addCase(addMemberToTicket.pending, (state) => {
         state.status = "loading";

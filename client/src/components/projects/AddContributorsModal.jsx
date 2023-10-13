@@ -7,11 +7,11 @@ const AddContributorsModal = ({ open, closeModal, projectId }) => {
   if (!open) return null;
   return (
     <div
-      className=" h-[100vh] absolute top-0 left-0 w-[100%] flex justify-center items-center bg-[rgba(.1,.1,.1,.2)]"
+    className={`h-full fixed top-0 left-0 w-[100%] flex justify-center items-center bg-[rgba(.1,.1,.1,.2)] z-30`}
       onClick={closeModal}
     >
       <div
-        className=" bg-white w-[40%] p-6 rounded-lg h-auto shadow-md"
+        className=" bg-white p-3 rounded-lg h-auto shadow-md mx-5"
         onClick={(e) => {
           e.stopPropagation();
         }}

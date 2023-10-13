@@ -33,11 +33,11 @@ const Layout = () => {
  
 
   return (
-    <div className="min-h-screen flex bg-[#edeeef] text-[#011b5e] p-5 overflow-hidden relative">
+    <div className="min-h-screen flex bg-[#edeeef] text-[#011b5e] p-5 overflow-hidden relative ">
       {/* side bar */}
       <div
         onClick={handleNav}
-        className="fixed top-[10px] text-[100px]  left-[10px] z-[99] md:hidden cursor-pointer text-red-700"
+        className="fixed top-[10px] text-[100px]  left-[10px] z-[50] md:hidden cursor-pointer bgGradient rounded-sm"
       >
         <Hamburger
           toggled={isOpen}
@@ -53,7 +53,7 @@ const Layout = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
-          className=" min-w-[220px] h-[50%] border-r-[1px] mr-[100px] md:hidden bg-slate-400 z-50 border-gray-200 rounded-br-lg fixed top-0 left-0 overflow-auto"
+          className=" min-w-[220px] h-[50%] border-r-[1px] mr-[100px] md:hidden bgGradient  z-40 border-gray-200 rounded-br-lg fixed top-0 left-0 overflow-auto"
         >
           <div className="flex gap-1  justify-center items-center border-b-[1px] py-5 pl-3">
             <BsBugFill />
@@ -119,26 +119,7 @@ const Layout = () => {
               </li>
             </ul>
           </nav>
-          <div className="absolute w-full bottom-0 flex justify-around py-[10px] px-[10px] gap-2 items-center border-t-[1px] mt-10 ">
-            <div className="flex mr-3 hover:scale-110 ease-in duration-300">
-              <FaUser size={15} className=" mt-1 mr-2  " />
-              <Link to="/layout/profile" onClick={handleNav}>
-                {user
-                  ? user.firstname.charAt(0).toUpperCase() +
-                    user.firstname.slice(1) +
-                    "  " +
-                    user.lastname.charAt(0).toUpperCase() +
-                    "."
-                  : "profile"}
-              </Link>
-            </div>
-            <button
-              className="mr-3 hover:scale-110 ease-in duration-300"
-              onClick={handleLogout}
-            >
-              <IoLogOut size={25} className=" mt-1 mr-1 " />
-            </button>
-          </div>
+         
         </motion.aside>
       ) : (
         <aside className=" md:block hidden min-w-[220px]  h-[100%] shadow-lg border-r-[1px] z-50  border-gray-200 rounded-br-lg fixed top-0 left-0 overflow-auto bg-white">
@@ -194,18 +175,19 @@ const Layout = () => {
                    Tickets
                 </NavLink>
               </li>
-              <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300  ">
-                <RiAdminFill size={15} className=" mr-1  " />
-                <NavLink
-                  to="/layout/admin"
-                  className={({ isActive }) =>
-                    isActive ? "layoutLink" : undefined
-                  }
-                  
-                >
-                  Admin
-                </NavLink>
-              </li>
+              {user.role == "admin" && <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300  ">
+              <RiAdminFill size={15} className=" mr-1  " />
+              <NavLink
+                to="/layout/admin"
+                className={({ isActive }) =>
+                  isActive ? "layoutLink" : undefined
+                }
+                
+              >
+                Admin
+              </NavLink>
+            </li>}
+              
             </ul>
           </nav>
           

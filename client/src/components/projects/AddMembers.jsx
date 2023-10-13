@@ -90,7 +90,7 @@ const AddMembers = ({closeModal, projectId}) => {
 
           <button
             type="submit"
-            className=" bg-green-700 w-[6rem] self-center py-2 rounded-lg"
+            className=" bg-green-700 w-[5rem] self-center py-1 rounded-lg"
           >
             Submit
           </button>

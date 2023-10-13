@@ -21,7 +21,7 @@ const TicketDetails = () => {
   const { ticketId } = useParams();
 
   const ticket = allTickets.find((ticket) => ticket.id == ticketId);
-  const project = projects.find((project) => project.id == ticket.project_id);
+  const project = ticket && projects.find((project) => project.id == ticket.project_id);
 
   useEffect(() => {
     dispatch(getAllMembersTicket(ticketId));
@@ -115,7 +115,7 @@ const TicketDetails = () => {
             <Loader />
           )}
         </div>
-        <div className=" bg-white relative flex items-center justify-center text-white h-full">
+        <div className=" bg-white relative flex justify-center  text-white h-full">
           <div className="bgGradient shadow-lg rounded-sm absolute top-[-1rem] w-[95%] p-2">
             <h2 className=" capitalize ">Ticket comments</h2>
             {ticket && (
@@ -123,7 +123,7 @@ const TicketDetails = () => {
             )}
           </div>
 
-          <div className=" w-full px-7">
+          <div className=" w-full px-7 ">
             {ticket && <CommentsOnTicket ticketDetail={ticket} />}
           </div>
         </div>

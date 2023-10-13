@@ -19,14 +19,17 @@ const Header = () => {
     }, 2000);
   };
   return (
-    <div className=" absolute top-0 left-0 md:left-[220px] w-full  h-[6rem] shadow-lg flex justify-between md:pl-10  pl-4 bg-white">
-      <p className="pr-8 text-xl capitalize text-blue-400">
+    <div className=" absolute top-0 left-0 md:left-[220px] w-full  h-[6rem] shadow-lg flex md:pl-10  pl-4 bg-white z-20 justify-between items-end md:items-center">
+      <p className="pr-8 md:text-xl capitalize text-blue-400">
         Logged as: {user && user.role}
       </p>
-      <div className="md:mr-[250px] pointer-events-auto ">
-        <div className="">
-          <FaUser size={20} className=" mt-1 mr-2  " />
-          <Link to="/layout/profile" className=" cursor-pointer">
+      <p className=" md:text-4xl text-black"> Hello there <span className=" font-semibold">{user && user.firstname.charAt(0).toUpperCase() +
+        user.firstname.slice(1)} ! </span>  </p>
+      <div className="md:mr-[280px]  flex flex-col-reverse md:flex-row md:justify-between items-center gap-1 ">
+        <div className="p-1 rounded-md bgGradient">
+          
+          <Link to="/layout/profile" className="cursor-pointer flex">
+          <FaUser size={20} className=" md:mt-1 md:mr-2 " />
             {user
               ? user.firstname.charAt(0).toUpperCase() +
                 user.firstname.slice(1) +
@@ -37,10 +40,10 @@ const Header = () => {
           </Link>
         </div>
         <button
-          className="  cursor-pointer"
+          className="cursor-pointer bgGradient px-2 rounded-md py-1"
           onClick={handleLogout}
         >
-          <IoLogOut size={25} className=" bg-yellow-400" />
+          <IoLogOut size={25} className="" />
         </button>
       </div>
     </div>
