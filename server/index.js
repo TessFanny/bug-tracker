@@ -1,7 +1,6 @@
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-dotenv.config();
-import express from "express";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import {userRouter,
@@ -9,9 +8,10 @@ import {userRouter,
   ticketRouter,
   commentRouter,
   projectRouter,
- } from "./app/router/index.js";
+} from "./app/router/index.js";
 
 import errorService from "./app/services/errorHandling.js";
+dotenv.config();
 
 
 const port = process.env.PORT || `port number`;
