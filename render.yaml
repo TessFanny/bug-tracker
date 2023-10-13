@@ -3,4 +3,4 @@
   startCommand: npm start
   useDocker: false
   env: node
-  buildDirectory: ./backend
+  buildDirectory: ./server/src
