@@ -71,8 +71,9 @@ tableName;
       const preparedQuery = {
          text: `
                SELECT * FROM "${this.tableName}"
-               ${filter}                   
-         `, 
+               ${filter}
+               LIMIT 20 
+         `, // le LIMIT 20 a été ajouté pour pas faire planter la VM
          values,
       };
 
@@ -163,7 +164,7 @@ tableName;
             `,
             values,
          };
-         //console.log(preparedQuery);
+         console.log(preparedQuery);
          const result = await pool.query(preparedQuery);
          const row = result.rows[0];
    

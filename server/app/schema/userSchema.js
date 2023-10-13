@@ -25,10 +25,10 @@ const userSchema = {
     // user update schema
      userUpdate(){
        return  Joi.object({
-                firstname: Joi.string(), 
-                lastname: Joi.string(), 
-                email: Joi.string().email(),               
-                role: Joi.string()               
+                firstname: Joi.string().allow("", null), 
+                lastname: Joi.string().allow("", null), 
+                email: Joi.string().email().allow("", null),               
+                role: Joi.string().allow("", null)               
             })
      },
 

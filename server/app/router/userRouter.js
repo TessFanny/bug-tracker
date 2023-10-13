@@ -32,7 +32,7 @@ import userSchema from '../schema/userSchema.js'
  * @return {object} 200 - users response
  * @return {object} 500 - Unexpected error
  */
-userRouter.get('/users',  security.checkToken, security.authMiddleware(["developer", "admin", "lead developer"]), userController.getAllUsers); 
+userRouter.get('/users',  security.checkToken, security.authMiddleware(['developer','admin']), userController.getAllUsers); 
 
 /**
  * GET /api/user/{user_id}
@@ -44,7 +44,7 @@ userRouter.get('/users',  security.checkToken, security.authMiddleware(["develop
  * @return {object} 200 - user response
  * @return {object} 500 - Unexpected error
  */
-userRouter.get('/user/:user_id',  security.checkToken, security.authMiddleware(["developer", "admin", "lead developer"]), userController.getOneUser); 
+userRouter.get('/user/:user_id',  security.checkToken, security.authMiddleware(['developer', 'admin']), userController.getOneUser); 
 
 /**
  * PATCH /api/user/{user_id}
@@ -56,7 +56,7 @@ userRouter.get('/user/:user_id',  security.checkToken, security.authMiddleware([
  * @return {object} 200 - user response
  * @return {object} 500 - Unexpected error
  */
-userRouter.patch('/user/:user_id',  security.checkToken, security.authMiddleware(["developer", "admin", "lead developer"]), validation.check(userSchema.userUpdate(), "body"), userController.updateUser); 
+userRouter.patch('/user/:user_id',  security.checkToken, security.authMiddleware(['developer', 'admin']), validation.check(userSchema.userUpdate(), "body"), userController.updateUser); 
 
 
 /**
@@ -69,7 +69,7 @@ userRouter.patch('/user/:user_id',  security.checkToken, security.authMiddleware
  * @return {object} 200 - user response
  * @return {object} 500 - Unexpected error
  */
-userRouter.delete('/user/:user_id' ,  security.checkToken, security.authMiddleware(['admin']), userController.deleteUser); 
+userRouter.delete('/user/:user_id' ,  security.checkToken, security.authMiddleware(['developer', 'admin']), userController.deleteUser); 
 
 export default userRouter; 
 

@@ -41,9 +41,9 @@ class Project extends Core {
       const values = [user_id, project_id];
       const result = await pool.query(preparedQuery, values);
       const row = result.rows;
-      // console.log(preparedQuery);
-      // console.log(values);
-      // console.log(row);
+      console.log(preparedQuery);
+      console.log(values);
+      console.log(row);
       return row;
     } catch (error) {
       console.error(`Error in assignUsertoProjectModel() : ${error.message}`);

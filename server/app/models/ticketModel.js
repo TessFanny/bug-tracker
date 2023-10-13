@@ -20,30 +20,7 @@ class Ticket extends Core {
     this.project_id = obj.project_id;
   }
 
-  // get tickets for all the projects
-  async getAllTicketsModel() {
-    try {
-      const preparedQuery = `SELECT distinct ticket.*,  concat("user".firstname ,' ' ,"user".lastname)as author, "user".id as user_id, "user".role from ticket       
-  join "user" on "user".id = ticket.ticket_author_id
-  ;`;
-     // const value = [project_id];
-      const result = await pool.query(preparedQuery);
-
-      if (!result.rows) {
-        return null;
-      }
-      // console.log(value);
-      // console.log(preparedQuery);
-      return result.rows;
-    } catch (error) {
-      console.error(
-        `Error in getAllTicketsByProjectModel() : ${error.message}`
-      );
-      throw error;
-    }
-  }
-
-  // get all the tickets for a given project
+  //
   async getAllTicketsByProjectModel(project_id) {
     try {
       const preparedQuery = `SELECT distinct ticket.*,  concat("user".firstname ,' ' ,"user".lastname)as author, "user".id as user_id, "user".role from ticket
@@ -56,8 +33,8 @@ class Ticket extends Core {
       if (!result.rows) {
         return null;
       }
-      // console.log(value);
-      // console.log(preparedQuery);
+      console.log(value);
+      console.log(preparedQuery);
       return result.rows;
     } catch (error) {
       console.error(
@@ -74,7 +51,9 @@ class Ticket extends Core {
       const values = [user_id, ticket_id];
       const result = await pool.query(preparedQuery, values);
       const row = result.rows;
-
+      console.log(preparedQuery);
+      console.log(values);
+      console.log(row);
       return row;
     } catch (error) {
       console.error(`Error in assignUsertoTicketModel() : ${error.message}`);
@@ -90,7 +69,7 @@ class Ticket extends Core {
     where ticket_id = $1 and user_id = $2;`;
 
       const value = [ticket_id, user_id];
-
+console.log(ticket_id, user_id);
       const result = await pool.query(preparedQuery, value);
 
       if (!result.rows) {
@@ -112,6 +91,8 @@ class Ticket extends Core {
     where ticket.id = $1;`;
 
       const value = [ticket_id];
+      console.log(value);
+      console.log(preparedQuery);
 
       const result = await pool.query(preparedQuery, value);
 
@@ -125,7 +106,7 @@ class Ticket extends Core {
       throw error;
     }
   }
-  async getTicketsUserIsAssignedToModel(user_id) {
+  async getTicketsUserIsAssignedToModel(user_id){
     try {
       const preparedQuery = `select distinct concat("user".firstname ,' ' ,"user".lastname)as author, * from ticket 
       join ticket_has_user ON ticket_has_user.ticket_id = ticket.id
@@ -135,17 +116,15 @@ class Ticket extends Core {
       const value = [user_id];
 
       const result = await pool.query(preparedQuery, value);
-      // console.log(value);
-      // console.log(preparedQuery);
+     // console.log(value);
+     // console.log(preparedQuery);
       if (!result.rows) {
         return null;
       }
 
       return result.rows;
     } catch (error) {
-      console.error(
-        `Error in getTicketsUserIsAssignedToModel() : ${error.message}`
-      );
+      console.error(`Error in getTicketsUserIsAssignedToModel() : ${error.message}`);
       throw error;
     }
   }
@@ -156,7 +135,7 @@ class Ticket extends Core {
       await pool.query('DELETE FROM "ticket_has_user" WHERE ticket_id = $1', [
         ticket_id,
       ]);
-
+      console.log(ticket_id);
       const result = await pool.query(
         `DELETE FROM "${this.tableName}" WHERE id = $1`,
         [ticket_id]
