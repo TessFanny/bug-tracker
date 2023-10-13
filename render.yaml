@@ -1,0 +1,6 @@
+- name: server
+  buildCommand: npm run build
+  startCommand: npm start
+  useDocker: false
+  env: node
+  buildDirectory: ./backend
