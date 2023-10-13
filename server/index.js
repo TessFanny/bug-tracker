@@ -9,9 +9,9 @@ import {userRouter,
   ticketRouter,
   commentRouter,
   projectRouter,
- } from "../app/router/index.js";
+ } from "./app/router/index.js";
 
-import errorService from "../app/services/errorHandling.js";
+import errorService from "./app/services/errorHandling.js";
 
 
 const port = process.env.PORT || `port number`;
