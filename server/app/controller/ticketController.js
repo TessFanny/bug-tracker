@@ -1,9 +1,12 @@
 import Ticket from "../models/ticketModel.js";
 
 const ticketController = {
+  // get all tickets 
   getAllTickets: async (req, res, next) => {
     try {
-      const tickets = await Ticket.findAll();
+      const ticketModel = new Ticket(req.body);
+      const tickets = await ticketModel.getAllTicketsModel();
+      
       if (!tickets) {
         res.status(404).json("no resources found");
       } else {
@@ -15,6 +18,9 @@ const ticketController = {
     }
   },
 
+  // get all tickets for a given project
+
+  
   getAllTicketsByProject: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
@@ -31,11 +37,12 @@ const ticketController = {
       next(error);
     }
   },
+  // get tickets an user is assigned to
   getTicketsUserIsAssignedTo : async (req, res, next)=>{
     try {
       const ticketModel = new Ticket(req.body);
       const tickets = await ticketModel.getTicketsUserIsAssignedToModel(req.params.user_id);
-      console.log(tickets);
+      
       if (!tickets) {
         res.status(404).json("no resources found");
       } else {
@@ -47,6 +54,7 @@ const ticketController = {
     }
   },
 
+  // get one ticket given its id
   getOneTicket: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
@@ -61,6 +69,8 @@ const ticketController = {
       next(error);
     }
   },
+
+  // create a new ticket 
   createTicket: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
@@ -75,6 +85,8 @@ const ticketController = {
       next(error);
     }
   },
+
+  // get all users working on solving a ticket 
   getAllUsersOnTicket: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
@@ -91,7 +103,7 @@ const ticketController = {
       next(error);
     }
   },
- 
+ // assigning a user to a given ticket 
   assignUserToTicket: async (req, res, next) => {
     try {
       const { user_id } = req.body;
@@ -123,7 +135,7 @@ const ticketController = {
       next(error);
     }
   },
-
+  // update a ticket 
   updateTicket: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
@@ -133,7 +145,7 @@ const ticketController = {
           req.params.ticket_id,
           req.body
         );
-        console.log(updatedTicket);
+        
         res.status(200).json(updatedTicket);
       } else {
         res
@@ -145,15 +157,17 @@ const ticketController = {
       next(error);
     }
   },
+
+  // delete a ticket 
   deleteTicket: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
       const ticket = await ticketModel.findByPk(req.params.ticket_id);
-      console.log(ticket);
+      
       if (ticket) {
         const deletedTicket = await ticketModel.deleteTicketModel(req.params.ticket_id);
         console.log('ticket succsessfully deleted');
-        res.status(200).json(deletedTicket);
+        res.status(200).json('ticket succsessfully deleted');
       } else {
         res
           .status(400)

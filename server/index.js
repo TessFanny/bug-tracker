@@ -9,7 +9,7 @@ import {userRouter,
   ticketRouter,
   commentRouter,
   projectRouter,
-  roleRouter} from "./app/router/index.js";
+ } from "./app/router/index.js";
 
 import errorService from "./app/services/errorHandling.js";
 
@@ -64,7 +64,7 @@ const options = {
     },
   },
   //Chemin de la doc
-  //swaggerUIPath: "/devboard",
+  //swaggerUIPath: "/bugtracker",
   // security: {
   //   basic: {
   //     type: "http",
@@ -96,12 +96,9 @@ app.use(
   ticketRouter,
   commentRouter,
   projectRouter,
-  roleRouter
+
 );
 
-// app.get("/api", (req, res) => {
-//   res.json("homePage");
-// });
 
 app.listen(port, () => {
   console.log(`Server ready: http://localhost:${port}`);
