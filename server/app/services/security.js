@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
+
 const securityService = {
     /**
      * Vérification pour voir si l'utilisateur est connecté
@@ -52,7 +53,7 @@ const securityService = {
              // je vérifie si son role est  présent dans le tableau des roles autorisés; 
              if(roleTable.indexOf(userRole.role) === -1){
                 // si son role n'est pas présent il a un message d'erreur
-               res.status(401).json('pas autorisé')
+               res.status(401).json(`Your role doesn't allow you to do this operation`)
               }else{
                  // sinon  L'utilisateur est authentifié et autorisé, passe au middleware suivant
                next()

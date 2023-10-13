@@ -9,7 +9,7 @@ import {userRouter,
   ticketRouter,
   commentRouter,
   projectRouter,
-  roleRouter} from "./app/router/index.js";
+ } from "./app/router/index.js";
 
 import errorService from "./app/services/errorHandling.js";
 
@@ -96,7 +96,7 @@ app.use(
   ticketRouter,
   commentRouter,
   projectRouter,
-  roleRouter
+
 );
 
 

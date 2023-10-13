@@ -29,7 +29,7 @@ import security from '../services/security.js';
  * @return {object} 200 - projects response
  * @return {object} 500 - Unexpected error
  */
-projectRouter.get('/projects',  security.checkToken, security.authMiddleware(['developer','admin']), projectController.getAllProjects);
+projectRouter.get('/projects',  security.checkToken,  projectController.getAllProjects);
 
 
 /**
@@ -43,7 +43,7 @@ projectRouter.get('/projects',  security.checkToken, security.authMiddleware(['d
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.get('/project/:project_id',  security.checkToken, security.authMiddleware(['developer','admin']), projectController.getOneProject);
+projectRouter.get('/project/:project_id',  security.checkToken,  projectController.getOneProject);
 
 
 /**
@@ -57,7 +57,7 @@ projectRouter.get('/project/:project_id',  security.checkToken, security.authMid
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.get('/projects/:user_id',  security.checkToken, security.authMiddleware(['developer','admin']), projectController.getProjectsUserIsAssignedTo);
+projectRouter.get('/projects/:user_id',  security.checkToken,  projectController.getProjectsUserIsAssignedTo);
 
 /**
  * GET /api/project/{project_id}/users
@@ -70,7 +70,7 @@ projectRouter.get('/projects/:user_id',  security.checkToken, security.authMiddl
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.get('/project/:project_id/users',  security.checkToken, security.authMiddleware(['developer','admin']), projectController.getAllUsersOnProject);
+projectRouter.get('/project/:project_id/users',  security.checkToken, projectController.getAllUsersOnProject);
 
 /**
  * POST /api/projects
@@ -82,7 +82,7 @@ projectRouter.get('/project/:project_id/users',  security.checkToken, security.a
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.post('/projects',  security.checkToken, security.authMiddleware(['developer','admin']), validation.check(projectSchema.create(), "body"), projectController.createProject);
+projectRouter.post('/projects',  security.checkToken, security.authMiddleware(['lead developer','admin']), validation.check(projectSchema.create(), "body"), projectController.createProject);
 
 /**
  * POST /api/project/{project_id}/users
@@ -95,7 +95,7 @@ projectRouter.post('/projects',  security.checkToken, security.authMiddleware(['
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.post('/project/:project_id/users',  security.checkToken, security.authMiddleware(['developer','admin']), projectController.assignUserToProject);
+projectRouter.post('/project/:project_id/users',  security.checkToken, security.authMiddleware(['lead developer','admin']), projectController.assignUserToProject);
 
 /**
  * PATCH /api/project/{project_id}
@@ -108,7 +108,7 @@ projectRouter.post('/project/:project_id/users',  security.checkToken, security.
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.patch('/project/:project_id',  security.checkToken, security.authMiddleware(['developer','admin']), validation.check(projectSchema.update(), "body"),projectController.updateProject);
+projectRouter.patch('/project/:project_id',  security.checkToken, security.authMiddleware(['lead developer','admin']), validation.check(projectSchema.update(), "body"),projectController.updateProject);
 
 
 /**
@@ -122,7 +122,7 @@ projectRouter.patch('/project/:project_id',  security.checkToken, security.authM
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.delete('/project/:project_id',  security.checkToken, security.authMiddleware(['developer','admin']), projectController.deleteProject);
+projectRouter.delete('/project/:project_id',  security.checkToken, security.authMiddleware(['lead developer','admin']), projectController.deleteProject);
 
 
 export default projectRouter; 
