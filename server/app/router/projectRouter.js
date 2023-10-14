@@ -29,7 +29,7 @@ import security from '../services/security.js';
  * @return {object} 200 - projects response
  * @return {object} 500 - Unexpected error
  */
-projectRouter.get('/projects',  security.checkToken,  projectController.getAllProjects);
+projectRouter.get('/projects',   projectController.getAllProjects);
 
 
 /**
