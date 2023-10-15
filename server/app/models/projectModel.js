@@ -58,6 +58,7 @@ class Project extends Core {
   const result = await pool.query('DELETE FROM "project_has_user" WHERE project_id = $1 and user_id = $2', [
       project_id, user_id
     ]);
+    console.log(result);
     return !!result.rowCount;
   } catch (error) {
     console.error(`Error in deleteUserFromProjectModel() : ${error.message}`);
