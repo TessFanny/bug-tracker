@@ -25,7 +25,7 @@ CREATE TABLE ticket (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title text not null,
     description TEXT NOT NULL,
-    status TEXT not null,
+    ticket_status TEXT not null,
     priority TEXT not null,
     color TEXT not null,
     type TEXT not NULL,

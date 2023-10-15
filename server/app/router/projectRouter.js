@@ -110,6 +110,19 @@ projectRouter.post('/project/:project_id/users',  security.checkToken, security.
 
 projectRouter.patch('/project/:project_id',  security.checkToken, security.authMiddleware(['lead developer','admin']), validation.check(projectSchema.update(), "body"),projectController.updateProject);
 
+/**
+ * delete /api/project/{project_id}/{user_id}
+ * @summary  supprime un  project selon son id
+ * @type {Project}
+ * @tags projects
+ * @security TokenAuth
+ * @param {number} project_id.path.required
+ * @param {number} user_id.path.required
+ * @return {object} 200 - project response
+ * @return {object} 500 - Unexpected error
+ */
+
+projectRouter.delete('/project/:project_id/:user_id',  security.checkToken, security.authMiddleware(['lead developer','admin']), projectController.deleteUserOnProject);
 
 /**
  * delete /api/project/{project_id}

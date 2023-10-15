@@ -34,6 +34,8 @@ class Project extends Core {
       throw error;
     }
   }
+
+  // assigned an user to a project
   async assignUsertoProjectModel(user_id, project_id) {
     try {
       const preparedQuery = `INSERT INTO project_has_user (user_id, project_id) VALUES ($1, $2) returning *
@@ -50,6 +52,19 @@ class Project extends Core {
       throw error;
     }
   }
+ // delete user from a project
+ async deleteUserFromProjectModel(project_id, user_id) {
+  try {   
+  const result = await pool.query('DELETE FROM "project_has_user" WHERE project_id = $1 and user_id = $2', [
+      project_id, user_id
+    ]);
+    return !!result.rowCount;
+  } catch (error) {
+    console.error(`Error in deleteUserFromProjectModel() : ${error.message}`);
+    throw error;
+  }
+}
+// get an user working on a project
   async getUserProject(project_id, user_id) {
     try {
       const preparedQuery = `SELECT  from project_has_user
@@ -91,6 +106,8 @@ class Project extends Core {
       throw error;
     }
   }
+
+  // delete a project
   async deleteProjectModel(project_id) {
     try {
       await pool.query('DELETE FROM "project_has_user" WHERE project_id = $1', [
