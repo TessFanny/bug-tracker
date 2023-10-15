@@ -111,10 +111,13 @@ const projectController = {
  // delete an user working on a project 
  deleteUserOnProject: async(req, res, next)=>{
   try {
-    const projectModel = new Project(req.body)
-    const project = await  projectModel.findByPk(+req.params.project_id);
+    const { project_id} = req.params
+    const {user_id} = req.params
+    console.log(project_id);
+    const projectModel = new Project(req.body);
+    const project = await  projectModel.findByPk(project_id);
     if (project) {
-      const userOnProjectToDelete = await projectModel.deleteUserFromProjectModel(+req.params.project_id, +req.params.user_id)
+      const userOnProjectToDelete = await projectModel.deleteUserFromProjectModel(project_id, user_id)
       console.log(userOnProjectToDelete);
       res.status(200).json(userOnProjectToDelete);
     } else {
@@ -124,7 +127,8 @@ const projectController = {
     }
     
   } catch (error) {
-    
+    console.error(error);
+      next(error);
   }
  },
   updateProject: async (req, res, next) => {
