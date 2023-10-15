@@ -31,9 +31,9 @@ const authRouter =  express.Router();
  * @return {object} 200 - user response
  * @return {object} 500 - Unexpected error
  */
-authRouter.post('/register', validation.check(userSchema.register(), "body"), authController.register)
+authRouter.post('/register', authController.register)
 
-
+// , validation.check(userSchema.register(), "body")
 
 // CUSTUM TYPE/SCHEMA
 /**
