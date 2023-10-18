@@ -4,7 +4,7 @@ import projectReducer from '../src/features/projects/projectSlice'
 import ticketReducer from '../src/features/tickets/ticketsSlice'
 import usersReducer from '../src/features/users/usersSlice'
 import commentsReducer from "../src/features/comments/commentsSlice";
-import { persistedLoginReducer } from "./persistconfig";
+import { persistedLoginReducer } from "./persistConfig.js";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from 'redux-persist/lib/storage';
 //import editProjectReducer from "../src/features/projects/editProjectSlice";
