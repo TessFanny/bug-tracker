@@ -5,13 +5,17 @@ import {
   changeDescriptionValue,
   changeTitleValue,
   editProject,
-  addMember
+  addMember,
+  getAllContributors,
 } from "../../features/projects/projectSlice";
 
-const EditProjectModal = ({ open, closeModal, project, position}) => {
+const EditProjectModal = ({ open, closeModal, project, position }) => {
   const dispatch = useDispatch();
   const project_id = project.id;
-  const { title, description } = useSelector((store) => store.projects);
+  const { title, description, contributors } = useSelector(
+    (store) => store.projects
+  );
+  const initialSelectedMembers = contributors.map((contrib) => contrib.id);
   const { users } = useSelector((store) => store.users);
   const [selectedMembersId, setSelectedMembersId] = useState([]);
 
@@ -19,6 +23,10 @@ const EditProjectModal = ({ open, closeModal, project, position}) => {
     dispatch(changeTitleValue(project.title));
     dispatch(changeDescriptionValue(project.description));
   }, [project_id]);
+
+  // useEffect(() => {
+  //   dispatch(getAllContributors(project_id))
+  // }, [project_id]);
 
   const handleMemberChange = (event) => {
     const checked = event.target.checked;
@@ -35,7 +43,9 @@ const EditProjectModal = ({ open, closeModal, project, position}) => {
     dispatch(editProject({ title, description, project_id })).then(() => {
       selectedMembersId.forEach(async (user_id) => {
         console.log(user_id);
-        dispatch(addMember({ user_id,  projectId: project_id }));
+
+        //dispatch(deleteUserOnProject({project_id, user_id } ))
+        dispatch(addMember({ user_id, projectId: project_id }));
       });
     });
     closeModal();
@@ -101,7 +111,11 @@ const EditProjectModal = ({ open, closeModal, project, position}) => {
                   <h4>Name</h4>
                   {users.map((user) => {
                     return (
-                      <div className=" flex  gap-4" key={user.id}>
+                      <label
+                        className=" flex  gap-4"
+                        key={user.id}
+                        htmlFor={user.id}
+                      >
                         <input
                           type="checkbox"
                           value={user.id}
@@ -109,10 +123,8 @@ const EditProjectModal = ({ open, closeModal, project, position}) => {
                           id={user.id}
                           onChange={handleMemberChange}
                         />
-                        <label htmlFor={user.id}>
-                          {user.firstname} {user.lastname}
-                        </label>
-                      </div>
+                        {user.firstname} {user.lastname}
+                      </label>
                     );
                   })}
                 </div>

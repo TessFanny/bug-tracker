@@ -18,12 +18,16 @@ const TicketBgChange = ({ ticket }) => {
   }
 
   return (
-    <p
+    <div>
+    {ticket && <p
       className={`${ColorClass} `}
     >
       {ticket.ticket_status.charAt(0).toUpperCase() +
         ticket.ticket_status.slice(1)}
-    </p>
+    </p>}
+    </div>
+   
+    
   );
 };
 

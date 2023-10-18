@@ -53,7 +53,7 @@ const TicketItem = ({
             ticket.description.slice(1)}
       </div>
       <div className="px-3 flex justify-between">
-        <h3 className="text-sm text-black"> Author :</h3>
+        <h3 className="text-sm text-black"> Submitter :</h3>
         <p className="text-[.8rem] text-gray-500 mr-4">{ticket.author}</p>
       </div>
 

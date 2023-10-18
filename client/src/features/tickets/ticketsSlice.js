@@ -16,8 +16,7 @@ const initialState = {
   assignedTicketsToUser: [],
 };
 
-
-// all the tickets 
+// all the tickets
 export const getAllTickets = createAsyncThunk(
   "tickets/getAllTickets",
   async (thunkAPI) => {
@@ -130,7 +129,7 @@ export const addTicket = createAsyncThunk(
           },
         }
       );
-      console.log(response);
+
       thunkAPI.dispatch(getAllTicketsProject({ project_id }));
       return response.data;
     } catch (error) {
@@ -139,7 +138,7 @@ export const addTicket = createAsyncThunk(
     }
   }
 );
-
+// assigned members to ticket
 export const addMemberToTicket = createAsyncThunk(
   "tickets/addMemberToTicket",
   async ({ user_id, ticketId }, thunkAPI) => {
@@ -147,6 +146,7 @@ export const addMemberToTicket = createAsyncThunk(
     try {
       const ticket_id =
         (await thunkAPI.getState().tickets.addedTicket.id) || ticketId;
+      
       const response = await axios.post(
         `/ticket/${ticket_id}/users`,
         {
@@ -215,7 +215,22 @@ export const editTicket = createAsyncThunk(
     }
   }
 );
-
+// delete an user on a ticket
+export const deleteUserOnTicket = createAsyncThunk(
+  "tickets/deleteUserOnTicket",
+  async ({ ticket_id, user_id }, thunkAPI) => {
+    try {
+      const response = await axios.delete(`ticket/${ticket_id}/${user_id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Bearer ACCESSTOKEN
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 // delete ticket
 export const deleteTicket = createAsyncThunk(
   "tickets/deleteTicket",
@@ -322,7 +337,7 @@ export const ticketsSlice = createSlice({
       .addCase(editTicket.rejected, (state, action) => {
         state.status = false;
         state.error = action.error.message;
-         toast.error(action.payload);
+        toast.error(action.payload);
       })
       .addCase(addMemberToTicket.pending, (state) => {
         state.status = "loading";
@@ -330,13 +345,13 @@ export const ticketsSlice = createSlice({
       .addCase(addMemberToTicket.fulfilled, (state, action) => {
         state.status = true;
         state.members.push(action.payload);
-        // toast.success('member successfully added')
+        //toast.success("member successfully added");
       })
       .addCase(addMemberToTicket.rejected, (state, action) => {
         state.status = false;
         state.error = action.payload;
         console.log("action:", action);
-        // toast.error(state.error);
+        toast.error(state.action);
       })
       .addCase(getAllMembersTicket.pending, (state) => {
         state.status = "loading";
@@ -350,6 +365,32 @@ export const ticketsSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
         // toast.error(action.payload);
+      })
+      .addCase(deleteTicket.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(deleteTicket.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        // toast.success(' project successfully removed')
+      })
+      .addCase(deleteTicket.rejected, (state, action) => {
+        state.status = "failed";
+        //state.error = action.payload;
+        toast.error(action.payload);
+      })
+      .addCase(deleteUserOnTicket.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(deleteUserOnTicket.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        toast.success(" user successfully removed");
+      })
+      .addCase(deleteUserOnTicket.rejected, (state, action) => {
+        state.status = "failed";
+        //state.error = action.payload;
+        toast.error(action.payload);
       });
   },
 });

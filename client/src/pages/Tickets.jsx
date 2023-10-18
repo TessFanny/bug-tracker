@@ -6,6 +6,7 @@ import { AiOutlineSearch, AiOutlinePlus } from "react-icons/ai";
 import AddTicketForm from "../components/tickets/AddTicketForm";
 import EditTicket from "../components/tickets/EditTicket";
 import DeleteTicket from "../components/tickets/DeleteTicket";
+import { motion } from "framer-motion";
 
 const Tickets = () => {
   const { allTickets } = useSelector((store) => store.tickets);
@@ -63,25 +64,30 @@ const Tickets = () => {
     return filterTableData().slice(startIndex, endIndex);
   };
 
- 
   return (
     <section className="  mt-[8rem] w-full h-full lg:p-5 rounded-lg flex flex-col  shadow-md ">
-    <div className=" bgGradient flex justify-between items-center flex-col md:flex-row px-5 py-4 rounded-md">
-    <h1 className=" text-2xl font-bold capitalize "> All tickets </h1>
-    <div className=" w-[100%]  lg:w-[30%] flex items-center px-2 rounded-lg mt-4 self-end border-[1px] bg-[#f5f1f3] border-gray-200 shadow-md ">
-        <AiOutlineSearch size={25} className=" text-2xl " />
-        <input
-          type="search"
-          name="search"
-          id="search"
-          placeholder="search ticket"
-          defaultValue={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className=" w-full pl-5 py-1 outline-none rounded-md focus-within:scale-105 pr-3 bg-[#f5f1f3]"
-        />
-      </div></div>
-      
-      <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-5  p-5 ">
+      <div className=" bgGradient flex justify-between items-center flex-col md:flex-row px-5 py-4 rounded-md">
+        <h1 className=" text-2xl font-bold capitalize "> All tickets </h1>
+        <div className=" w-[100%]  lg:w-[30%] flex items-center px-2 rounded-lg mt-4 self-end border-[1px] bg-[#f5f1f3] border-gray-200 shadow-md ">
+          <AiOutlineSearch size={25} className=" text-2xl " />
+          <input
+            type="search"
+            name="search"
+            id="search"
+            placeholder="search ticket"
+            defaultValue={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className=" w-full pl-5 py-1 outline-none rounded-md focus-within:scale-105 pr-3 bg-[#f5f1f3]"
+          />
+        </div>
+      </div>
+
+      <motion.div
+        className="grid md:grid-cols-2 lg:grid-cols-5 gap-5  p-5 "
+        initial={{ opacity: 0, scale: 0 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1 }}
+      >
         {getCurrentPageData().map((ticket, id) => (
           <TicketItem
             key={id}
@@ -91,7 +97,7 @@ const Tickets = () => {
             setTicket={setTicket}
           />
         ))}
-      </div>
+      </motion.div>
       <div className=" flex gap-5 p-5">
         {Array.from({ length: totalPages }, (_, index) => (
           <button

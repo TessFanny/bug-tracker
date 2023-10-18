@@ -9,6 +9,7 @@ import {
   changeEmailValue,
   updateUser,
 } from "../features/user/userSlice";
+import { motion } from "framer-motion";
 
 const Profile = () => {
   const { user } = useSelector((store) => store.user);

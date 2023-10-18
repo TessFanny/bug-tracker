@@ -175,7 +175,7 @@ const Layout = () => {
                    Tickets
                 </NavLink>
               </li>
-              {user.role == "admin" && <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300  ">
+              {user && user.role == "admin" && <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300  ">
               <RiAdminFill size={15} className=" mr-1  " />
               <NavLink
                 to="/layout/admin"

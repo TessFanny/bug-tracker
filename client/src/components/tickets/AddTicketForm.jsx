@@ -12,22 +12,30 @@ import {
   changeTypeValue,
   changeColorValue,
 } from "../../features/tickets/ticketsSlice";
+import { getAllContributors } from "../../features/projects/projectSlice";
 
 const AddTicketForm = ({ open, closeModal, projectId, ticket,position }) => {
-  const { users } = useSelector((store) => store.users);
+  //const { users } = useSelector((store) => store.users);
   const { user } = useSelector((store) => store.user);
   const { title, description, ticket_status, priority, color, type } =
     useSelector((store) => store.tickets);
+    const {contributors} = useSelector((store) => store.projects)
 
   const { id } = user;
   const [selectedMembersId, setSelectedMembersId] = useState([]);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
+
+  useEffect(() => {
+    // setAllProjects(...projects)
+    dispatch(getAllContributors(projectId));
+  }, [projectId]);
+
   useEffect(() => {
     dispatch(changeStatusValue("new"));
     dispatch(changePriorityValue("low"));
-    dispatch(changeTypeValue("issue"));
+    dispatch(changeTypeValue("bug"));
     dispatch(changeColorValue("#ccc"));
   }, [open]);
 
@@ -159,10 +167,10 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket,position }) => {
                 className=" px-4 border-[1px] rounded-sm w-full bg-[#f0f4f8] outline-none py-[0.225rem] "
                 onChange={handleTypeChange}
               >
-                <option defaultValue="issue">issue</option>
+                <option defaultValue="error">error</option>
                 <option value="bug">bug</option>
                 <option value="code review">code review</option>
-                <option value="feature">feature </option>
+                <option value="features request">features request </option>
                 <option value="other">other</option>
               </select>
             </div>
@@ -211,7 +219,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket,position }) => {
             <fieldset className="  lg:w-[50%] py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[150px] flex gap-x-4 lg:gap-11 overflow-auto">
               <div>
                 <h4 className=" text-black font-semibold">Name</h4>
-                {users.map((user) => {
+                { contributors && contributors.map((user) => {
                   return (
                     <div className="flex" key={user.id}>
                       <input
@@ -222,7 +230,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket,position }) => {
                         onChange={handleMemberChange}
                       />
                       <label htmlFor={user.id} className=" ml-1">
-                        {user.firstname} {user.lastname}
+                        {user.contributor}
                       </label>
                     </div>
                   );
@@ -231,7 +239,7 @@ const AddTicketForm = ({ open, closeModal, projectId, ticket,position }) => {
 
               <div>
                 <h4 className=" text-black font-semibold">Role</h4>
-                {users.map((user) => {
+                {contributors && contributors.map((user) => {
                   return (
                     <div className=" flex  gap-4" key={user.id}>
                       <div> {user.role}</div>

@@ -121,7 +121,7 @@ export const userSlice = createSlice({
          state.isRegisteredFulfill = true
          state.registeredUser = savedUser;
          console.log('payload in slice : ', payload );
-         toast.success(` Votre compte a été crée avec succès ${payload.firstname}!`)
+         toast.success(` Your account has been successfully created!`)
       })
       .addCase(registerUser.rejected, (state, {payload}) => {
         state.isLoading = false;
@@ -138,7 +138,7 @@ export const userSlice = createSlice({
         const { user } = payload;
         state.isLoading = false;
         state.user = user;
-        toast.success(`Bienvenue ${user.firstname}`);
+        toast.success(`Welcome ${user.firstname}`);
       })
       .addCase(loginUser.rejected, (state, {payload}) => {
         state.isLoading = false;
@@ -152,7 +152,7 @@ export const userSlice = createSlice({
         state.user = action.payload.modifiedUser;
         state.isLoading = false;
         state.status = true;
-        toast.success("utilisateur mise à jour avec success");
+        toast.success("user successfully updated");
       })
       // Reducer for handling the rejected state of the modify request
       .addCase(updateUser.rejected, (state, {payload}) => {

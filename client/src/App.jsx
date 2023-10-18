@@ -14,7 +14,8 @@ import {
   Project,
   Loader,
   TicketDetails,
-  Ticket
+  Ticket,
+  TicketsOnProject
 } from "./components";
 import { Admin, Register, Dashboard, Tickets } from "./pages";
 
@@ -26,13 +27,13 @@ function App() {
       <Route path="/" element={<Register />} />
       <Route path="/register" element={<Register />} />
       <Route path="/layout" element={<Layout />}>
-        <Route element={<RequireAuth allowedRole={["developer", "admin", "lead developer"]} />}>
+        <Route element={<RequireAuth allowedRole={["developer", "admin", "project manager"]} />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="projects" element={<Projects />} />
           <Route path="tickets" element={<Tickets />} />
           <Route
             path="projects/project/:projectId/ticket/:ticketId"
-            element={<TicketDetails />}
+            element={<TicketsOnProject />}
           />
           <Route path="profile" element={<Profile />} />
           <Route path="unauthorized" element={<Unauthorized />} />

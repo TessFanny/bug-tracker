@@ -12,6 +12,7 @@ import Project from "./projects/Project";
 import Projects from "../pages/Projects";
 import MyTickets from "./tickets/MyTickets";
 import TicketDetails from "./tickets/TicketDetails";
+import TicketsOnProject from "./tickets/TicketsOnProject";
 import Ticket from "./tickets/Ticket";
 //import Register from "../pages/Register";
 import Loader from "./Loader";
@@ -29,5 +30,6 @@ export {
   MyTickets,
   Loader,
   TicketDetails,
-  Ticket
+  Ticket,
+  TicketsOnProject
 };

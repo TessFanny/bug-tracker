@@ -128,6 +128,20 @@ export const addMember = createAsyncThunk(
    
   }
 );
+// delete member working on a projject 
+export const deleteUserOnProject = createAsyncThunk('projects/deleteUserOnProject', async({project_id, user_id}, thunkAPI)=>{
+  try {
+    const response = await axios.delete(`project/${project_id}/${user_id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // Bearer ACCESSTOKEN
+      }
+    })
+    thunkAPI.dispatch(getAllContributors(project_id));
+    return response.data
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data)
+  }
+})
 
 // delete project
 export const deleteProject = createAsyncThunk('projects/deleteProject', async(project_id, thunkAPI)=>{
@@ -139,6 +153,7 @@ export const deleteProject = createAsyncThunk('projects/deleteProject', async(pr
     })
     console.log(response);
     thunkAPI.dispatch(getAllProjects());
+    return response.data
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data)
   }
@@ -231,7 +246,7 @@ const projectSlice = createSlice({
       }).addCase(addMember.rejected, (state, action)=>{
         state.status = false
         state.error = action.payload;
-        console.log ("action:",action);
+       //toast.error(action.payload)
         
       })
       .addCase(getAllContributors.pending, (state) => {
@@ -256,8 +271,31 @@ const projectSlice = createSlice({
       })
       .addCase(editProject.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload;
-        
+        state.error = action.payload;        
+      }).addCase(deleteUserOnProject.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(deleteUserOnProject.fulfilled, (state, action) => {
+        state.status = "succeeded";
+      // toast.success(' user successfully removed')
+      })
+      .addCase(deleteUserOnProject.rejected, (state, action) => {
+        state.status = "failed";
+        //state.error = action.payload;    
+        toast.error(action.payload)    
+      }).addCase(deleteProject.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(deleteProject.fulfilled, (state, action) => {
+        state.status = "succeeded";
+      // toast.success(' project successfully removed')
+      })
+      .addCase(deleteProject.rejected, (state, action) => {
+        state.status = "failed";
+        //state.error = action.payload;    
+        toast.error(action.payload)    
       })
   },
 });

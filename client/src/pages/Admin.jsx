@@ -6,6 +6,7 @@ import { FaEdit } from "react-icons/fa";
 import { HiOutlineTrash } from "react-icons/hi";
 import { editUser, getAllUsers } from "../features/users/usersSlice";
 import { changeRoleValue } from "../features/user/userSlice";
+import { motion } from "framer-motion";
 
 const Admin = () => {
   const { users } = useSelector((store) => store.users);

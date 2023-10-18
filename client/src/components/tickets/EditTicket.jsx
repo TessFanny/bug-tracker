@@ -12,17 +12,23 @@ import {
   changeColorValue,
   editTicket,
 } from "../../features/tickets/ticketsSlice";
+import { getAllContributors } from "../../features/projects/projectSlice";
 
 const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
   const { users } = useSelector((store) => store.users);
   const { user } = useSelector((store) => store.user);
   const { title, description, ticket_status, priority, color, type } =
     useSelector((store) => store.tickets);
+    const {contributors} = useSelector((store) => store.projects)
   const { id } = user;
   const [selectedMembersId, setSelectedMembersId] = useState([]);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
+  // useEffect(() => {
+  //   // setAllProjects(...projects)
+  //   dispatch(getAllContributors(projectId));
+  // }, [projectId]);
   useEffect(() => {
     dispatch(changeTitleValue(ticket.title));
     dispatch(changeDescriptionValue(ticket.description));
@@ -158,8 +164,9 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
                 id="type"
                 className=" px-4 border-[1px] rounded-sm w-full  bg-[#f0f4f8] outline-none"
                 onChange={handleTypeChange}
+                defaultValue={ticket.type}
               >
-                <option defaultValue={ticket.type}>issue</option>
+                <option value="issue">issue</option>
                 <option value="bug">bug</option>
                 <option value="error">error</option>
                 <option value="feature request">feature request</option>
@@ -178,8 +185,9 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
                 id="ticket_status"
                 className=" px-4 border-[1px] rounded-sm w-full  bg-[#f0f4f8] outline-none "
                 onChange={handleStatusChange}
+                defaultValue={ticket.ticket_status}
               >
-                <option defaultValue={ticket.ticket_status}>new</option>
+                <option value="new">new</option>
                 <option value="in progress">in progress</option>
                 <option value="resolved">resolved</option>
               </select>
@@ -196,8 +204,9 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
                 id="priority"
                 className=" px-4 border-[1px] rounded-sm w-full  bg-[#f0f4f8] outline-none "
                 onChange={handlePriorityChange}
+                defaultValue={ticket.priority}
               >
-                <option defaultValue={ticket.priority}>low</option>
+                <option value="low">low</option>
                 <option value="medium">medium</option>
                 <option value="high">high</option>
               </select>
@@ -209,7 +218,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
             <fieldset className="  w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[150px] flex lg:gap-x-20 gap-5 overflow-auto">
               <div>
                 <h4 className=" text-black font-semibold">Name</h4>
-                {users.map((user) => {
+                {contributors && contributors.map((user) => {
                   return (
                     <div className=" flex  gap-4" key={user.id}>
                       <input
@@ -220,7 +229,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
                         onChange={handleMemberChange}
                       />
                       <label htmlFor={user.id}>
-                        {user.firstname} {user.lastname}
+                        {user.contributor} 
                       </label>
                     </div>
                   );
@@ -229,7 +238,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
 
               <div>
                 <h4 className=" text-black font-semibold">Role</h4>
-                {users.map((user) => {
+                {contributors &&  contributors.map((user) => {
                   return (
                     <div className=" flex  gap-4" key={user.id}>
                       <div> {user.role}</div>

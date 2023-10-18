@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, registerUser } from "../features/user/userSlice";
 import { useNavigate, useRouteLoaderData } from "react-router-dom";
+import SmallLoader from "../components/SmallLoader";
 
 // const initialState = {
 //   isMember: true,
@@ -71,7 +72,7 @@ const Register = () => {
     if (user) {
       setTimeout(() => {
         navigate("/layout/dashboard");
-      }, 2000);
+      }, 1000);
     }
   }, [user]);
 
@@ -142,7 +143,7 @@ const Register = () => {
         {/* */}
         <div className="grid gap-y-2">
           <button type="submit" className="btn" disabled={isLoading}>
-            {isLoading ? "loading..." : "submit"}
+            {isLoading ? <SmallLoader/> : "submit"}
           </button>
           {isMember && (
             <div className=" grid gap-2">
@@ -155,16 +156,16 @@ const Register = () => {
                 onClick={() =>
                   dispatch(
                     loginUser({
-                      email: "testUser@gamil.com",
+                      email: "dev@oclock.fr",
                       password: "secret",
                     })
                   )
                 }
               >
                 {/* afficher Loading si ca charge et demo user au cas conttraire*/}
-                {isLoading ? " Loading" : "Admin"}
+                {isLoading ? <SmallLoader/> : "Admin"}
               </button>
-              {/* lead dev demo */}
+              {/* project manager demo */}
               <button
                 type="button"
                 className=" btn  bg-blue-300"
@@ -172,14 +173,14 @@ const Register = () => {
                 onClick={() =>
                   dispatch(
                     loginUser({
-                      email: "dev@oclock.fr",
-                      password: "Tracker@23",
+                      email: "manager@gmail.com",
+                      password: "secret",
                     })
                   )
                 }
               >
                 {/* afficher Loading si ca charge et demo user au cas conttraire*/}
-                {isLoading ? " Loading" : "Project Manager"}
+                {isLoading ? <SmallLoader/> : "Project Manager"}
               </button>
 
               {/* dev demo */}
@@ -198,7 +199,7 @@ const Register = () => {
                 }
               >
                 {/* afficher Loading si ca charge et demo user au cas conttraire*/}
-                {isLoading ? " Loading" : "Developer"}
+                {isLoading ? <SmallLoader/> : "Developer"}
               </button>
             </div>
           )}

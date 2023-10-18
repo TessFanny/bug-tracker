@@ -12,7 +12,7 @@ import PriorityChart from "../components/charts/PriorityChart";
 import TypeChart from "../components/charts/TypeChart";
 import Loader from "../components/Loader";
 import ProjectItem from "../components/projects/ProjectItem";
-
+import { motion } from "framer-motion";
 const Projects = () => {
   // spinner
   const [isLoading, setIsLoading] = useState(false);
@@ -77,7 +77,8 @@ const Projects = () => {
   };
 
   return (
-    <section className="  mt-[8rem] w-full h-full lg:p-5">
+    <section className="  mt-[8rem] w-full h-full lg:p-5" 
+    >
       <div className=" bgGradient rounded-md">
         <h1 className=" text-3xl font-bold capitalize text-center pt-3"> Projects</h1>
         <div className="  p-5 justify-center flex flex-col lg:flex-row-reverse lg:justify-between items-center gap-y-2">
@@ -106,7 +107,9 @@ const Projects = () => {
         </div>
       </div>
 
-      <div className=" mt-5">
+      <motion.div className=" mt-5" initial={{ opacity: 0, scale: 0 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1 }}>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {isLoading ? (
             <Loader />
@@ -140,7 +143,7 @@ const Projects = () => {
             </button>
           ))}
         </div>
-      </div>
+      </motion.div>
 
       <AddProjectModal open={openModal} closeModal={closeModal} />
       <DeleteProjectModal
