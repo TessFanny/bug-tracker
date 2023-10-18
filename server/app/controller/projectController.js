@@ -113,7 +113,6 @@ const projectController = {
   try {
     const { project_id} = req.params
     const {user_id} = req.params
-    console.log(project_id);
     const projectModel = new Project(req.body);
     const project = await  projectModel.findByPk(project_id);
     if (project) {
@@ -123,7 +122,7 @@ const projectController = {
     } else {
       res
         .status(400)
-        .json(`the user you are trying to delete doesn't exists`);
+        .json(`the project doesn't exist`);
     }
     
   } catch (error) {

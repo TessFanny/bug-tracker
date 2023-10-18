@@ -26,7 +26,7 @@ class Ticket extends Core {
       const preparedQuery = `SELECT distinct ticket.*,  concat("user".firstname ,' ' ,"user".lastname)as author, "user".id as user_id, "user".role from ticket       
   join "user" on "user".id = ticket.ticket_author_id
   ;`;
-     // const value = [project_id];
+      // const value = [project_id];
       const result = await pool.query(preparedQuery);
 
       if (!result.rows) {
@@ -146,6 +146,20 @@ class Ticket extends Core {
       console.error(
         `Error in getTicketsUserIsAssignedToModel() : ${error.message}`
       );
+      throw error;
+    }
+  }
+  // delete an user from a ticket
+  async deleteUserFromTicketModel(ticket_id, user_id) {
+    try {
+      const result = await pool.query(
+        'DELETE FROM "ticket_has_user" WHERE ticket_id = $1 and user_id = $2',
+        [ticket_id, user_id]
+      );
+      console.log(result);
+      return !!result.rowCount;
+    } catch (error) {
+      console.error(`Error in deleteUserFromProjectModel() : ${error.message}`);
       throw error;
     }
   }

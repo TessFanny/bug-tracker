@@ -1,12 +1,12 @@
 import Ticket from "../models/ticketModel.js";
 
 const ticketController = {
-  // get all tickets 
+  // get all tickets
   getAllTickets: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
       const tickets = await ticketModel.getAllTicketsModel();
-      
+
       if (!tickets) {
         res.status(404).json("no resources found");
       } else {
@@ -20,7 +20,6 @@ const ticketController = {
 
   // get all tickets for a given project
 
-  
   getAllTicketsByProject: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
@@ -38,11 +37,13 @@ const ticketController = {
     }
   },
   // get tickets an user is assigned to
-  getTicketsUserIsAssignedTo : async (req, res, next)=>{
+  getTicketsUserIsAssignedTo: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
-      const tickets = await ticketModel.getTicketsUserIsAssignedToModel(req.params.user_id);
-      
+      const tickets = await ticketModel.getTicketsUserIsAssignedToModel(
+        req.params.user_id
+      );
+
       if (!tickets) {
         res.status(404).json("no resources found");
       } else {
@@ -70,7 +71,7 @@ const ticketController = {
     }
   },
 
-  // create a new ticket 
+  // create a new ticket
   createTicket: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
@@ -86,7 +87,7 @@ const ticketController = {
     }
   },
 
-  // get all users working on solving a ticket 
+  // get all users working on solving a ticket
   getAllUsersOnTicket: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
@@ -103,7 +104,7 @@ const ticketController = {
       next(error);
     }
   },
- // assigning a user to a given ticket 
+  // assigning a user to a given ticket
   assignUserToTicket: async (req, res, next) => {
     try {
       const { user_id } = req.body;
@@ -135,7 +136,7 @@ const ticketController = {
       next(error);
     }
   },
-  // update a ticket 
+  // update a ticket
   updateTicket: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
@@ -145,7 +146,7 @@ const ticketController = {
           req.params.ticket_id,
           req.body
         );
-        
+
         res.status(200).json(updatedTicket);
       } else {
         res
@@ -157,17 +158,37 @@ const ticketController = {
       next(error);
     }
   },
+  deleteUserFromTicket: async (req, res, next) => {
+    try {
+      const ticketModel = new Ticket(req.body);
+      const ticket = await ticketModel.findByPk(req.params.ticket_id);
+      if (ticket) {
+        const userToDelete = await ticketModel.deleteUserFromTicketModel(
+          req.params.ticket_id,
+          req.params.user_id
+        );
+        res.status(200).json(userToDelete);
+      } else {
+        res.status(400).json(`the ticket doesn't exist `);
+      }
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  },
 
-  // delete a ticket 
+  // delete a ticket
   deleteTicket: async (req, res, next) => {
     try {
       const ticketModel = new Ticket(req.body);
       const ticket = await ticketModel.findByPk(req.params.ticket_id);
-      
+
       if (ticket) {
-        const deletedTicket = await ticketModel.deleteTicketModel(req.params.ticket_id);
-        console.log('ticket succsessfully deleted');
-        res.status(200).json('ticket succsessfully deleted');
+        const deletedTicket = await ticketModel.deleteTicketModel(
+          req.params.ticket_id
+        );
+        console.log("ticket succsessfully deleted");
+        res.status(200).json("ticket succsessfully deleted");
       } else {
         res
           .status(400)

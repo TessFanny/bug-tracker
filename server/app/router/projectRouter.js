@@ -82,7 +82,7 @@ projectRouter.get('/project/:project_id/users',  security.checkToken, projectCon
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.post('/projects',  security.checkToken, security.authMiddleware(['lead developer','admin']), validation.check(projectSchema.create(), "body"), projectController.createProject);
+projectRouter.post('/projects',  security.checkToken, security.authMiddleware(['project manager','admin']), validation.check(projectSchema.create(), "body"), projectController.createProject);
 
 /**
  * POST /api/project/{project_id}/users
@@ -95,7 +95,7 @@ projectRouter.post('/projects',  security.checkToken, security.authMiddleware(['
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.post('/project/:project_id/users',  security.checkToken, security.authMiddleware(['lead developer','admin']), projectController.assignUserToProject);
+projectRouter.post('/project/:project_id/users',  security.checkToken, security.authMiddleware(['project manager','admin']), projectController.assignUserToProject);
 
 /**
  * PATCH /api/project/{project_id}
@@ -108,7 +108,7 @@ projectRouter.post('/project/:project_id/users',  security.checkToken, security.
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.patch('/project/:project_id',  security.checkToken, security.authMiddleware(['lead developer','admin']), validation.check(projectSchema.update(), "body"),projectController.updateProject);
+projectRouter.patch('/project/:project_id',  security.checkToken, security.authMiddleware(['project manager','admin']), validation.check(projectSchema.update(), "body"),projectController.updateProject);
 
 /**
  * delete /api/project/{project_id}/{user_id}
@@ -122,7 +122,7 @@ projectRouter.patch('/project/:project_id',  security.checkToken, security.authM
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.delete('/project/:project_id/:user_id',  security.checkToken, security.authMiddleware(['lead developer','admin']), projectController.deleteUserOnProject);
+projectRouter.delete('/project/:project_id/:user_id',  security.checkToken, security.authMiddleware(['project manager','admin']), projectController.deleteUserOnProject);
 
 /**
  * delete /api/project/{project_id}
@@ -135,7 +135,7 @@ projectRouter.delete('/project/:project_id/:user_id',  security.checkToken, secu
  * @return {object} 500 - Unexpected error
  */
 
-projectRouter.delete('/project/:project_id',  security.checkToken, security.authMiddleware(['lead developer','admin']), projectController.deleteProject);
+projectRouter.delete('/project/:project_id',  security.checkToken, security.authMiddleware(['project manager','admin']), projectController.deleteProject);
 
 
 export default projectRouter; 

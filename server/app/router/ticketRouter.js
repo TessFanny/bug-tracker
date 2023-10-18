@@ -33,7 +33,7 @@ const ticketRouter =  express.Router();
  * @return {object} 200 - tickets response
  * @return {object} 500 - Unexpected error
  */
-ticketRouter.get('/tickets',  security.checkToken, security.authMiddleware(["developer", "admin", "lead developer"]), ticketController.getAllTickets);
+ticketRouter.get('/tickets',  security.checkToken, security.authMiddleware(["developer", "admin", "project manager"]), ticketController.getAllTickets);
 
 
 
@@ -47,12 +47,12 @@ ticketRouter.get('/tickets',  security.checkToken, security.authMiddleware(["dev
  * @return {object} 200 - tickets response
  * @return {object} 500 - Unexpected error
  */
-ticketRouter.get('/tickets/:project_id', security.checkToken, security.authMiddleware(["developer", "admin", "lead developer"]), ticketController.getAllTicketsByProject);
+ticketRouter.get('/tickets/:project_id', security.checkToken, security.authMiddleware(["developer", "admin", "project manager"]), ticketController.getAllTicketsByProject);
 
 
 /**
  * GET /api/tickets/{user_id}
- * @summary  renvoie tous les  tickets qui ont été assignés à un utilisateur
+ * @summary 
  * @type {Ticket}
  * @tags tickets
  * @security TokenAuth
@@ -60,12 +60,12 @@ ticketRouter.get('/tickets/:project_id', security.checkToken, security.authMiddl
  * @return {object} 200 - tickets response
  * @return {object} 500 - Unexpected error
  */
-ticketRouter.get('/tickets/users/:user_id',  security.checkToken, security.authMiddleware(["developer", "admin", "lead developer"]), ticketController.getTicketsUserIsAssignedTo);
+ticketRouter.get('/tickets/users/:user_id',  security.checkToken, security.authMiddleware(["developer", "admin", "project manager"]), ticketController.getTicketsUserIsAssignedTo);
 
 
 /**
  * GET /api/ticket/{ticket_id}
- * @summary  renvoie un  ticket selon son id
+ * @summary  
  * @type {Ticket}
  * @tags tickets
  * @security TokenAuth
@@ -74,11 +74,11 @@ ticketRouter.get('/tickets/users/:user_id',  security.checkToken, security.authM
  * @return {object} 500 - Unexpected error
  */
 
-ticketRouter.get('/ticket/:ticket_id', security.checkToken, security.authMiddleware(["developer", "admin", "lead developer"]), ticketController.getOneTicket);
+ticketRouter.get('/ticket/:ticket_id', security.checkToken, security.authMiddleware(["developer", "admin", "project manager"]), ticketController.getOneTicket);
 
 /**
  * GET /api/ticket/{ticket_id}/users
- * @summary  renvoie tous les utilisateurs assignés à un ticket
+ * @summary  
  * @type {Ticket}
  * @tags tickets
  * @security TokenAuth
@@ -91,7 +91,7 @@ ticketRouter.get('/ticket/:ticket_id/users', security.checkToken, ticketControll
 
 /**
  * POST /api/tickets
- * @summary  crée un  ticket 
+ * @summary  create a ticket
  * @type {Ticket}
  * @tags tickets
  * @security TokenAuth
@@ -106,7 +106,7 @@ ticketRouter.post('/tickets',  security.checkToken, validation.check(ticketSchem
 
 /**
  * POST /api/ticket/{ticket_id}/users
- * @summary  assigner un membre à un ticket 
+ * @summary  assign ticket to user 
  * @type {Ticket}
  * @tags tickets
  * @security TokenAuth
@@ -118,7 +118,7 @@ ticketRouter.post('/ticket/:ticket_id/users',  security.checkToken, security.aut
 
 /**
  * PATCH /api/ticket/{ticket_id}
- * @summary  modifie un  ticket selon son id
+ * @summary 
  * @type {Ticket}
  * @tags tickets
  * @security TokenAuth
@@ -127,12 +127,12 @@ ticketRouter.post('/ticket/:ticket_id/users',  security.checkToken, security.aut
  * @return {object} 500 - Unexpected error
  */
 
-ticketRouter.patch('/ticket/:ticket_id',  security.checkToken, security.authMiddleware(['admin', "lead developer"]), validation.check(ticketSchema.update(), "body"),ticketController.updateTicket);
+ticketRouter.patch('/ticket/:ticket_id',  security.checkToken, security.authMiddleware(['admin', "project manager"]), validation.check(ticketSchema.update(), "body"),ticketController.updateTicket);
 
 
 /**
- * delete /api/ticket/{ticket_id}
- * @summary  supprime un  ticket selon son id
+ * delete /api/ticket/{ticket_id}/{user_id}
+ * @summary  delete an user assigned to a ticket
  * @type {Ticket}
  * @tags tickets
  * @security TokenAuth
@@ -141,7 +141,20 @@ ticketRouter.patch('/ticket/:ticket_id',  security.checkToken, security.authMidd
  * @return {object} 500 - Unexpected error
  */
 
-ticketRouter.delete('/ticket/:ticket_id',  security.checkToken, security.authMiddleware(['lead developer','admin']), ticketController.deleteTicket);
+ticketRouter.delete('/ticket/:ticket_id/:user_id',  security.checkToken, security.authMiddleware(['project manager','admin']), ticketController.deleteUserFromTicket);
+
+/**
+ * delete /api/ticket/{ticket_id}
+ * @summary 
+ * @type {Ticket}
+ * @tags tickets
+ * @security TokenAuth
+ * @param {number} ticket_id.path.required
+ * @return {object} 200 - ticket response
+ * @return {object} 500 - Unexpected error
+ */
+
+ticketRouter.delete('/ticket/:ticket_id',  security.checkToken, security.authMiddleware(['project manager','admin']), ticketController.deleteTicket);
 
 
 export default ticketRouter; 
