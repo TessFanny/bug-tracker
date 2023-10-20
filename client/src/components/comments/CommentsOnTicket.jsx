@@ -55,7 +55,7 @@ const CommentsOnTicket = ({ ticketDetail }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addComment({ text, comment_author_id: user.id, ticket_id }));
-    //dispatch(changeTextValue(""));
+    dispatch(changeTextValue(""));
     e.target.reset();
   };
  
