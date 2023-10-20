@@ -58,10 +58,23 @@ class Project extends Core {
   const result = await pool.query('DELETE FROM "project_has_user" WHERE project_id = $1 and user_id = $2', [
       project_id, user_id
     ]);
-    console.log(result);
+    
     return !!result.rowCount;
   } catch (error) {
     console.error(`Error in deleteUserFromProjectModel() : ${error.message}`);
+    throw error;
+  }
+}
+ // remove all users from a project
+ async removeUsersFromProjectModel(project_id) {
+  try {   
+  const result = await pool.query('DELETE FROM "project_has_user" WHERE project_id = $1', [
+      project_id
+    ]);
+    
+    return !!result.rowCount;
+  } catch (error) {
+    console.error(`Error in removeUsersFromProjectModel() : ${error.message}`);
     throw error;
   }
 }
@@ -85,7 +98,7 @@ class Project extends Core {
       throw error;
     }
   }
-
+// get all users working on a project 
   async getUsersOnProject(project_id) {
     try {
       const preparedQuery = `SELECT distinct concat("user".firstname ,' ' ,"user".lastname)as contributor, "user".id, "user".role, "user".email from project

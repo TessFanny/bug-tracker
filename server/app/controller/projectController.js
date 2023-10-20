@@ -84,7 +84,7 @@ const projectController = {
       const projectModel = new Project(req.body);
      
       const verifyProject = await projectModel.getUserProject(project_id, user_id)
-
+      console.log(verifyProject);
       if(verifyProject){
         res.status(409).json(`user  already assigned to the project `)
       } else{
@@ -151,6 +151,27 @@ const projectController = {
       next(error);
     }
   },
+
+  // remove all users on a project
+  removeAllUsersFromProject : async(req, res, next)=>{
+    try {
+      const projectModel = new Project(req.body);
+      const project = await  projectModel.findByPk(req.params.project_id);
+      if (project) {
+        const deletedProject = await projectModel.removeUsersFromProjectModel(req.params.project_id)
+        console.log(deletedProject);
+        res.status(200).json(deletedProject);
+      } else {
+        res
+          .status(400)
+          .json(`project doesn't exists`);
+      }
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  },
+  // delete project 
   deleteProject: async (req, res, next) => {
     try {
       const projectModel = new Project(req.body);
