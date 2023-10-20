@@ -17,11 +17,12 @@ import { getAllContributors } from "../../features/projects/projectSlice";
 const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
   const { users } = useSelector((store) => store.users);
   const { user } = useSelector((store) => store.user);
-  const { title, description, ticket_status, priority, color, type } =
+  const { title, description, ticket_status, priority, color, type, members } =
     useSelector((store) => store.tickets);
     const {contributors} = useSelector((store) => store.projects)
   const { id } = user;
-  const [selectedMembersId, setSelectedMembersId] = useState([]);
+  const initialSelectedMembers = members.map((contrib) => contrib.id);
+  const [selectedMembersId, setSelectedMembersId] = useState(initialSelectedMembers);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -226,6 +227,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
                         value={user.id}
                         name={user.id}
                         id={user.id}
+                        disabled={initialSelectedMembers.includes(user.id)}
                         onChange={handleMemberChange}
                       />
                       <label htmlFor={user.id}>

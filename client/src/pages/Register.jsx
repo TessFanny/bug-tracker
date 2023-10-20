@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import FormRow from "../components/FormRow";
-
+import { FaInfoCircle, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, registerUser } from "../features/user/userSlice";
 import { useNavigate, useRouteLoaderData } from "react-router-dom";
 import SmallLoader from "../components/SmallLoader";
 
-// const initialState = {
-//   isMember: true,
-// };
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+// le mot de passe doit avoir au min une maj, une minuscule, un caractère spécial, un chiffre et doit etre compris entre 8 et 24 caractères
+const password_REGEX = /(?=.*[A-Z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+
 const Register = () => {
   //const [values, setValues] = useState(initialState);
   const { user, isLoading, isRegisteredFulfill } = useSelector(
@@ -17,6 +19,7 @@ const Register = () => {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
 
   const [firstname, setFirstname] = useState("");
@@ -24,9 +27,28 @@ const Register = () => {
   const [lastname, setLastname] = useState("");
 
   const [password, setPassword] = useState("");
+  const [matchPassword, setMatchPassword] = useState("");
 
-  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isMember, setIsMember] = useState(true);
+  const [validPassword, setValidPassword] = useState(false);
+  const [validEmail, setValidEmail] = useState(false);
+  const [validMatch, setValidMatch] = useState(false);
+
+  useEffect(() => {
+    const result = EMAIL_REGEX.test(email);
+    console.log(result);
+    console.log(email);
+    setValidEmail(result);
+  }, [email]);
+
+  useEffect(() => {
+    const result = password_REGEX.test(password);
+    console.log(result);
+    console.log(password);
+    setValidPassword(result);
+    const match = password === matchPassword;
+    setValidMatch(match);
+  }, [password, matchPassword]);
 
   useEffect(() => {
     if (isRegisteredFulfill) {
@@ -38,17 +60,22 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const { email, firstname, lastname, password, passwordConfirm, isMember } =
-    //   values;
+    const v1 = EMAIL_REGEX.test(email);
+    const v2 = password_REGEX.test(password);
     if (
       !email ||
       !password ||
       (!isMember && !firstname) ||
       (!isMember && !lastname) ||
-      (!isMember && !passwordConfirm)
+      (!isMember && !matchPassword)
     ) {
-      toast.error("Veuillez remplir tous les champs");
+      toast.error("Field cannot be empty");
 
+      return;
+    }
+
+    if (!v1 || !v2) {
+      toast.error("invalid entry");
       return;
     }
     if (isMember) {
@@ -61,7 +88,13 @@ const Register = () => {
       return;
     }
     dispatch(
-      registerUser({ firstname, lastname, email, password, passwordConfirm })
+      registerUser({
+        firstname,
+        lastname,
+        email,
+        password,
+        passwordConfirm: matchPassword,
+      })
     );
   };
 
@@ -93,57 +126,170 @@ const Register = () => {
           </div>
 
           <p className=" text-center">
-          Organize, Track, Manage, and Resolve issues, bugs on your projects
+            Organize, Track, Manage, and Resolve issues, bugs on your projects
           </p>
         </div>
 
-        <h3 className=" text-center font-semibold">{isMember ? "Login" : "Register"}</h3>
+        <h3 className=" text-center font-semibold">
+          {isMember ? "Login" : "Register"}
+        </h3>
         {/*section prénom*/}
         {!isMember && (
-          <FormRow
-            type="text"
-            name="firstname"
-            value={firstname}
-            handleChange={(e) => setFirstname(e.target.value)}
-          />
+          <div className=" mb-[1rem]">
+            <label
+              htmlFor="firstname"
+              className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px] "
+            >
+              Firstname
+            </label>
+
+            <input
+              id="firstname"
+              type="text"
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
+              required
+              className=" w-full py-[0.375rem] px-[0.75rem]  rounded-[0.25rem] border-[1px] border-[#bcccdc] h-[35px] bg-[#f0f4f8] "
+            />
+          </div>
         )}
         {/*section nom*/}
 
         {!isMember && (
-          <FormRow
-            type="text"
-            name="lastname"
-            value={lastname}
-            handleChange={(e) => setLastname(e.target.value)}
-          />
+          <div className=" mb-[1rem]">
+            <label
+              htmlFor="lastname"
+              className=" block mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px] "
+            >
+              Lastname
+            </label>
+
+            <input
+              id="lastname"
+              type="text"
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
+              required
+              className=" w-full py-[0.375rem] px-[0.75rem]  rounded-[0.25rem] border-[1px] border-[#bcccdc] h-[35px] bg-[#f0f4f8] "
+            />
+          </div>
         )}
         {/*section email*/}
-        <FormRow
-          type="email"
-          name="email"
-          value={email}
-          handleChange={(e) => setEmail(e.target.value)}
-        />
+        <div className=" mb-[1rem]">
+          <label
+            htmlFor="email"
+            className=" flex mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px] "
+          >
+            Email
+            <span className={validEmail ? "valid" : "hide"}>
+              <FaCheckCircle className=" ml-2 mt-1 text-green-600" />
+            </span>
+            <span className={validEmail || !email ? "hide" : "invalid"}>
+              <FaTimesCircle className="ml-2 mt-1 text-red-500" />
+            </span>
+          </label>
+
+          <input
+          autoComplete="off"
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className=" w-full py-[0.375rem] px-[0.75rem]  rounded-[0.25rem] border-[1px] border-[#bcccdc] h-[35px] bg-[#f0f4f8] "
+            aria-describedby="uidnote"
+            aria-invalid={validEmail ? "false" : "true"}
+          />
+          <p
+            id="uidnote"
+            className={email && !validEmail ? "instructions" : "offscreen"}
+          >
+            <FaInfoCircle className=" text-red-700 mr-2 mt-1" />
+            4 to 24 characters. <br />
+            Must begin with a letter. <br />
+            accepts letters, numbers
+          </p>
+        </div>
         {/*section password*/}
-        <FormRow
-          type="password"
-          name="password"
-          value={password}
-          handleChange={(e) => setPassword(e.target.value)}
-        />
+        <div className=" mb-[1rem]">
+          <label
+            htmlFor="password"
+            className=" flex mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px] "
+          >
+            Password
+            <span className={validPassword ? "valid" : "hide"}>
+              <FaCheckCircle className=" ml-2 mt-1 text-green-600" />
+            </span>
+            <span className={validPassword || !password ? "hide" : "invalid"}>
+              <FaTimesCircle className="ml-2 mt-1 text-red-500" />
+            </span>
+          </label>
+
+          <input
+            id="password"
+            type="password"
+            autoComplete="off"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            aria-describedby="passwordnote"
+            aria-invalid={validPassword ? "false" : "true"}
+            className=" w-full py-[0.375rem] px-[0.75rem]  rounded-[0.25rem] border-[1px] border-[#bcccdc] h-[35px] bg-[#f0f4f8] "
+          />
+          <p
+            id="passwordnote"
+            className={
+              password && !validPassword ? "instructions" : "offscreen"
+            }
+          >
+            <FaInfoCircle className=" text-red-700 mr-2 mt-1" />
+            8 to 24 characters. <br />
+            Must include uppercase and lowercase letters, a number and special
+            character <br />
+            Allow special characters: !@#$
+          </p>
+        </div>
         {/*section confirmation de mote de passe*/}
         {!isMember && (
-          <FormRow
-            type="password"
-            name="passwordConfirm"
-            value={passwordConfirm}
-            handleChange={(e) => setPasswordConfirm(e.target.value)}
-          />
+          <div className=" mb-[1rem]">
+            <label
+              htmlFor="passwordConfirm"
+              className=" flex mb-[0.5rem] capitalize text-[0.875rem] tracking-[1px] "
+            >
+              Confirm password
+              <span className={validMatch && matchPassword ? "valid" : "hide"}>
+                <FaCheckCircle className=" ml-2 mt-1 text-green-600" />
+              </span>
+              <span
+                className={validMatch || !matchPassword ? "hide" : "invalid"}
+              >
+                <FaTimesCircle className="ml-2 mt-1 text-red-500" />
+              </span>
+            </label>
+
+            <input
+              id="passwordConfirm"
+              type="password"
+              value={matchPassword}
+              onChange={(e) => setMatchPassword(e.target.value)}
+              required
+              aria-describedby="confirnnote"
+              aria-invalid={validMatch && matchPassword ? "false" : "true"}
+              className=" w-full py-[0.375rem] px-[0.75rem]  rounded-[0.25rem] border-[1px] border-[#bcccdc] h-[35px] bg-[#f0f4f8] "
+            />
+            <p
+              id="confirnnote"
+              className={!validMatch ? "instructions" : "offscreen"}
+            >
+              <FaInfoCircle className=" text-red-700 mr-2 mt-1" />
+              must match the password input field
+            </p>
+          </div>
         )}
-        {/* */}
+
         <div className="grid gap-y-2">
-          <button type="submit" className="btn" disabled={isLoading}>
-            {isLoading ? <SmallLoader/> : "submit"}
+          <button type="submit" className="btn" disabled={isLoading} >
+            {isLoading ? <SmallLoader /> : "submit"}
           </button>
           {isMember && (
             <div className=" grid gap-2">
@@ -163,7 +309,7 @@ const Register = () => {
                 }
               >
                 {/* afficher Loading si ca charge et demo user au cas conttraire*/}
-                {isLoading ? <SmallLoader/> : "Admin"}
+                {isLoading ? <SmallLoader /> : "Admin"}
               </button>
               {/* project manager demo */}
               <button
@@ -180,7 +326,7 @@ const Register = () => {
                 }
               >
                 {/* afficher Loading si ca charge et demo user au cas conttraire*/}
-                {isLoading ? <SmallLoader/> : "Project Manager"}
+                {isLoading ? <SmallLoader /> : "Project Manager"}
               </button>
 
               {/* dev demo */}
@@ -199,7 +345,7 @@ const Register = () => {
                 }
               >
                 {/* afficher Loading si ca charge et demo user au cas conttraire*/}
-                {isLoading ? <SmallLoader/> : "Developer"}
+                {isLoading ? <SmallLoader /> : "Developer"}
               </button>
             </div>
           )}

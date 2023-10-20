@@ -13,7 +13,7 @@ const Header = () => {
   // logging out
   const handleLogout = () => {
     dispatch(logout());
-    toast.success("Vous êtes déconnecté");
+    toast.success("you are logged out");
     setTimeout(() => {
       window.location.replace("/");
     }, 1000);
@@ -27,11 +27,10 @@ const Header = () => {
         {" "}
         Hello there{" "}
         <span className=" font-semibold">
-          {user &&
-            user.firstname.charAt(0).toUpperCase() +
-              user.firstname.slice(1)}{" "}
-          !{" "}
-        </span>{" "}
+          {user && user.firstname.charAt(0).toUpperCase() +
+              user.firstname.slice(1)}
+          !
+        </span>
       </p>
       <div className="md:mr-[280px]  flex flex-col-reverse md:flex-row md:justify-between items-center gap-1 ">
         <div className="p-1 rounded-md bgGradient">

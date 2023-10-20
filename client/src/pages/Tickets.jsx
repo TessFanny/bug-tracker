@@ -7,6 +7,7 @@ import AddTicketForm from "../components/tickets/AddTicketForm";
 import EditTicket from "../components/tickets/EditTicket";
 import DeleteTicket from "../components/tickets/DeleteTicket";
 import { motion } from "framer-motion";
+import AllTicketItem from "../components/tickets/AllTicketItem";
 
 const Tickets = () => {
   const { allTickets } = useSelector((store) => store.tickets);
@@ -89,7 +90,7 @@ const Tickets = () => {
         transition={{ duration: 1 }}
       >
         {getCurrentPageData().map((ticket, id) => (
-          <TicketItem
+          <AllTicketItem
             key={id}
             ticket={ticket}
             setOpenDeleteModal={setOpenDeleteModal}

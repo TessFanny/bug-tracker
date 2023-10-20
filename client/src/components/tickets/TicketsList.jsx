@@ -84,7 +84,7 @@ const TicketsList = ({ projectId, setTicketDetail, setShowDetail }) => {
             <AiOutlinePlus className=" text-xl" />
             Add ticket
           </button>
-          <div className=" w-full lg:w-[30%] flex items-center  px-2 rounded-lg mt-4 self-end border-[1px] bg-white shadow-md ">
+          <div className=" w-full lg:w-[30%] flex items-center  px-2 rounded-lg mt-4 self-end border-[1px] bg-white shadow-md text-black ">
             <AiOutlineSearch size={25} className=" text-2xl text-black " />
             <input
               type="search"

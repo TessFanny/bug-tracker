@@ -132,8 +132,8 @@ const Admin = () => {
                             }}
                           >
                             <option value="developer">developer</option>
-                            <option value="lead developer">
-                              lead developer
+                            <option value="project manager">
+                            project manager
                             </option>
                             <option value="admin">admin</option>
                           </select>

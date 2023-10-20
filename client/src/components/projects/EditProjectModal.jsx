@@ -17,7 +17,7 @@ const EditProjectModal = ({ open, closeModal, project, position }) => {
   );
   const initialSelectedMembers = contributors.map((contrib) => contrib.id);
   const { users } = useSelector((store) => store.users);
-  const [selectedMembersId, setSelectedMembersId] = useState([]);
+  const [selectedMembersId, setSelectedMembersId] = useState(initialSelectedMembers);
 
   useEffect(() => {
     dispatch(changeTitleValue(project.title));
@@ -108,7 +108,7 @@ const EditProjectModal = ({ open, closeModal, project, position }) => {
               <h3> Users</h3>
               <fieldset className="  w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[150px] flex gap-20 overflow-auto">
                 <div>
-                  <h4>Name</h4>
+                  <h4 className=" text-black font-semibold">Name</h4>
                   {users.map((user) => {
                     return (
                       <label
@@ -121,6 +121,7 @@ const EditProjectModal = ({ open, closeModal, project, position }) => {
                           value={user.id}
                           name={user.id}
                           id={user.id}
+                          disabled={initialSelectedMembers.includes(user.id)}
                           onChange={handleMemberChange}
                         />
                         {user.firstname} {user.lastname}
@@ -130,7 +131,7 @@ const EditProjectModal = ({ open, closeModal, project, position }) => {
                 </div>
 
                 <div>
-                  <h4>Role</h4>
+                  <h4 className=" text-black font-semibold">Role</h4>
                   {users.map((user) => {
                     return (
                       <div className=" flex  gap-4" key={user.id}>

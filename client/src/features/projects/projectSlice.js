@@ -128,7 +128,7 @@ export const addMember = createAsyncThunk(
    
   }
 );
-// delete member working on a projject 
+// remove member working on a projject 
 export const deleteUserOnProject = createAsyncThunk('projects/deleteUserOnProject', async({project_id, user_id}, thunkAPI)=>{
   try {
     const response = await axios.delete(`project/${project_id}/${user_id}`, {
@@ -142,7 +142,20 @@ export const deleteUserOnProject = createAsyncThunk('projects/deleteUserOnProjec
     return thunkAPI.rejectWithValue(error.response.data)
   }
 })
-
+ // remove All users working on a project 
+ export const removeUsersFromProject = createAsyncThunk('projects/removeUsersFromProject', async(project_id, thunkAPI)=>{
+  try {
+    const response = await axios.delete(`project/${project_id}/users`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // Bearer ACCESSTOKEN
+      }
+    })
+    thunkAPI.dispatch(getAllContributors(project_id));
+    return response.data
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data)
+  }
+})
 // delete project
 export const deleteProject = createAsyncThunk('projects/deleteProject', async(project_id, thunkAPI)=>{
   try {
@@ -293,6 +306,18 @@ const projectSlice = createSlice({
       // toast.success(' project successfully removed')
       })
       .addCase(deleteProject.rejected, (state, action) => {
+        state.status = "failed";
+        //state.error = action.payload;    
+        toast.error(action.payload)    
+      }).addCase(removeUsersFromProject.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(removeUsersFromProject.fulfilled, (state, action) => {
+        state.status = "succeeded";
+       toast.success(' success')
+      })
+      .addCase(removeUsersFromProject.rejected, (state, action) => {
         state.status = "failed";
         //state.error = action.payload;    
         toast.error(action.payload)    
