@@ -3,7 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-import {userRouter,
+import {
+  userRouter,
   authRouter,
   ticketRouter,
   commentRouter,
@@ -13,11 +14,10 @@ import {userRouter,
 import errorService from "./app/services/errorHandling.js";
 dotenv.config();
 
-
 const port = process.env.PORT || `port number`;
 const app = express();
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 // app.use(cors({
 //   origin: ['http://127.0.0.1:5173'],
@@ -30,20 +30,22 @@ app.use(cookieParser())
 //   next();
 // });
 
-
-app.use(cors({
-  origin: ['https://bug-tracker-4gae.onrender.com'],
-  credentials: true
-}));
-
+app.use(
+  cors({
+    origin: ["https://bug-tracker-4gae.onrender.com"],
+    credentials: true,
+  })
+);
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://bug-tracker-4gae.onrender.com');
- // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://bug-tracker-4gae.onrender.com"
+  );
+  // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   //res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
-
 
 /* Configuration des sessions */
 const sessionConfig = {
@@ -53,7 +55,7 @@ const sessionConfig = {
   rolling: true,
   cookie: {
     httpOnly: false,
-    maxAge: (24 * 60 * 60 * 1000)
+    maxAge: 24 * 60 * 60 * 1000,
   },
 };
 
@@ -109,10 +111,8 @@ app.use(
   authRouter,
   ticketRouter,
   commentRouter,
-  projectRouter,
-
+  projectRouter
 );
-
 
 app.listen(port, () => {
   console.log(`Server ready: http://localhost:${port}`);
