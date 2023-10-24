@@ -32,7 +32,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["https://bug-tracker-4gae.onrender.com"],
+    origin: ["https://bugtrackertess.netlify.app"],
     credentials: true,
   })
 );
@@ -40,7 +40,7 @@ app.use(
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://bug-tracker-4gae.onrender.com"
+    "https://bugtrackertess.netlify.app"
   );
   // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   //res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
