@@ -13,6 +13,8 @@ import TicketBgChange from "./TicketBgChange";
 import TicketPriorityColor from "./TicketPriorityColor";
 import { getAllProjects } from "../../features/projects/projectSlice";
 import CommentsOnTicket from "../comments/CommentsOnTicket";
+import { formatDate, formatCreateDate } from "../../utils/formatDate";
+
 
 const TicketDetails = () => {
   const navigate = useNavigate();
@@ -48,15 +50,15 @@ const TicketDetails = () => {
           </button>
         </div>
         {ticket ? (
-          <div className="w-full mt-14 p-3 md:p-8 text-gray-600 ">
-            <div className=" grid md:grid-cols-2 border-b-[1px]  pb-2 md:h-[5rem] md:items-center md:pb-0 ">
+          <div className="w-full mt-[5rem] md:mt-[2rem] p-3 md:p-8 text-gray-600 ">
+            <div className=" grid md:grid-cols-2 border-b-[1px]  pb-2 md:h-[8rem] md:items-center md:pb-0 h-[12rem]">
               <div className="border-b-2 pb-2 md:border-none md:pb-0">
                 <h3 className=" text-sm font-semibold "> TICKET TITLE</h3>
                 <p className=" text-sm">{ticket.title} </p>
               </div>
               <div className=" py-3 md:py-0 ">
-                <h3 className=" text-sm font-semibold">TICKET DESCRIPTION</h3>
-                <p className=" text-sm">{ticket.description} </p>
+                <h3 className=" text-sm font-semibold ">TICKET DESCRIPTION</h3>
+                <p className=" text-sm text-ellipsis">{ticket.description} </p>
               </div>
             </div>
             <div className=" grid grid-cols-2 border-b-[1px] h-[5rem] items-center">

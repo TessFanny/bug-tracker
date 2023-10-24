@@ -8,6 +8,7 @@ import EditTicket from "../components/tickets/EditTicket";
 import DeleteTicket from "../components/tickets/DeleteTicket";
 import { motion } from "framer-motion";
 import AllTicketItem from "../components/tickets/AllTicketItem";
+import Loader from "../components/Loader";
 
 const Tickets = () => {
   const { allTickets } = useSelector((store) => store.tickets);
@@ -25,8 +26,12 @@ const Tickets = () => {
   const [currentPage, setCurrentPage] = useState(1); // Current page number
   const [itemsPerPage, setItemsPerPage] = useState(10); // Number of items per page
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true)
     dispatch(getAllTickets());
+    setIsLoading(false)
   }, []);
 
   // closing modal function
@@ -36,10 +41,7 @@ const Tickets = () => {
     setOpenEditModal(false);
   };
 
-  // trying to access data that is clicked
-  const handleClick = (e) => {
-    const projectId = e.target.dataset.project.id;
-  };
+  
   // filtering data to get the data in the search query
   const filterTableData = () => {
     return allTickets.filter((ticket) => {
@@ -82,25 +84,31 @@ const Tickets = () => {
           />
         </div>
       </div>
-
+ 
       <motion.div
         className="grid md:grid-cols-2 lg:grid-cols-5 gap-5  p-5 "
         initial={{ opacity: 0, scale: 0 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1 }}
       >
-        {getCurrentPageData().map((ticket, id) => (
-          <AllTicketItem
-            key={id}
-            ticket={ticket}
-            setOpenDeleteModal={setOpenDeleteModal}
-            setOpenEditModal={setOpenEditModal}
-            setTicket={setTicket}
-          />
-        ))}
+      {isLoading ? (<Loader/>) : getCurrentPageData() && getCurrentPageData().length > 0 ? (
+        getCurrentPageData().map((ticket, id) => (
+        <AllTicketItem
+          key={id}
+          ticket={ticket}
+          setOpenDeleteModal={setOpenDeleteModal}
+          setOpenEditModal={setOpenEditModal}
+          setTicket={setTicket}
+        />
+      ))) : (
+        <div className="px-3 h-[200px] text-red-500">
+          no data available ...
+        </div>
+      )}
+        
       </motion.div>
       <div className=" flex gap-5 p-5">
-        {Array.from({ length: totalPages }, (_, index) => (
+        { getCurrentPageData() && Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index}
             onClick={() => setCurrentPage(index + 1)}

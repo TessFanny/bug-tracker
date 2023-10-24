@@ -13,6 +13,7 @@ const initialState = {
   priority: "",
   color: "",
   type: "",
+  updated_at:"",
   assignedTicketsToUser: [],
 };
 
@@ -183,6 +184,7 @@ export const editTicket = createAsyncThunk(
       ticket_author_id,
       project_id,
       ticket_id,
+      updated_at,
     },
     thunkAPI
   ) => {
@@ -198,6 +200,7 @@ export const editTicket = createAsyncThunk(
           type,
           ticket_author_id,
           project_id,
+          updated_at
         },
         {
           headers: {
@@ -270,6 +273,9 @@ export const ticketsSlice = createSlice({
     },
     changeTypeValue: (state, action) => {
       state.type = action.payload;
+    },
+    changeUpdateDateValue: (state, action) => {
+      state.updated_at = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -402,5 +408,6 @@ export const {
   changePriorityValue,
   changeColorValue,
   changeTypeValue,
+  changeUpdateDateValue
 } = ticketsSlice.actions;
 export default ticketsSlice.reducer;

@@ -13,6 +13,10 @@ import TypeChart from "../components/charts/TypeChart";
 import Loader from "../components/Loader";
 import ProjectItem from "../components/projects/ProjectItem";
 import { motion } from "framer-motion";
+import { formatDate } from "../utils/formatDate";
+
+
+
 const Projects = () => {
   // spinner
   const [isLoading, setIsLoading] = useState(false);
@@ -77,19 +81,23 @@ const Projects = () => {
   };
 
   return (
-    <section className="  mt-[8rem] w-full h-full lg:p-5" 
-    >
+    <section className="  mt-[8rem] w-full h-full lg:p-5">
       <div className=" bgGradient rounded-md">
-        <h1 className=" text-3xl font-bold capitalize text-center pt-3"> Projects</h1>
+        <h1 className=" text-3xl font-bold capitalize text-center pt-3">
+          {" "}
+          Projects
+        </h1>
         <div className="  p-5 justify-center flex flex-col lg:flex-row-reverse lg:justify-between items-center gap-y-2">
-        {(user.role === "admin" || user.role === "project manager" )&& <button
-        className=" bgGradient rounded-md px-2 py-1 text-white shadow-md flex items-center text-center justify-center w-full lg:w-[10rem] border-[1px]"
-        onClick={()=> setOpenModal(true)}
-      >
-        <AiOutlinePlus className=" text-xl" />
-        Add Project
-      </button>}
-          
+          {(user.role === "admin" || user.role === "project manager") && (
+            <button
+              className=" bgGradient rounded-md px-2 py-1 text-white shadow-md flex items-center text-center justify-center w-full lg:w-[10rem] border-[1px]"
+              onClick={() => setOpenModal(true)}
+            >
+              <AiOutlinePlus className=" text-xl" />
+              Add Project
+            </button>
+          )}
+
           <div className="relative w-full lg:w-[25%] shadow-lg ">
             <AiOutlineSearch
               size={25}
@@ -108,9 +116,12 @@ const Projects = () => {
         </div>
       </div>
 
-      <motion.div className=" mt-5" initial={{ opacity: 0, scale: 0 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1 }}>
+      <motion.div
+        className=" mt-5"
+        initial={{ opacity: 0, scale: 0 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1 }}
+      >
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {isLoading ? (
             <Loader />

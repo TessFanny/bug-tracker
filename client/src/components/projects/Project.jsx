@@ -50,7 +50,7 @@ const Project = () => {
                   Back to list
                 </button>
               </div>
-              <div className=" mt-12 text-left p-5 ml-6 text-sm text-gray-700 w-[100%]">
+              <div className=" mt-12 text-left py-5 ml-6 pr-8 pl-5 text-sm text-gray-700 w-[100%]">
                 <h3 className=" font-semibold capitalize">
                   Project description
                 </h3>

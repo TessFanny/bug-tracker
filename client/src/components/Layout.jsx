@@ -37,7 +37,7 @@ const Layout = () => {
       {/* side bar */}
       <div
         onClick={handleNav}
-        className="fixed top-[10px] text-[100px]  left-[10px] z-[50] md:hidden cursor-pointer bgGradient rounded-sm"
+        className="fixed top-[10px] text-[100px]  left-[10px] z-[50] md:hidden cursor-pointer  bg-gray-300 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-30 border border-gray-100"
       >
         <Hamburger
           toggled={isOpen}
@@ -53,9 +53,9 @@ const Layout = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
-          className=" min-w-[220px] h-[50%] border-r-[1px] mr-[100px] md:hidden bgGradient  z-40 border-gray-200 rounded-br-lg fixed top-0 left-0 overflow-auto"
+          className=" min-w-[220px] h-[50%] border-r-[1px] mr-[100px] md:hidden bg-gray-300 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-30 border border-gray-100  z-40 er-gray-200 rounded-br-lg fixed top-0 left-0 overflow-auto"
         >
-          <div className="flex gap-1  justify-center items-center border-b-[1px] py-5 pl-3">
+          <div className="flex gap-1  justify-center items-center border-b-[2px] border-white py-5 pl-10 ">
             <BsBugFill />
 
             <Link
@@ -63,7 +63,7 @@ const Layout = () => {
               onClick={() => {
                 handleNav(), setTitle("dashboard");
               }}
-              className="font-bold text-xl"
+              className="font-bold text-xl "
             >
               Bug Tracker
             </Link>

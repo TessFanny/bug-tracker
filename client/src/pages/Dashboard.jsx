@@ -27,10 +27,7 @@ const Dashboard = () => {
 
   return (
     <motion.section className=" mt-[8rem] w-full h-full grid gap-6 pb-3"
-    initial={{ opacity: 0, scale: 0 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1 }}
-      
+     
     >
       <article className="  w-full grid lg:grid-cols-3 gap-3">
         <div className=" min-w-[200px] w-full shadow-lg bg-white border-b-red-600 border-b-[8px] rounded-md  flex flex-col items-center md:px-10 p-6">

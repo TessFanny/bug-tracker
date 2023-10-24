@@ -10,14 +10,16 @@ import {
   changeDescriptionValue,
   changeTypeValue,
   changeColorValue,
+  
   editTicket,
+  changeUpdateDateValue,
 } from "../../features/tickets/ticketsSlice";
-import { getAllContributors } from "../../features/projects/projectSlice";
+import { formatDate } from "../../utils/formatDate";
 
 const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
   const { users } = useSelector((store) => store.users);
   const { user } = useSelector((store) => store.user);
-  const { title, description, ticket_status, priority, color, type, members } =
+  const { title, description, ticket_status, priority, color, type, updated_at, members } =
     useSelector((store) => store.tickets);
     const {contributors} = useSelector((store) => store.projects)
   const { id } = user;
@@ -52,8 +54,8 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
   const handlePriorityChange = (evt) => {
     dispatch(changePriorityValue(evt.target.value));
   };
-  const handleColorChange = (evt) => {
-    dispatch(changeColorValue(evt.target.value));
+  const handleUpdateDateChange = (evt) => {
+    dispatch(changeUpdateDateValue(evt.target.value));
   };
 
   const handleMemberChange = (event) => {
@@ -72,6 +74,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
     if (isLoading) return;
 
     setIsLoading(true);
+    dispatch(changeUpdateDateValue(formatDate()));
     dispatch(
       editTicket({
         title,
@@ -83,6 +86,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
         ticket_author_id: id,
         project_id: projectId,
         ticket_id: ticket.id,
+        updated_at,
       })
     ).then(() => {
       selectedMembersId.forEach(async (user_id) => {
@@ -170,7 +174,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
                 <option value="issue">issue</option>
                 <option value="bug">bug</option>
                 <option value="error">error</option>
-                <option value="feature request">feature request</option>
+                <option value="features request">features request</option>
                 <option value="other">other</option>
               </select>
             </div>

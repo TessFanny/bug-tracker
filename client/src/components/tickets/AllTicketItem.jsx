@@ -30,7 +30,7 @@ const AllTicketItem = ({
   }
   return (
     <div
-      className={` bg-white rounded-md grid border-[1px] ${borderColorClass} border-t-[8px] `}
+      className={` max-h-[20rem] min-h-[12rem] bg-white rounded-md grid border-[1px] ${borderColorClass} border-t-[8px] `}
     >
       <div className="  p-3 w-full flex justify-between border-b rounded-t-lg capitalize transition duration-300 ease-in-out">
         <Link
@@ -45,7 +45,7 @@ const AllTicketItem = ({
         </div>
       </div>
 
-      <div className="text-left  max-w-md p-3 text-sm text-gray-700  ">
+      <div className="text-left  max-w-md p-3 text-sm text-gray-700 h-[8rem] ">
         {ticket &&
           ticket.description.charAt(0).toUpperCase() +
             ticket.description.slice(1)}
