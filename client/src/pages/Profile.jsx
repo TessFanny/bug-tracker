@@ -61,7 +61,6 @@ const Profile = () => {
             dispatch(changeEmailValue(evt.target.value));
           }}
         />
-        
 
         <button
           className="btn btn-block self-end h-[35px] mt-[1rem]"

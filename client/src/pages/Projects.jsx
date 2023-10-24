@@ -15,8 +15,6 @@ import ProjectItem from "../components/projects/ProjectItem";
 import { motion } from "framer-motion";
 import { formatDate } from "../utils/formatDate";
 
-
-
 const Projects = () => {
   // spinner
   const [isLoading, setIsLoading] = useState(false);

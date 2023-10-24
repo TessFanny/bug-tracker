@@ -73,7 +73,6 @@ const Project = () => {
                 projectId={projectId}
                 setOpenModal={setOpenModal}
                 project={project}
-                
               />
               <AddContributorsModal
                 open={openModal}

@@ -29,9 +29,9 @@ const Tickets = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     dispatch(getAllTickets());
-    setIsLoading(false)
+    setIsLoading(false);
   }, []);
 
   // closing modal function
@@ -41,7 +41,6 @@ const Tickets = () => {
     setOpenEditModal(false);
   };
 
-  
   // filtering data to get the data in the search query
   const filterTableData = () => {
     return allTickets.filter((ticket) => {
@@ -84,40 +83,43 @@ const Tickets = () => {
           />
         </div>
       </div>
- 
+
       <motion.div
         className="grid md:grid-cols-2 lg:grid-cols-5 gap-5  p-5 "
         initial={{ opacity: 0, scale: 0 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1 }}
       >
-      {isLoading ? (<Loader/>) : getCurrentPageData() && getCurrentPageData().length > 0 ? (
-        getCurrentPageData().map((ticket, id) => (
-        <AllTicketItem
-          key={id}
-          ticket={ticket}
-          setOpenDeleteModal={setOpenDeleteModal}
-          setOpenEditModal={setOpenEditModal}
-          setTicket={setTicket}
-        />
-      ))) : (
-        <div className="px-3 h-[200px] text-red-500">
-          no data available ...
-        </div>
-      )}
-        
+        {isLoading ? (
+          <Loader />
+        ) : getCurrentPageData() && getCurrentPageData().length > 0 ? (
+          getCurrentPageData().map((ticket, id) => (
+            <AllTicketItem
+              key={id}
+              ticket={ticket}
+              setOpenDeleteModal={setOpenDeleteModal}
+              setOpenEditModal={setOpenEditModal}
+              setTicket={setTicket}
+            />
+          ))
+        ) : (
+          <div className="px-3 h-[200px] text-red-500">
+            no data available ...
+          </div>
+        )}
       </motion.div>
       <div className=" flex gap-5 p-5">
-        { getCurrentPageData() && Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentPage(index + 1)}
-            disabled={currentPage === index + 1}
-            className=" w-[25px] h-[25px] bgGradient text-white rounded-full flex justify-center items-center"
-          >
-            {index + 1}
-          </button>
-        ))}
+        {getCurrentPageData() &&
+          Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index + 1)}
+              disabled={currentPage === index + 1}
+              className=" w-[25px] h-[25px] bgGradient text-white rounded-full flex justify-center items-center"
+            >
+              {index + 1}
+            </button>
+          ))}
       </div>
       <EditTicket
         open={openEditModal}

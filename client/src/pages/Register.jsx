@@ -190,7 +190,7 @@ const Register = () => {
           </label>
 
           <input
-          autoComplete="off"
+            autoComplete="off"
             id="email"
             type="email"
             value={email}
@@ -288,7 +288,7 @@ const Register = () => {
         )}
 
         <div className="grid gap-y-2">
-          <button type="submit" className="btn" disabled={isLoading} >
+          <button type="submit" className="btn" disabled={isLoading}>
             {isLoading ? <SmallLoader /> : "submit"}
           </button>
           {isMember && (

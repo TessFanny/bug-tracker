@@ -15,11 +15,10 @@ import { getAllProjects } from "../../features/projects/projectSlice";
 import CommentsOnTicket from "../comments/CommentsOnTicket";
 import { formatDate, formatCreateDate } from "../../utils/formatDate";
 
-
 const TicketDetails = () => {
   const navigate = useNavigate();
   const { allTickets, members } = useSelector((store) => store.tickets);
-  const { projects} = useSelector((store) => store.projects);
+  const { projects } = useSelector((store) => store.projects);
   const dispatch = useDispatch();
   const { ticketId } = useParams();
 
@@ -27,7 +26,7 @@ const TicketDetails = () => {
   const project =
     ticket && projects.find((project) => project.id == ticket.project_id);
   const [userId, setUserId] = useState(null);
-  
+
   useEffect(() => {
     dispatch(getAllMembersTicket(ticketId));
   }, [userId]);

@@ -43,14 +43,18 @@ const Header = () => {
         className="md:mr-[280px] mr-3 md:min-w-[10rem] relative  flex md:justify-between justify-center items-center cursor-pointer border-2 shadow-xl w-10 md:w-24 md:p-2 py-1 px-0 rounded "
       >
         {" "}
-        {user
-          ? <span className=" hidden md:block">{user.firstname.charAt(0).toUpperCase() +
-          user.firstname.slice(1) +
-          "  " +
-          user.lastname.charAt(0).toUpperCase() +
-          "."}</span> 
-          :  <span>{"profile"}</span> }
-         <IoIosArrowDropdownCircle  />
+        {user ? (
+          <span className=" hidden md:block">
+            {user.firstname.charAt(0).toUpperCase() +
+              user.firstname.slice(1) +
+              "  " +
+              user.lastname.charAt(0).toUpperCase() +
+              "."}
+          </span>
+        ) : (
+          <span>{"profile"}</span>
+        )}
+        <IoIosArrowDropdownCircle />
       </button>
       {isOpen && (
         <div className=" min-w-[8rem] md:mr-[280px] absolute md:top-[80%] top-[100%] right-0 flex flex-col bg-gray-300  rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border border-gray-100 w-16 md:w-24 ">
@@ -60,7 +64,7 @@ const Header = () => {
               className="cursor-pointer flex  justify-around items-center bg-blue-200 rounded-md m-1 "
               onClick={toggleDropdown}
             >
-            <FaUser /> <span>Profile</span>
+              <FaUser /> <span>Profile</span>
             </Link>
           </div>
           <button

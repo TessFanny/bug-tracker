@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import TicketBgChange from "./TicketBgChange";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { Outlet, Route, Routes, useParams } from 'react-router-dom';
+import { Outlet, Route, Routes, useParams } from "react-router-dom";
 import TicketDetails from "./TicketDetails";
 
 const TicketItem = ({
@@ -12,7 +12,7 @@ const TicketItem = ({
   setTicket,
 }) => {
   const { user } = useSelector((store) => store.user);
-  const {ticketId} = useParams()
+  const { ticketId } = useParams();
 
   let borderColorClass = "";
 
@@ -37,7 +37,6 @@ const TicketItem = ({
         <Link
           to={`ticket/${ticket.id}`}
           className=" text-[#3b82f6] hover:underline"
-          
         >
           {ticket &&
             ticket.title.charAt(0).toUpperCase() + ticket.title.slice(1)}
@@ -61,7 +60,7 @@ const TicketItem = ({
         <button
           className="edit"
           onClick={() => {
-            setOpenEditModal(true), setTicket(ticket)
+            setOpenEditModal(true), setTicket(ticket);
           }}
           disabled={user.role === "developer" && "disabled"}
         >
@@ -80,7 +79,6 @@ const TicketItem = ({
           {ticket.created_at}
         </span>
       </div>
-      
     </div>
   );
 };

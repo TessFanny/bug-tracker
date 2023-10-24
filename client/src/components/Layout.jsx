@@ -24,13 +24,11 @@ const Layout = () => {
   const [isOpen, setOpen] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
- 
 
   const handleNav = () => {
     setNav(!nav);
     setOpen(!isOpen);
   };
- 
 
   return (
     <div className="min-h-screen flex bg-[#edeeef] text-[#011b5e] p-5 overflow-hidden relative ">
@@ -75,7 +73,7 @@ const Layout = () => {
                 <Link
                   to="/layout/dashboard"
                   onClick={() => {
-                    handleNav()
+                    handleNav();
                   }}
                 >
                   Dashboard
@@ -86,7 +84,6 @@ const Layout = () => {
                 <Link
                   to="/layout/projects"
                   onClick={function () {
-                    
                     handleNav();
                   }}
                 >
@@ -99,7 +96,6 @@ const Layout = () => {
                   to="/layout/tickets"
                   onClick={() => {
                     handleNav();
-                    
                   }}
                 >
                   Tickets
@@ -111,7 +107,6 @@ const Layout = () => {
                   to="/layout/admin"
                   onClick={() => {
                     handleNav();
-                    
                   }}
                 >
                   Admin
@@ -119,7 +114,6 @@ const Layout = () => {
               </li>
             </ul>
           </nav>
-         
         </motion.aside>
       ) : (
         <aside className=" md:block hidden min-w-[220px]  h-[100%] shadow-lg border-r-[1px] z-50  border-gray-200 rounded-br-lg fixed top-0 left-0 overflow-auto bg-white">
@@ -146,7 +140,6 @@ const Layout = () => {
                   className={({ isActive }) =>
                     isActive ? "layoutLink" : undefined
                   }
-                  
                 >
                   Dashboard
                 </NavLink>
@@ -158,9 +151,8 @@ const Layout = () => {
                   className={({ isActive }) =>
                     isActive ? "layoutLink" : undefined
                   }
-                  
                 >
-                   Projects
+                  Projects
                 </NavLink>
               </li>
               <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300 mb-5 ">
@@ -170,31 +162,29 @@ const Layout = () => {
                   className={({ isActive }) =>
                     isActive ? "layoutLink" : undefined
                   }
-                  
                 >
-                   Tickets
+                  Tickets
                 </NavLink>
               </li>
-              {user && user.role == "admin" && <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300  ">
-              <RiAdminFill size={15} className=" mr-1  " />
-              <NavLink
-                to="/layout/admin"
-                className={({ isActive }) =>
-                  isActive ? "layoutLink" : undefined
-                }
-                
-              >
-                Admin
-              </NavLink>
-            </li>}
-              
+              {user && user.role == "admin" && (
+                <li className="inline-flex relative items-center py-[10px] px-[10px] gap-2 border-b-[1px] mr-3 hover:scale-110 ease-in duration-300  ">
+                  <RiAdminFill size={15} className=" mr-1  " />
+                  <NavLink
+                    to="/layout/admin"
+                    className={({ isActive }) =>
+                      isActive ? "layoutLink" : undefined
+                    }
+                  >
+                    Admin
+                  </NavLink>
+                </li>
+              )}
             </ul>
           </nav>
-          
         </aside>
       )}
 
-      <Header/>
+      <Header />
       <div className=" w-full md:ml-[220px] z-10 overflow-hidden flex flex-col justify-center items-center">
         <Outlet />
       </div>

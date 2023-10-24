@@ -10,7 +10,6 @@ import {
   changeDescriptionValue,
   changeTypeValue,
   changeColorValue,
-  
   editTicket,
   changeUpdateDateValue,
 } from "../../features/tickets/ticketsSlice";
@@ -19,12 +18,22 @@ import { formatDate } from "../../utils/formatDate";
 const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
   const { users } = useSelector((store) => store.users);
   const { user } = useSelector((store) => store.user);
-  const { title, description, ticket_status, priority, color, type, updated_at, members } =
-    useSelector((store) => store.tickets);
-    const {contributors} = useSelector((store) => store.projects)
+  const {
+    title,
+    description,
+    ticket_status,
+    priority,
+    color,
+    type,
+    updated_at,
+    members,
+  } = useSelector((store) => store.tickets);
+  const { contributors } = useSelector((store) => store.projects);
   const { id } = user;
   const initialSelectedMembers = members.map((contrib) => contrib.id);
-  const [selectedMembersId, setSelectedMembersId] = useState(initialSelectedMembers);
+  const [selectedMembersId, setSelectedMembersId] = useState(
+    initialSelectedMembers
+  );
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -70,7 +79,7 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (isLoading) return;
 
     setIsLoading(true);
@@ -107,9 +116,9 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
   if (!open) return null;
   return (
     <div
-    className=" h-[100%] fixed top-0 left-0 w-[100%] flex justify-center items-center bg-[rgba(.1,.1,.1,.2)]"
-    style={{ top: position.top, left: position.left }}
-    onClick={closeModal}
+      className=" h-[100%] fixed top-0 left-0 w-[100%] flex justify-center items-center bg-[rgba(.1,.1,.1,.2)]"
+      style={{ top: position.top, left: position.left }}
+      onClick={closeModal}
     >
       <div
         className=" bg-white max-w-[80%]  md:w-[40%] px-6 py-2 rounded-lg shadow-md relative"
@@ -118,7 +127,10 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
         }}
       >
         <div className="flex justify-between items-center  rounded-md">
-          <h2 className=" text-2xl">Edit: <span className=" text-sm text-red-400">{ticket.title} ticket</span>  </h2>
+          <h2 className=" text-2xl">
+            Edit:{" "}
+            <span className=" text-sm text-red-400">{ticket.title} ticket</span>{" "}
+          </h2>
           <AiFillCloseCircle className=" cursor-pointer" onClick={closeModal} />
         </div>
         <form className="" onSubmit={handleSubmit}>
@@ -223,34 +235,34 @@ const EditTicket = ({ open, closeModal, projectId, ticket, position }) => {
             <fieldset className="  w-full py-[0.375rem] px-[0.75rem] text-sm  rounded-[0.25rem] border-[1px] border-[#bcccdc]  bg-[#f0f4f8] max-h-[150px] flex lg:gap-x-20 gap-5 overflow-auto">
               <div>
                 <h4 className=" text-black font-semibold">Name</h4>
-                {contributors && contributors.map((user) => {
-                  return (
-                    <div className=" flex  gap-4" key={user.id}>
-                      <input
-                        type="checkbox"
-                        value={user.id}
-                        name={user.id}
-                        id={user.id}
-                        disabled={initialSelectedMembers.includes(user.id)}
-                        onChange={handleMemberChange}
-                      />
-                      <label htmlFor={user.id}>
-                        {user.contributor} 
-                      </label>
-                    </div>
-                  );
-                })}
+                {contributors &&
+                  contributors.map((user) => {
+                    return (
+                      <div className=" flex  gap-4" key={user.id}>
+                        <input
+                          type="checkbox"
+                          value={user.id}
+                          name={user.id}
+                          id={user.id}
+                          disabled={initialSelectedMembers.includes(user.id)}
+                          onChange={handleMemberChange}
+                        />
+                        <label htmlFor={user.id}>{user.contributor}</label>
+                      </div>
+                    );
+                  })}
               </div>
 
               <div>
                 <h4 className=" text-black font-semibold">Role</h4>
-                {contributors &&  contributors.map((user) => {
-                  return (
-                    <div className=" flex  gap-4" key={user.id}>
-                      <div> {user.role}</div>
-                    </div>
-                  );
-                })}
+                {contributors &&
+                  contributors.map((user) => {
+                    return (
+                      <div className=" flex  gap-4" key={user.id}>
+                        <div> {user.role}</div>
+                      </div>
+                    );
+                  })}
               </div>
             </fieldset>
           </div>
