@@ -25,7 +25,8 @@ const ticketSchema = {
       color: Joi.string(),
       type: Joi.string(),
       ticket_author_id: Joi.number(),
-      project_id: Joi.number()
+      project_id: Joi.number(),
+      updated_at: Joi.string(),
     });
   },
 };

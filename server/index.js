@@ -29,6 +29,8 @@ app.use(cookieParser())
 //   //res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 //   next();
 // });
+
+
 app.use(cors({
   origin: ['https://bug-tracker-4gae.onrender.com'],
   credentials: true
