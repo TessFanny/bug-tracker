@@ -35,9 +35,10 @@ const Layout = () => {
       {/* side bar */}
       <div
         onClick={handleNav}
-        className="fixed top-[10px] text-[100px]  left-[10px] z-[50] md:hidden cursor-pointer  bg-gray-300 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-30 border border-gray-100"
+        className="fixed top-[10px] left-[10px] z-[50] md:hidden cursor-pointer  bg-gray-300 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-30 border border-gray-100"
       >
         <Hamburger
+        size={20}
           toggled={isOpen}
           toggle={setOpen}
           easing="ease-in"
@@ -51,9 +52,9 @@ const Layout = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
-          className=" min-w-[220px] h-[50%] border-r-[1px] mr-[100px] md:hidden bg-gray-300 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-30 border border-gray-100  z-40 er-gray-200 rounded-br-lg fixed top-0 left-0 overflow-auto"
+          className=" min-w-[230px] h-[40%] border-r-[1px] mr-[100px] md:hidden bg-gray-300 rounded-md bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-30 border border-gray-100  z-40 er-gray-200 rounded-br-lg fixed top-[4rem] left-[10px] overflow-auto"
         >
-          <div className="flex gap-1  justify-center items-center border-b-[2px] border-white py-5 pl-10 ">
+          <div className="flex gap-1  justify-center items-center border-b-[2px] border-white py-5">
             <BsBugFill />
 
             <Link
